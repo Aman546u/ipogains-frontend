@@ -198,6 +198,26 @@ function setupEventListeners() {
             }
         });
     });
+
+    // Mobile Sidebar Toggle
+    const sidebarToggle = document.getElementById('adminSidebarToggle');
+    const adminSidebar = document.querySelector('.admin-sidebar');
+
+    if (sidebarToggle && adminSidebar) {
+        sidebarToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            adminSidebar.classList.toggle('active');
+        });
+
+        // Close on click outside
+        document.addEventListener('click', (e) => {
+            if (adminSidebar.classList.contains('active')) {
+                if (!adminSidebar.contains(e.target) && e.target !== sidebarToggle) {
+                    adminSidebar.classList.remove('active');
+                }
+            }
+        });
+    }
 }
 
 function activateSubscriptionTab(ipoId) {
