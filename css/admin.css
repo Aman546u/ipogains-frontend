@@ -273,6 +273,33 @@
     .stats-grid {
         grid-template-columns: 1fr;
     }
+
+    /* Stack Split Layouts (Subscription Editor) */
+    .row {
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+
+    .col-md-4,
+    .col-md-8,
+    .col-md-6 {
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        /* Allow shrinking */
+    }
+
+    /* Fix specific fixed-width inline styles from HTML if any override classes */
+    div[style*="flex: 0 0 350px"] {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Adjust Action Buttons in Table */
+    .action-buttons {
+        flex-wrap: wrap;
+    }
 }
 
 /* Subscription Editor Specific Styles */
