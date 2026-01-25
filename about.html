@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About IPOGains - Your trusted platform for IPO tracking and analysis.">
+    <title>About Us - IPOGains</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/components/navbar.css">
+    <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="css/components/cards.css">
+    <link rel="stylesheet" href="css/components/forms.css">
+    <link rel="stylesheet" href="css/components/modals.css">
+    <link rel="stylesheet" href="css/sections/footer.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/utilities.css">
+
+    <style>
+        .page-header {
+            padding: 120px 0 60px;
+            background: var(--gradient-dark);
+            text-align: center;
+        }
+
+        .content-section {
+            padding: 60px 0;
+        }
+
+        .content-card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .content-card h2 {
+            color: var(--primary-green);
+            margin-bottom: var(--spacing-md);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>IPO<strong>Gains</strong></span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="ipos.html" class="nav-link">IPOs</a>
+                <a href="allotment.html" class="nav-link">Check Allotment</a>
+                <a href="gmp.html" class="nav-link">GMP</a>
+                <a href="about.html" class="nav-link active">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline" id="loginBtn" onclick="openModal('loginModal')">Login</button>
+                <button class="btn btn-primary" id="registerBtn" onclick="openModal('registerModal')">Register</button>
+
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <button class="btn btn-icon">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="admin.html" id="adminLink" style="display: none;">
+                            <i class="fas fa-cog"></i> Admin Panel
+                        </a>
+                        <a href="dashboard.html" id="dashboardLink">
+                            <i class="fas fa-th-large"></i> Dashboard
+                        </a>
+                        <a href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1 class="hero-title">About <span class="gradient-text">IPOGains</span></h1>
+            <p class="hero-subtitle">Empowering investors with real-time IPO data and analysis.</p>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="content-card">
+                <h2>Our Mission</h2>
+                <p>At IPOGains, our mission is to simplify the IPO investing process for everyone. We provide
+                    transparent, accurate, and timely information about upcoming, ongoing, and listed IPOs in the Indian
+                    stock market.</p>
+                <p>We believe that access to high-quality financial data should be available to every retail investor,
+                    helping them make informed decisions and achieve their financial goals.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>What We Offer</h2>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 15px;"><i class="fas fa-check-circle text-success mr-2"></i> <strong>Live
+                            GMP Tracking:</strong> Get the latest Grey Market Premium updates for all active IPOs.</li>
+                    <li style="margin-bottom: 15px;"><i class="fas fa-check-circle text-success mr-2"></i>
+                        <strong>Subscription Status:</strong> Real-time subscription data across Retail, QIB, and NII
+                        categories.
+                    </li>
+                    <li style="margin-bottom: 15px;"><i class="fas fa-check-circle text-success mr-2"></i>
+                        <strong>Allotment Status:</strong> Fast and direct links to check your IPO allotment status.
+                    </li>
+                    <li style="margin-bottom: 15px;"><i class="fas fa-check-circle text-success mr-2"></i> <strong>SME &
+                            Mainboard:</strong> Comprehensive coverage of both Mainboard and SME IPOs.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <a href="index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
+                        <i class="fas fa-chart-line"></i>
+                        <span>IPO<strong>Gains</strong></span>
+                    </a>
+                    <p>Your trusted platform for IPO tracking and analysis.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="ipos.html">IPO Listings</a>
+                    <a href="allotment.html">Check Allotment</a>
+                    <a href="gmp.html">GMP</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe for IPO updates</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div
+                    style="margin-bottom: 20px; font-size: 0.85rem; color: #888; border-top: 1px solid #333; padding-top: 20px;">
+                    <strong>Disclaimer:</strong> IPOGains is an informational platform only. We do not provide
+                    investment
+                    advice, stock tips, or guaranteed returns. All data, including GMP and subscription info, is shared
+                    for informational purposes and should not be treated as a recommendation. Users are advised to
+                    verify all details from official SEBI sources and consult a certified financial advisor before
+                    investing.
+                </div>
+                <p>&copy; 2026 IPOGains. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to IPOGains</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+                <div class="text-center" style="margin-top: 1rem;">
+                    <a href="#" onclick="switchModal('loginModal', 'forgotPasswordModal')"
+                        style="color: var(--primary-green); text-decoration: none;">Forgot Password?</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="registerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="registerPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- OTP Modal -->
+    <div class="modal" id="otpModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Verify Email</h2>
+                <button class="modal-close" onclick="closeModal('otpModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center text-muted mb-4">Enter the 6-digit OTP sent to your email</p>
+                <form id="otpForm">
+                    <div class="form-group">
+                        <input type="text" class="form-control text-center" id="otpCode" maxlength="6"
+                            placeholder="000000" style="font-size: 1.5rem; letter-spacing: 0.5rem;" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Verify</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                Didn't receive OTP? <a href="#" id="resendOTP">Resend</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Forgot Password</h2>
+                <button class="modal-close" onclick="closeModal('forgotPasswordModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center text-muted mb-4">Enter your email to receive a password reset OTP</p>
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="forgotEmail" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Send OTP</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                Remember your password? <a href="#" onclick="switchModal('forgotPasswordModal', 'loginModal')">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div class="modal" id="resetPasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <button class="modal-close" onclick="closeModal('resetPasswordModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center text-muted mb-4">Enter the OTP and your new password</p>
+                <form id="resetPasswordForm">
+                    <input type="hidden" id="resetEmail">
+                    <div class="form-group">
+                        <label>OTP</label>
+                        <input type="text" class="form-control" id="resetOTP" maxlength="6" placeholder="000000"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" class="form-control" id="newPassword" minlength="6" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" minlength="6" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config/constants.js"></script>
+    <script src="js/utils/api.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/components/modals.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - IPOGains</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="css/components/forms.css">
+    <link rel="stylesheet" href="css/components/modals.css">
+    <link rel="stylesheet" href="css/utilities.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>IPO<strong>Gains</strong></span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#ipos" class="nav-item" data-section="ipos">
+                    <i class="fas fa-list"></i>
+                    <span>Manage IPOs</span>
+                </a>
+                <a href="#subscriptions" class="nav-item" data-section="subscriptions">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Subscription Details</span>
+                </a>
+                <a href="#users" class="nav-item" data-section="users">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="#listing" class="nav-item" data-section="listing">
+                    <i class="fas fa-check-double"></i>
+                    <span>Listing Updates</span>
+                </a>
+                <a href="#settings" class="nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="/" class="btn btn-outline btn-block">
+                    <i class="fas fa-home"></i> Back to Site
+                </a>
+                <button class="btn btn-outline btn-block" id="adminLogout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1 id="pageTitle">Dashboard</h1>
+                <div class="admin-user">
+                    <div>
+                        <i class="fas fa-user-shield"></i>
+                        <span id="adminEmail">Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <!-- Dashboard Section -->
+                <section id="section-dashboard" class="admin-section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon"
+                                style="background: rgba(34, 197, 94, 0.1); color: var(--primary-green);">
+                                <i class="fas fa-list"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="adminTotalIPOs">0</div>
+                                <div class="stat-label">Total IPOs</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                                <i class="fas fa-door-open"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="adminActiveIPOs">0</div>
+                                <div class="stat-label">Active IPOs</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="adminUpcomingIPOs">0</div>
+                                <div class="stat-label">Upcoming IPOs</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="adminTotalUsers">0</div>
+                                <div class="stat-label">Total Users</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <h2>Recent Activity</h2>
+                        <p class="text-muted">Monitor recent IPO updates and user activities</p>
+                    </div>
+                </section>
+
+                <!-- Subscription Details Section -->
+                <section id="section-subscriptions" class="admin-section">
+                    <div class="row" style="display: flex; gap: 24px;">
+                        <!-- Left Pane: IPO List -->
+                        <div class="col-md-4" style="flex: 0 0 350px;">
+                            <div class="admin-card">
+                                <div class="section-header" style="margin-bottom: 20px;">
+                                    <h3>Select IPO</h3>
+                                    <p class="small text-muted">Choose an IPO to edit live subscription data</p>
+                                </div>
+                                <div id="subDetailIPOsList" class="admin-card-list"
+                                    style="max-height: 75vh; overflow-y: auto; padding-right: 5px;">
+                                    <!-- Dynamic content from admin.js -->
+                                    <div class="text-center p-4">Loading IPOs...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Pane: Smart Editor -->
+                        <div class="col-md-8" style="flex: 1;">
+                            <div id="subEditorPlaceholder" class="admin-card">
+                                <div class="placeholder-content">
+                                    <i class="fas fa-chart-line"></i>
+                                    <h3>Smart Subscription Editor</h3>
+                                    <p class="text-muted">Select an IPO from the left to start updating live data</p>
+                                </div>
+                            </div>
+
+                            <div id="subEditorContainer" style="display: none;">
+                                <!-- Selection Badge -->
+                                <div class="editor-header">
+                                    <div
+                                        style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                        <div>
+                                            <h2 id="activeCompanyName" class="m-0 text-primary"></h2>
+                                            <p id="activeIPOSubtitle" class="text-muted small"></p>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline" onclick="resetEditor()">
+                                            <i class="fas fa-times"></i> Close Editor
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Live Subscription by Application Card -->
+                                <div class="admin-card mb-4" style="border-top: 4px solid var(--primary-green);">
+                                    <div class="section-header"
+                                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                        <h3><i class="fas fa-users mr-2"></i> Application Subscription</h3>
+                                        <span class="badge badge-success">LIVE UPDATES</span>
+                                    </div>
+
+                                    <div class="sub-form-grid">
+                                        <div class="row mb-3 text-muted small text-uppercase"
+                                            style="display: flex; width: 100%; border-bottom: 1px solid var(--dark-border); padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div style="flex: 1.5;">Category</div>
+                                            <div style="flex: 1; text-align: center;">Apps Offered</div>
+                                            <div style="flex: 1; text-align: center;">Apps Received</div>
+                                        </div>
+
+                                        <!-- QIB -->
+                                        <div class="row mb-3" style="display: flex; align-items: center;">
+                                            <div class="category-label" style="flex: 1.5;">
+                                                <i class="fas fa-building text-primary"></i> QIB
+                                            </div>
+                                            <div style="flex: 1;"><input type="number" id="appOfferedQIB"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 1;"><input type="number" id="appReceivedQIB"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                        </div>
+
+                                        <!-- NII -->
+                                        <div class="row mb-3" style="display: flex; align-items: center;">
+                                            <div class="category-label" style="flex: 1.5;">
+                                                <i class="fas fa-user-tie text-info"></i> NII
+                                            </div>
+                                            <div style="flex: 1;"><input type="number" id="appOfferedNII"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 1;"><input type="number" id="appReceivedNII"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                        </div>
+
+                                        <!-- Retail -->
+                                        <div class="row mb-3" style="display: flex; align-items: center;">
+                                            <div class="category-label" style="flex: 1.5;">
+                                                <i class="fas fa-user text-success"></i> Retail
+                                            </div>
+                                            <div style="flex: 1;"><input type="number" id="appOfferedRetail"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 1;"><input type="number" id="appReceivedRetail"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                        </div>
+
+                                        <!-- Shareholder -->
+                                        <div class="row mb-3" style="display: flex; align-items: center;">
+                                            <div class="category-label" style="flex: 1.5;">
+                                                <i class="fas fa-briefcase text-warning"></i> Shareholder
+                                            </div>
+                                            <div style="flex: 1;"><input type="number" id="appOfferedShareholder"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 1;"><input type="number" id="appReceivedShareholder"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions" style="margin-top: 20px;">
+                                        <button class="btn btn-primary" id="saveAppSubBtn">
+                                            <i class="fas fa-save mr-1"></i> Save Application Data
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Subscription by Share Card -->
+                                <div class="admin-card mb-4" style="border-top: 4px solid var(--info);">
+                                    <div class="section-header"
+                                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                        <h3><i class="fas fa-share-alt mr-2"></i> Share Subscription</h3>
+                                        <span class="badge badge-info">AUTO-MULTIPLIERS</span>
+                                    </div>
+
+                                    <div class="sub-form-grid">
+                                        <div class="row mb-3 text-muted small text-uppercase"
+                                            style="display: flex; width: 100%; border-bottom: 1px solid var(--dark-border); padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div style="flex: 1.2;">Category</div>
+                                            <div style="flex: 1; text-align: center;">Offered</div>
+                                            <div style="flex: 1; text-align: center;">Subscribed</div>
+                                            <div style="flex: 0.8; text-align: center;">Times (x)</div>
+                                        </div>
+
+                                        <!-- QIB -->
+                                        <div class="row mb-3" style="display: flex; align-items: center;">
+                                            <div class="category-label" style="flex: 1.2;">QIB</div>
+                                            <div style="flex: 1;"><input type="number" id="offeredQIB"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 1;"><input type="number" id="subscribedQIB"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 0.8;"><input type="text" id="subQIB_disp"
+                                                    class="form-control form-control-sm sub-display" readonly></div>
+                                        </div>
+
+                                        <!-- NII -->
+                                        <div class="row mb-3" style="display: flex; align-items: center;">
+                                            <div class="category-label" style="flex: 1.2;">NII</div>
+                                            <div style="flex: 1;"><input type="number" id="offeredNII"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 1;"><input type="number" id="subscribedNII"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 0.8;"><input type="text" id="subNII_disp"
+                                                    class="form-control form-control-sm sub-display" readonly></div>
+                                        </div>
+
+                                        <!-- Retail -->
+                                        <div class="row mb-3" style="display: flex; align-items: center;">
+                                            <div class="category-label" style="flex: 1.2;">Retail</div>
+                                            <div style="flex: 1;"><input type="number" id="offeredRetail"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 1;"><input type="number" id="subscribedRetail"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 0.8;"><input type="text" id="subRetail_disp"
+                                                    class="form-control form-control-sm sub-display" readonly></div>
+                                        </div>
+
+                                        <!-- Shareholder -->
+                                        <div class="row mb-3" style="display: flex; align-items: center;">
+                                            <div class="category-label" style="flex: 1.2;">Shareholder</div>
+                                            <div style="flex: 1;"><input type="number" id="offeredShareholder"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 1;"><input type="number" id="subscribedShareholder"
+                                                    class="form-control form-control-sm sub-trigger"></div>
+                                            <div style="flex: 0.8;"><input type="text" id="subShareholder_disp"
+                                                    class="form-control form-control-sm sub-display" readonly></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions" style="margin-top: 20px;">
+                                        <button class="btn btn-info" id="saveShareSubBtn">
+                                            <i class="fas fa-save mr-1"></i> Save Share Data
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="activeSubIpoId">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="section-ipos" class="admin-section">
+                    <div class="section-actions">
+                        <button class="btn btn-primary" id="addIPOBtn">
+                            <i class="fas fa-plus"></i> Add New IPO
+                        </button>
+                    </div>
+
+                    <div class="admin-card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Category</th>
+                                        <th>Price Range</th>
+                                        <th>Status</th>
+                                        <th>Open Date</th>
+                                        <th>Close Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="iposTableBody">
+                                    <tr>
+                                        <td colspan="7" class="text-center">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Users Section -->
+                <section id="section-users" class="admin-section">
+                    <div class="admin-card">
+                        <h2>Registered Users</h2>
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Verified</th>
+                                        <th>Registered</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <tr>
+                                        <td colspan="5" class="text-center">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Listing Manager Section -->
+                <section id="section-listing" class="admin-section">
+                    <div class="admin-card">
+                        <div class="section-header">
+                            <div>
+                                <h2>Listing Manager</h2>
+                                <p class="text-muted">Finalize IPOs by updating their listing price. This will mark them
+                                    as 'Listed'.</p>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Issue Price</th>
+                                        <th>Close Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listingTableBody">
+                                    <tr>
+                                        <td colspan="4" class="text-center">Loading pending listings...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="section-settings" class="admin-section">
+                    <div class="admin-card">
+                        <h2>Settings</h2>
+                        <p class="text-muted">Configure your admin panel settings</p>
+
+                        <div class="form-group">
+                            <label>Site Name</label>
+                            <input type="text" class="form-control" value="IPOGains" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Admin Email</label>
+                            <input type="email" class="form-control" id="settingsEmail" readonly>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- IPO Form Modal -->
+    <div class="modal" id="ipoFormModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="ipoFormTitle">Add New IPO</h2>
+                <button class="modal-close" onclick="closeModal('ipoFormModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="ipoForm">
+                    <input type="hidden" id="ipoId">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="companyName">Company Name *</label>
+                            <input type="text" id="companyName" class="form-control"
+                                placeholder="e.g. Tata Technologies" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="companyLogo">Company Logo URL</label>
+                            <input type="url" id="companyLogo" class="form-control"
+                                placeholder="https://example.com/logo.png">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category">Category *</label>
+                            <select id="category" class="form-control" required>
+                                <option value="Mainboard">Mainboard</option>
+                                <option value="SME">SME</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sector">Sector *</label>
+                            <input type="text" id="sector" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="issueSize">Issue Size (Cr) *</label>
+                            <input type="number" id="issueSize" class="form-control" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="priceMin">Min Price *</label>
+                            <input type="number" id="priceMin" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="priceMax">Max Price *</label>
+                            <input type="number" id="priceMax" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lotSize">Lot Size *</label>
+                            <input type="number" id="lotSize" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="openDate">Open Date *</label>
+                            <input type="date" id="openDate" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="closeDate">Close Date *</label>
+                            <input type="date" id="closeDate" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="allotmentDate">Allotment Date *</label>
+                            <input type="date" id="allotmentDate" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="listingDate">Listing Date *</label>
+                            <input type="date" id="listingDate" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="registrar">Registrar *</label>
+                            <input type="text" id="registrar" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="allotmentLink">Registrar Link (Allotment URL)</label>
+                            <input type="url" id="allotmentLink" class="form-control" placeholder="https://...">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="faceValue">Face Value *</label>
+                            <input type="number" id="faceValue" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="minInvestment">Min Investment *</label>
+                            <input type="number" id="minInvestment" class="form-control" required>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('ipoFormModal')">Cancel</button>
+                <button type="submit" form="ipoForm" class="btn btn-primary">Save IPO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

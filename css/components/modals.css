@@ -1,0 +1,116 @@
+/* Modal Component Styles */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: var(--spacing-md);
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-xl);
+    padding: 0;
+    /* Remove padding from container */
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    /* Max height for viewport */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    animation: modalSlideIn var(--transition-base);
+}
+
+/* Cleaned up Modal Header */
+.modal-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--dark-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: var(--transition-base);
+    padding: 0.5rem;
+    margin-right: -0.5rem;
+    /* Optical alignment */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.modal-close:hover {
+    color: var(--danger);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Modal Body */
+.modal-body {
+    padding: var(--spacing-xl);
+    /* Increased padding for breathing room */
+    overflow-y: auto;
+}
+
+/* Cleaned up Modal Footer */
+.modal-footer {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--dark-bg);
+    /* Slightly different bg for contrast */
+    border-top: 1px solid var(--dark-border);
+    text-align: center;
+    /* Center text by default */
+    border-bottom-left-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.modal-footer a {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.modal-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Animations */
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

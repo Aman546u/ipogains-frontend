@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="IPOGains - Your trusted platform for IPO listings, allotment status, GMP tracking, and live subscription data.">
+    <title>IPOGains - IPO Listings & Allotment Tracker</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Modular CSS - Using separated files -->
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/components/navbar.css">
+    <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="css/components/cards.css">
+    <link rel="stylesheet" href="css/components/forms.css">
+    <link rel="stylesheet" href="css/components/modals.css">
+    <link rel="stylesheet" href="css/sections/hero.css">
+    <link rel="stylesheet" href="css/sections/ipos.css">
+    <link rel="stylesheet" href="css/sections/allotment.css">
+    <link rel="stylesheet" href="css/sections/gmp.css">
+    <link rel="stylesheet" href="css/sections/about.css">
+    <link rel="stylesheet" href="css/sections/contact.css">
+    <link rel="stylesheet" href="css/sections/footer.css">
+    <link rel="stylesheet" href="css/utilities.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>IPO<strong>Gains</strong></span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="ipos.html" class="nav-link">IPOs</a>
+                <a href="allotment.html" class="nav-link">Check Allotment</a>
+                <a href="gmp.html" class="nav-link active">GMP</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline" id="loginBtn" onclick="openModal('loginModal')">Login</button>
+                <button class="btn btn-primary" id="registerBtn" onclick="openModal('registerModal')">Register</button>
+
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <button class="btn btn-icon">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="admin.html" id="adminLink" style="display: none;">
+                            <i class="fas fa-cog"></i> Admin Panel
+                        </a>
+                        <a href="/" id="dashboardLink">
+                            <i class="fas fa-th-large"></i> Dashboard
+                        </a>
+                        <a href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section Removed -->
+
+    <!-- IPO Listings Removed -->
+
+    <!-- Allotment Section Removed -->
+
+    <!-- GMP Section -->
+    <!-- GMP Detail Section -->
+    <section class="section" id="gmp-detail">
+        <div class="container">
+            <a href="gmp.html" class="btn btn-outline" style="margin-bottom: 20px;">&larr; Back to GMP</a>
+
+            <div id="loading" class="text-center">
+                <div class="spinner"></div>
+                <p>Loading Details...</p>
+            </div>
+
+            <div id="detailContent" style="display:none;">
+                <div class="d-flex justify-content-between align-items-center mb-4" style="flex-wrap: wrap; gap: 1rem;">
+                    <h1 class="section-title mb-0" style="text-align: left;"><span id="companyName"></span></h1>
+                    <span class="status-badge" id="ipoStatus"></span>
+                </div>
+
+                <!-- Disclaimer -->
+                <div
+                    style="background: #fff3cd; color: #856404; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid #ffeeba;">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Disclaimer:</strong>
+                    Grey Market Premium (GMP) is unofficial, unregulated, and speculative. It is based on market rumors
+                    and can be highly volatile.
+                    IPOGains does not guarantee the accuracy of this data. Invest in IPOs based on fundamentals, not
+                    just GMP.
+                </div>
+
+                <div class="gmp-grid" style="grid-template-columns: 2fr 1fr; display: grid; gap: 2rem;">
+                    <!-- Chart Card -->
+                    <div class="card" style="grid-column: span 2;">
+                        <div class="card-header">
+                            <h3>GMP Trend</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="gmpChart" style="width:100%; height:300px;"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Stats Card -->
+                    <div class="card" style="grid-column: span 2;">
+                        <div class="card-header">
+                            <h3>Current Status & History</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="detail-row">
+                                <span class="detail-label">Current GMP</span>
+                                <span class="detail-value highlightable" id="currentGmpValue"
+                                    style="color: var(--success); font-weight: 700;">₹0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Listing Estimate</span>
+                                <span class="detail-value" id="listingEstimate">₹0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Gain %</span>
+                                <span class="detail-value" id="gmpPercentage">0%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Last Updated</span>
+                                <span class="detail-value" id="lastUpdated">N/A</span>
+                            </div>
+
+                            <hr>
+                            <h4>GMP History</h4>
+                            <div class="table-responsive">
+                                <table class="table" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: left;">Date</th>
+                                            <th style="text-align: right;">GMP (₹)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gmpHistoryBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About & Contact moved to Home -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>IPOGains</h4>
+                    <p>Your trusted platform for IPO tracking and analysis.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="ipos.html">IPO Listings</a>
+                    <a href="allotment.html">Check Allotment</a>
+                    <a href="gmp.html">GMP</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe for IPO updates</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 IPOGains. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            <h2>Login to IPOGains</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <div class="text-center" style="margin-top: 1rem;">
+                <a href="#" onclick="switchModal('loginModal', 'forgotPasswordModal')"
+                    style="color: var(--primary-green); text-decoration: none;">Forgot Password?</a>
+            </div>
+            <div class="modal-footer">
+                Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            <h2>Create Account</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="registerPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+            <div class="modal-footer">
+                Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- OTP Modal -->
+    <div class="modal" id="otpModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('otpModal')">&times;</button>
+            <h2>Verify Email</h2>
+            <p class="text-center text-muted">Enter the 6-digit OTP sent to your email</p>
+            <form id="otpForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="otpCode" maxlength="6" placeholder="000000" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Verify</button>
+            </form>
+            <div class="modal-footer">
+                Didn't receive OTP? <a href="#" id="resendOTP">Resend</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('forgotPasswordModal')">&times;</button>
+            <h2>Forgot Password</h2>
+            <p class="text-center text-muted">Enter your email to receive a password reset OTP</p>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="forgotEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Send OTP</button>
+            </form>
+            <div class="modal-footer">
+                Remember your password? <a href="#" onclick="switchModal('forgotPasswordModal', 'loginModal')">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div class="modal" id="resetPasswordModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('resetPasswordModal')">&times;</button>
+            <h2>Reset Password</h2>
+            <p class="text-center text-muted">Enter the OTP and your new password</p>
+            <form id="resetPasswordForm">
+                <input type="hidden" id="resetEmail">
+                <div class="form-group">
+                    <label>OTP</label>
+                    <input type="text" class="form-control" id="resetOTP" maxlength="6" placeholder="000000" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" class="form-control" id="newPassword" minlength="6" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" minlength="6" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Modular JavaScript -->
+    <script src="js/config/constants.js"></script>
+    <script src="js/utils/api.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/components/modals.js"></script>
+    <script src="js/features/auth/login.js"></script>
+    <script src="js/features/auth/register.js"></script>
+    <script src="js/features/auth/otp.js"></script>
+    <script src="js/features/auth/forgotPassword.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Page Specific JS -->
+    <script src="js/pages/gmp-detail.js"></script>
+</body>
+
+</html>

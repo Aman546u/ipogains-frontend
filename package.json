@@ -1,0 +1,23 @@
+{
+    "name": "ipogains-frontend",
+    "version": "1.0.0",
+    "description": "Frontend for IPOGains - IPO Listing & Analyisis Platform",
+    "main": "index.html",
+    "scripts": {
+        "start": "npx serve .",
+        "dev": "npx serve ."
+    },
+    "keywords": [
+        "ipo",
+        "frontend",
+        "finance",
+        "html",
+        "css",
+        "javascript"
+    ],
+    "author": "IPOGains",
+    "license": "ISC",
+    "devDependencies": {
+        "serve": "^14.2.1"
+    }
+}

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="IPOGains - Your trusted platform for IPO listings, allotment status, GMP tracking, and live subscription data.">
+    <title>IPOGains - IPO Listings & Allotment Tracker</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap CSS (for Grid & Utilities) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Modular CSS - Using separated files -->
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/components/navbar.css">
+    <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="css/components/cards.css">
+    <link rel="stylesheet" href="css/components/forms.css">
+    <link rel="stylesheet" href="css/components/modals.css">
+    <link rel="stylesheet" href="css/sections/hero.css">
+    <link rel="stylesheet" href="css/sections/ipos.css">
+    <link rel="stylesheet" href="css/sections/allotment.css">
+    <link rel="stylesheet" href="css/sections/gmp.css">
+    <link rel="stylesheet" href="css/sections/about.css">
+    <link rel="stylesheet" href="css/sections/contact.css">
+    <link rel="stylesheet" href="css/sections/footer.css">
+    <link rel="stylesheet" href="css/utilities.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: var(--dark-bg) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .table {
+            --bs-table-bg: transparent !important;
+            --bs-table-color: var(--text-primary) !important;
+            border-color: var(--dark-border) !important;
+        }
+
+        .table th,
+        .table td {
+            background-color: transparent !important;
+            color: inherit !important;
+            border-bottom: 1px solid var(--dark-border) !important;
+        }
+
+        .card {
+            background-color: var(--dark-card) !important;
+            border-color: var(--dark-border) !important;
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        #loading {
+            background-color: var(--dark-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>IPO<strong>Gains</strong></span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="ipos.html" class="nav-link active">IPOs</a>
+                <a href="allotment.html" class="nav-link">Check Allotment</a>
+                <a href="gmp.html" class="nav-link">GMP</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline" id="loginBtn" onclick="openModal('loginModal')">Login</button>
+                <button class="btn btn-primary" id="registerBtn" onclick="openModal('registerModal')">Register</button>
+
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <button class="btn btn-icon">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="admin.html" id="adminLink" style="display: none;">
+                            <i class="fas fa-cog"></i> Admin Panel
+                        </a>
+                        <a href="/" id="dashboardLink">
+                            <i class="fas fa-th-large"></i> Dashboard
+                        </a>
+                        <a href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section Removed -->
+
+    <!-- IPO Listings Removed -->
+
+    <!-- Allotment Section Removed -->
+
+    <!-- Allotment Detail Section -->
+    <section class="section" id="allotment-detail">
+        <div class="container">
+            <a href="ipos.html" class="btn btn-outline" style="margin-bottom: 20px;">&larr; Back to IPOs</a>
+
+            <div id="loading" class="text-center">
+                <div class="spinner"></div>
+                <p>Loading Allotment Status...</p>
+            </div>
+
+            <div id="detailContent" style="display:none;">
+
+                <!-- Header -->
+                <div class="card mb-4 p-4"
+                    style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <h1 class="h3 mb-0" style="color: var(--text-primary); font-weight: 800;"><span
+                                id="companyName"></span> Live Allotment Status</h1>
+                        <span class="status-badge" id="ipoStatus"></span>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="card p-3 h-100"
+                            style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                            <span
+                                style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Issue
+                                Price</span>
+                            <h4 id="issuePrice" class="mb-0 mt-1" style="color: var(--text-primary); font-weight: 800;">
+                                ₹0</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="card p-3 h-100"
+                            style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                            <span
+                                style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Current
+                                GMP</span>
+                            <h4 id="currentGmp" class="mb-0 mt-1"
+                                style="color: var(--primary-green); font-weight: 800;">₹0</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="card p-3 h-100"
+                            style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                            <span
+                                style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Est.
+                                Profit</span>
+                            <h4 id="estProfit" class="mb-0 mt-1" style="color: var(--primary-green); font-weight: 800;">
+                                ₹0</h4>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="card p-3 h-100"
+                            style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                            <span
+                                style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Est.
+                                Listing Price</span>
+                            <h4 id="estListing" class="mb-0 mt-1" style="color: var(--text-primary); font-weight: 800;">
+                                ₹0</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IPO Details -->
+                <div class="card mb-5"
+                    style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-xl);">
+                    <div class="card-header"
+                        style="background: rgba(15, 23, 42, 0.4); border-bottom: 1px solid var(--dark-border); padding: 1.5rem 2rem;">
+                        <h4 class="mb-0" style="font-size: 1.25rem; font-weight: 800; color: var(--primary-green);"><i
+                                class="far fa-file-alt mr-2"></i> IPO Details</h4>
+                    </div>
+                    <div class="card-body" style="padding: 2.5rem;">
+                        <div class="row">
+                            <div class="col-md-3 col-6 mb-4">
+                                <small
+                                    style="color: var(--text-muted); display: block; text-transform: uppercase; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px; margin-bottom: 0.25rem;">Price
+                                    Range</small>
+                                <span style="color: var(--text-primary); font-weight: 700; font-size: 1.1rem;"
+                                    id="priceRange"></span>
+                            </div>
+                            <div class="col-md-3 col-6 mb-4">
+                                <small
+                                    style="color: var(--text-muted); display: block; text-transform: uppercase; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px; margin-bottom: 0.25rem;">Issue
+                                    Size</small>
+                                <span style="color: var(--text-primary); font-weight: 700; font-size: 1.1rem;"
+                                    id="issueSize"></span>
+                            </div>
+                            <div class="col-md-3 col-6 mb-4">
+                                <small
+                                    style="color: var(--text-muted); display: block; text-transform: uppercase; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px; margin-bottom: 0.25rem;">Lot
+                                    Size</small>
+                                <span style="color: var(--text-primary); font-weight: 700; font-size: 1.1rem;"
+                                    id="lotSize"></span>
+                            </div>
+                            <div class="col-md-3 col-6 mb-4">
+                                <small
+                                    style="color: var(--text-muted); display: block; text-transform: uppercase; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px; margin-bottom: 0.25rem;">IPO
+                                    Type</small>
+                                <span style="color: var(--text-primary); font-weight: 700; font-size: 1.1rem;"
+                                    id="ipoCategory"></span>
+                            </div>
+
+                            <div class="col-md-3 col-6 mb-4">
+                                <small
+                                    style="color: var(--text-muted); display: block; text-transform: uppercase; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px; margin-bottom: 0.25rem;">Open
+                                    Date</small>
+                                <span style="color: var(--text-primary); font-weight: 700; font-size: 1.1rem;"
+                                    id="openDate"></span>
+                            </div>
+                            <div class="col-md-3 col-6 mb-4">
+                                <small
+                                    style="color: var(--text-muted); display: block; text-transform: uppercase; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px; margin-bottom: 0.25rem;">Close
+                                    Date</small>
+                                <span style="color: var(--text-primary); font-weight: 700; font-size: 1.1rem;"
+                                    id="closeDate"></span>
+                            </div>
+                            <div class="col-md-3 col-6 mb-4">
+                                <small
+                                    style="color: var(--text-muted); display: block; text-transform: uppercase; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px; margin-bottom: 0.25rem;">Allotment
+                                    Date</small>
+                                <span style="color: var(--text-primary); font-weight: 700; font-size: 1.1rem;"
+                                    id="allotmentDate"></span>
+                            </div>
+                            <div class="col-md-3 col-6 mb-4">
+                                <small
+                                    style="color: var(--text-muted); display: block; text-transform: uppercase; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px; margin-bottom: 0.25rem;">Listing
+                                    Date</small>
+                                <span style="color: var(--text-primary); font-weight: 700; font-size: 1.1rem;"
+                                    id="listingDate"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mb-5">
+                    <a href="allotment.html" class="btn btn-primary btn-lg px-5 py-3"
+                        style="font-size: 1.1rem; border-radius: var(--radius-lg);">
+                        <i class="fas fa-search"></i> Check Allotment Status Now
+                    </a>
+                    <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">Click above to enter PAN
+                        details and check your allotment</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About & Contact moved to Home -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>IPOGains</h4>
+                    <p>Your trusted platform for IPO tracking and analysis.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="ipos.html">IPO Listings</a>
+                    <a href="allotment.html">Check Allotment</a>
+                    <a href="gmp.html">GMP</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe for IPO updates</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 IPOGains. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            <h2>Login to IPOGains</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <div class="text-center" style="margin-top: 1rem;">
+                <a href="#" onclick="switchModal('loginModal', 'forgotPasswordModal')"
+                    style="color: var(--primary-green); text-decoration: none;">Forgot Password?</a>
+            </div>
+            <div class="modal-footer">
+                Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            <h2>Create Account</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="registerPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+            <div class="modal-footer">
+                Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- OTP Modal -->
+    <div class="modal" id="otpModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('otpModal')">&times;</button>
+            <h2>Verify Email</h2>
+            <p class="text-center text-muted">Enter the 6-digit OTP sent to your email</p>
+            <form id="otpForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="otpCode" maxlength="6" placeholder="000000" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Verify</button>
+            </form>
+            <div class="modal-footer">
+                Didn't receive OTP? <a href="#" id="resendOTP">Resend</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('forgotPasswordModal')">&times;</button>
+            <h2>Forgot Password</h2>
+            <p class="text-center text-muted">Enter your email to receive a password reset OTP</p>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="forgotEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Send OTP</button>
+            </form>
+            <div class="modal-footer">
+                Remember your password? <a href="#" onclick="switchModal('forgotPasswordModal', 'loginModal')">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div class="modal" id="resetPasswordModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('resetPasswordModal')">&times;</button>
+            <h2>Reset Password</h2>
+            <p class="text-center text-muted">Enter the OTP and your new password</p>
+            <form id="resetPasswordForm">
+                <input type="hidden" id="resetEmail">
+                <div class="form-group">
+                    <label>OTP</label>
+                    <input type="text" class="form-control" id="resetOTP" maxlength="6" placeholder="000000" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" class="form-control" id="newPassword" minlength="6" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" minlength="6" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Modular JavaScript -->
+    <script src="js/config/constants.js"></script>
+    <script src="js/utils/api.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/components/modals.js"></script>
+    <script src="js/features/auth/login.js"></script>
+    <script src="js/features/auth/register.js"></script>
+    <script src="js/features/auth/otp.js"></script>
+    <script src="js/features/auth/forgotPassword.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Page Specific JS -->
+    <script src="js/pages/allotment-details.js"></script>
+</body>
+
+</html>

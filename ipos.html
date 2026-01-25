@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="IPOGains - Your trusted platform for IPO listings, allotment status, GMP tracking, and live subscription data.">
+    <title>IPOGains - IPO Listings & Allotment Tracker</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Modular CSS - Using separated files -->
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/components/navbar.css">
+    <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="css/components/cards.css">
+    <link rel="stylesheet" href="css/components/forms.css">
+    <link rel="stylesheet" href="css/components/modals.css">
+    <link rel="stylesheet" href="css/sections/hero.css">
+    <link rel="stylesheet" href="css/sections/ipos.css">
+    <link rel="stylesheet" href="css/sections/allotment.css">
+    <link rel="stylesheet" href="css/sections/gmp.css">
+    <link rel="stylesheet" href="css/sections/about.css">
+    <link rel="stylesheet" href="css/sections/contact.css">
+    <link rel="stylesheet" href="css/sections/footer.css">
+    <link rel="stylesheet" href="css/components/faq.css">
+    <link rel="stylesheet" href="css/utilities.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>IPO<strong>Gains</strong></span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="ipos.html" class="nav-link active">IPOs</a>
+                <a href="allotment.html" class="nav-link">Check Allotment</a>
+                <a href="gmp.html" class="nav-link">GMP</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline" id="loginBtn" onclick="openModal('loginModal')">Login</button>
+                <button class="btn btn-primary" id="registerBtn" onclick="openModal('registerModal')">Register</button>
+
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <button class="btn btn-icon">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="admin.html" id="adminLink" style="display: none;">
+                            <i class="fas fa-cog"></i> Admin Panel
+                        </a>
+                        <a href="dashboard.html" id="dashboardLink">
+                            <i class="fas fa-th-large"></i> Dashboard
+                        </a>
+                        <a href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section Removed for IPO Page -->
+
+    <!-- IPO Listings Section -->
+    <section class="section" id="ipos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">IPO Listings</h2>
+                <p class="section-subtitle">Browse current, upcoming, and closed IPOs</p>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-status="all">All</button>
+                    <button class="filter-btn" data-status="open">Open</button>
+                    <button class="filter-btn" data-status="upcoming">Upcoming</button>
+                    <button class="filter-btn" data-status="closed">Closed</button>
+                    <button class="filter-btn" data-status="listed">Listed</button>
+                </div>
+
+                <div class="filter-group">
+                    <button class="filter-btn active" data-category="all">All Categories</button>
+                    <button class="filter-btn" data-category="Mainboard">Mainboard</button>
+                    <button class="filter-btn" data-category="SME">SME</button>
+                </div>
+
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search IPOs...">
+                </div>
+            </div>
+
+            <div class="ipo-grid" id="ipoGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading IPOs...</p>
+                </div>
+            </div>
+
+            <div class="view-more-container" id="viewMoreContainer" style="display: none;">
+                <button class="btn-view-more" id="viewMoreBtn">
+                    <span>View More IPOs</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="ipo-faq">
+        <div class="container">
+            <div class="faq-container">
+                <h2 class="faq-title">Frequently Asked <span>Questions</span></h2>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>What is an IPO?</h4>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                IPO (Initial Public Offering) is the process by which a private company offers its
+                                shares to the public for the first time. It allows companies to raise capital from
+                                public investors and get listed on stock exchanges like NSE and BSE.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>How can I apply for an IPO?</h4>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                You can apply for an IPO through ASBA (Application Supported by Blocked Amount) via your
+                                bank's net banking, UPI through apps like Google Pay, PhonePe, Paytm, or through your
+                                Demat account broker's platform.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>What is the minimum investment for an IPO?</h4>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                The minimum investment depends on the lot size and issue price. For retail investors,
+                                the minimum bid amount is usually around ₹10,000 to ₹15,000 per lot. The exact amount
+                                varies for each IPO.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>What is the difference between Mainboard and SME IPO?</h4>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Mainboard IPOs are for larger companies with stricter regulations and higher minimum
+                                investment. SME IPOs are for Small and Medium Enterprises with relaxed norms, higher
+                                risk-reward ratio, and typically higher minimum investment per lot.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>When will I know if I got allotment?</h4>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Allotment is typically finalized within 2-3 business days after the IPO closes. You can
+                                check your allotment status on the registrar's website using your PAN card or
+                                application number.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>What documents are required to apply for IPO?</h4>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                You need a Demat account, a linked bank account with ASBA facility, PAN card, and UPI ID
+                                (for UPI-based applications). Your KYC must be completed with your broker.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>Can I cancel my IPO application?</h4>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Yes, you can modify or cancel your IPO application before the issue closes. You can do
+                                this through your bank's net banking or the platform where you applied. After the issue
+                                closes, cancellation is not possible.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>What happens if I don't get allotment?</h4>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                If you don't get allotment, your blocked amount will be unblocked and returned to your
+                                bank account within 2-3 business days after the allotment is finalized. No charges are
+                                deducted.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Allotment Section Removed -->
+
+    <!-- GMP Section Removed -->
+
+    <!-- About & Contact moved to Home -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>IPOGains</h4>
+                    <p>Your trusted platform for IPO tracking and analysis.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="ipos.html">IPO Listings</a>
+                    <a href="allotment.html">Check Allotment</a>
+                    <a href="gmp.html">GMP</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe for IPO updates</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 IPOGains. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to IPOGains</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+                <div class="text-center" style="margin-top: 1rem;">
+                    <a href="#" onclick="switchModal('loginModal', 'forgotPasswordModal')"
+                        style="color: var(--primary-green); text-decoration: none;">Forgot Password?</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="registerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="registerPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- OTP Modal -->
+    <div class="modal" id="otpModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Verify Email</h2>
+                <button class="modal-close" onclick="closeModal('otpModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center text-muted mb-4">Enter the 6-digit OTP sent to your email</p>
+                <form id="otpForm">
+                    <div class="form-group">
+                        <input type="text" class="form-control text-center" id="otpCode" maxlength="6"
+                            placeholder="000000" style="font-size: 1.5rem; letter-spacing: 0.5rem;" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Verify</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                Didn't receive OTP? <a href="#" id="resendOTP">Resend</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Forgot Password</h2>
+                <button class="modal-close" onclick="closeModal('forgotPasswordModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center text-muted mb-4">Enter your email to receive a password reset OTP</p>
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="forgotEmail" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Send OTP</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                Remember your password? <a href="#" onclick="switchModal('forgotPasswordModal', 'loginModal')">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div class="modal" id="resetPasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <button class="modal-close" onclick="closeModal('resetPasswordModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center text-muted mb-4">Enter the OTP and your new password</p>
+                <form id="resetPasswordForm">
+                    <input type="hidden" id="resetEmail">
+                    <div class="form-group">
+                        <label>OTP</label>
+                        <input type="text" class="form-control" id="resetOTP" maxlength="6" placeholder="000000"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" class="form-control" id="newPassword" minlength="6" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" minlength="6" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Modular JavaScript -->
+    <script src="js/config/constants.js"></script>
+    <script src="js/utils/api.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/components/modals.js"></script>
+    <script src="js/features/auth/login.js"></script>
+    <script src="js/features/auth/register.js"></script>
+    <script src="js/features/auth/otp.js"></script>
+    <script src="js/features/auth/forgotPassword.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Page Specific JS -->
+    <script src="js/pages/ipos.js"></script>
+</body>
+
+</html>

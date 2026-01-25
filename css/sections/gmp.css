@@ -1,0 +1,40 @@
+/* GMP Section Styles */
+
+.gmp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.gmp-card {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+}
+
+.gmp-header {
+    margin-bottom: var(--spacing-md);
+}
+
+.gmp-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-green);
+}
+
+.gmp-percentage {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+}
+
+.gmp-chart {
+    height: 150px;
+    background: var(--dark-bg);
+    border-radius: var(--radius-md);
+    margin-top: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}

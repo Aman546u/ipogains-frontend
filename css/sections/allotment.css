@@ -1,0 +1,30 @@
+/* Allotment Section Styles */
+
+.allotment-checker {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.checker-card {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+}
+
+.allotment-result {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--dark-border);
+}
+
+.result-success {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: var(--success);
+}
+
+.result-error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--danger);
+}
