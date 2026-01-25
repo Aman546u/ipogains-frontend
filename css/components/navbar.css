@@ -143,9 +143,12 @@
         box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
 
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem;
+        justify-content: flex-start;
+        /* Start from top */
+        align-items: flex-start;
+        /* Left align */
+        padding: 5rem 2rem 2rem 2rem;
+        /* More top padding */
 
         transform: translateX(100%);
         opacity: 1;
@@ -160,33 +163,70 @@
         top: 0;
         left: -100vw;
         width: 200vw;
-        /* Cover everything */
         height: 100vh;
+        /* background removal: handled in JS active state or just let it be invisible overlay */
+        /* Wait, overlay is needed for clicking outside. */
         background: rgba(0, 0, 0, 0.6);
         z-index: -1;
-        pointer-events: none;
     }
 
-    /* Larger links for touch */
+    /* Professional Link Styling */
     .nav-link {
-        font-size: 1.5rem;
-        padding: 1rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        padding: 12px 10px;
         width: 100%;
-        text-align: center;
-        margin: 0.5rem 0;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        margin: 0;
+        transition: all 0.2s ease;
+        border-radius: 4px;
+    }
+
+    .nav-link:hover {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--primary-green);
+        padding-left: 15px;
+    }
+
+    .nav-link.active {
+        color: var(--primary-green);
+        background: linear-gradient(90deg, rgba(34, 197, 94, 0.1) 0%, transparent 100%);
+        padding-left: 15px;
+        border-left: 3px solid var(--primary-green);
+        border-bottom: none;
     }
 
     .nav-links.active {
         transform: translateX(0);
     }
 
+    /* Mobile Buttons (Login/Register) */
     .mobile-only-link {
         display: block;
         width: 100%;
         text-align: center;
+        margin-top: 15px;
+        padding: 10px;
+        background: transparent;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1rem;
+    }
+
+    /* Special style for Register button (last-child?) - easier to target via explicit ID if possible, but they are appended via JS
+       The JS adds class 'mobile-only-link'. I'll add specific override if needing primary color.
+    */
+    /* Target the second button for primary style using nth-last-child */
+    /* JS appends Login then Register. So Register is last. */
+    .mobile-only-link:last-child {
+        background: var(--primary-green);
+        border: none;
+        color: white;
         margin-top: 10px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .mobile-menu-btn {
