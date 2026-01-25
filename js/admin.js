@@ -1,5 +1,5 @@
 // Admin Panel JavaScript
-const API_URL = window.location.origin + '/api';
+const API_URL = window.APP_CONFIG ? window.APP_CONFIG.API_URL : 'http://localhost:3000/api';
 
 // Helper to get token correctly (handling JSON stringification)
 const getStoredToken = () => {
@@ -173,7 +173,7 @@ function setupEventListeners() {
         row.classList.add('active-sub-row');
 
         const id = row.dataset.id;
-        loadSubEditor(id);
+        selectIPOSub(id);
     });
 
     // Event Delegation for IPO Table Buttons
@@ -787,7 +787,7 @@ function formatDate(dateString) {
 // Global Exports
 window.editIPO = editIPO;
 window.deleteIPO = deleteIPO;
-window.loadSubEditor = loadSubEditor;
+window.selectIPOSub = selectIPOSub;
 window.resetEditor = resetEditor;
 window.handleSubDetailSubmit = null; // Removed old handler
 window.handleAppSubSubmit = handleAppSubSubmit;
