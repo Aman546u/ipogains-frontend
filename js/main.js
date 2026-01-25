@@ -139,6 +139,16 @@ const App = {
             });
         }
 
+        // Logout Link (Dropdown - needed for Dashboard)
+        const logoutLink = document.getElementById('logoutLink');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('🚪 Dropdown Logout clicked');
+                this.logout();
+            });
+        }
+
         // Login/Register buttons
         const loginBtn = document.getElementById('loginBtn');
         const registerBtn = document.getElementById('registerBtn');
