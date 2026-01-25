@@ -14,8 +14,11 @@ const API = {
 
         const config = { ...defaultOptions, ...options };
 
+        console.log(`🌐 API Request: ${APP_CONFIG.API_URL}${endpoint}`, config);
+
         try {
             const response = await fetch(`${APP_CONFIG.API_URL}${endpoint}`, config);
+            console.log(`📥 API Response Status: ${response.status}`);
 
             // Handle rate limiting specifically
             if (response.status === 429) {
@@ -25,18 +28,19 @@ const API = {
                     const jsonData = JSON.parse(text);
                     message = jsonData.error || message;
                 } catch (e) {
-                    // Fallback to text if not JSON
                     if (text && text.length < 100) message = text;
                 }
                 throw new Error(message);
             }
 
-            // Get response text first to handle potential parsing issues
             const responseText = await response.text();
+            console.log(`📄 API Response Body Preview:`, responseText.substring(0, 200));
+
             let data;
             try {
                 data = responseText ? JSON.parse(responseText) : {};
             } catch (e) {
+                console.error('❌ JSON Parse Error:', e, responseText);
                 if (!response.ok) {
                     throw new Error(`Server Error: ${response.status}`);
                 }
@@ -49,7 +53,7 @@ const API = {
 
             return data;
         } catch (error) {
-            console.error('API Error:', error);
+            console.error('❌ API Error:', error);
             throw error;
         }
     },
