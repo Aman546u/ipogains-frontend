@@ -127,25 +127,44 @@
 @media (max-width: 768px) {
 
     /* Fullscreen Mobile Menu Overlay */
+    /* Mobile Sidebar Menu (Slide from Right) */
     .nav-links {
         position: fixed;
         top: 0;
-        left: 0;
         right: 0;
         bottom: 0;
+        left: auto;
+        width: 85%;
+        max-width: 320px;
         height: 100vh;
-        width: 100%;
+
         background: rgba(15, 23, 42, 0.98);
         backdrop-filter: blur(15px);
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+
         flex-direction: column;
         justify-content: center;
         align-items: center;
         padding: 2rem;
-        transform: translateY(-100%);
-        opacity: 0;
-        transition: all 0.3s ease-in-out;
+
+        transform: translateX(100%);
+        opacity: 1;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 999;
-        /* Below navbar action items */
+    }
+
+    /* Overlay Backdrop */
+    .nav-links.active::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: -100vw;
+        width: 200vw;
+        /* Cover everything */
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: -1;
+        pointer-events: none;
     }
 
     /* Larger links for touch */
@@ -158,8 +177,7 @@
     }
 
     .nav-links.active {
-        transform: translateY(0);
-        opacity: 1;
+        transform: translateX(0);
     }
 
     .mobile-only-link {
@@ -181,22 +199,6 @@
     /* Hide desktop buttons FORCEFULLY */
     .nav-actions .btn {
         display: none !important;
-    }
-
-    /* Hide less important table columns on mobile to prevent scrolling/cutting */
-    .modern-table th:nth-child(2),
-    .modern-table td:nth-child(2),
-    /* Type */
-    .modern-table th:nth-child(5),
-    .modern-table td:nth-child(5),
-    /* Min Invest */
-    .modern-table th:nth-child(6),
-    .modern-table td:nth-child(6),
-    /* Sub */
-    .modern-table th:nth-child(7),
-    .modern-table td:nth-child(7) {
-        /* Issue Size */
-        display: none;
     }
 
     /* Keep user menu visible */

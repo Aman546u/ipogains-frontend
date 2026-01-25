@@ -327,20 +327,7 @@
     /* Stack Section Header */
     .ipo-section-header {
         flex-direction: row;
-        /* Keep row but maybe adjust size */
         align-items: center;
         margin-bottom: 20px;
-    }
-
-    /* Hide less important columns */
-    .modern-table th:nth-child(2),
-    .modern-table td:nth-child(2),
-    .modern-table th:nth-child(5),
-    .modern-table td:nth-child(5),
-    .modern-table th:nth-child(6),
-    .modern-table td:nth-child(6),
-    .modern-table th:nth-child(7),
-    .modern-table td:nth-child(7) {
-        display: none;
     }
 }

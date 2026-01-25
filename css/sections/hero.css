@@ -100,13 +100,27 @@
     }
 
     .hero-actions {
-        flex-direction: column;
+        flex-direction: row;
+        /* Side by side */
+        flex-wrap: wrap;
         width: 100%;
-        padding: 0 20px;
+        padding: 0 10px;
+        gap: 10px;
+        /* Smaller gap */
     }
 
     .hero-actions .btn {
-        width: 100%;
-        text-align: center;
+        flex: 1;
+        /* Equal width */
+        min-width: 140px;
+        /* Prevent too small */
+        width: auto;
+        /* Allow shrink */
+        padding: 0.875rem 0.5rem;
+        /* Reduce horizontal padding if efficient */
+        font-size: 0.9rem;
+        /* Slightly smaller text */
+        display: flex;
+        justify-content: center;
     }
 }
