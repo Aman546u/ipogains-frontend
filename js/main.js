@@ -183,16 +183,39 @@ const App = {
         });
 
         // Navbar scroll effect
+        // Smart Navbar (Hide on scroll down, Show on scroll up)
+        let lastScrollY = window.scrollY;
+
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
+            const navLinks = document.getElementById('navLinks');
+
             if (navbar) {
-                if (window.pageYOffset > 100) {
+                const currentScrollY = window.scrollY;
+
+                // Add shadow on scroll
+                if (currentScrollY > 20) {
                     navbar.classList.add('scrolled');
                 } else {
                     navbar.classList.remove('scrolled');
                 }
+
+                // Hide/Show logic
+                // Only hide if:
+                // 1. Scrolling DOWN
+                // 2. Not at the very top (> 100px)
+                // 3. Mobile menu is NOT open
+                const isMenuOpen = navLinks && navLinks.classList.contains('active');
+
+                if (currentScrollY > lastScrollY && currentScrollY > 100 && !isMenuOpen) {
+                    navbar.classList.add('navbar-hidden');
+                } else {
+                    navbar.classList.remove('navbar-hidden');
+                }
+
+                lastScrollY = currentScrollY;
             }
-        });
+        }, { passive: true });
 
         // Prevent accidental logout on page unload
         window.addEventListener('beforeunload', () => {

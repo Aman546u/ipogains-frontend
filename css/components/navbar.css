@@ -9,7 +9,11 @@
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--dark-border);
     z-index: 1000;
-    transition: var(--transition-base);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.navbar.navbar-hidden {
+    transform: translateY(-100%);
 }
 
 .navbar.scrolled {
