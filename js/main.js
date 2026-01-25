@@ -4,11 +4,15 @@ const App = {
     async init() {
         console.log('🚀 IPOGains Application Starting...');
 
-        // Check authentication
-        await this.checkAuth();
-
         // Load components
         this.loadComponents();
+
+        // Setup Mobile Auth Links (Login/Register) BEFORE checking auth
+        // This ensures they exist so checkAuth can hide them if needed
+        this.setupMobileAuthLinks();
+
+        // Check authentication
+        await this.checkAuth();
 
         // Setup event listeners
         this.setupEventListeners();
@@ -269,9 +273,6 @@ const App = {
 
         // Initialize Newsletter
         this.setupNewsletter();
-
-        // Setup Mobile Auth Links (Login/Register inside menu)
-        this.setupMobileAuthLinks();
     },
 
     setupMobileAuthLinks() {
