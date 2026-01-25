@@ -87,3 +87,26 @@
     gap: var(--spacing-md);
     margin-top: var(--spacing-xl);
 }
+
+@media (max-width: 768px) {
+    .hero {
+        min-height: auto;
+        padding-top: 100px;
+        padding-bottom: 50px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+}

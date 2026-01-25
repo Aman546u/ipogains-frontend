@@ -125,20 +125,36 @@
 }
 
 @media (max-width: 768px) {
+
+    /* Fullscreen Mobile Menu Overlay */
     .nav-links {
         position: fixed;
-        top: 60px;
-        /* Adjust based on navbar height */
+        top: 0;
         left: 0;
         right: 0;
-        background: #0f172a;
-        /* Solid dark background */
+        bottom: 0;
+        height: 100vh;
+        width: 100%;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(15px);
         flex-direction: column;
-        padding: var(--spacing-md);
-        border-bottom: 1px solid var(--dark-border);
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
         transform: translateY(-100%);
         opacity: 0;
-        transition: var(--transition-base);
+        transition: all 0.3s ease-in-out;
+        z-index: 999;
+        /* Below navbar action items */
+    }
+
+    /* Larger links for touch */
+    .nav-link {
+        font-size: 1.5rem;
+        padding: 1rem;
+        width: 100%;
+        text-align: center;
+        margin: 0.5rem 0;
     }
 
     .nav-links.active {
@@ -158,6 +174,8 @@
     .mobile-menu-btn {
         display: block;
         margin-left: auto;
+        position: relative;
+        z-index: 1001;
     }
 
     /* Hide desktop buttons */
