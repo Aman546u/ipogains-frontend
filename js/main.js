@@ -56,6 +56,12 @@ const App = {
         if (loginBtn) loginBtn.style.display = 'inline-flex';
         if (registerBtn) registerBtn.style.display = 'inline-flex';
         if (userMenu) userMenu.style.display = 'none';
+
+        // Show mobile links (Clear inline style so CSS takes over)
+        const mobileLogin = document.getElementById('mobileLoginLink');
+        const mobileRegister = document.getElementById('mobileRegisterLink');
+        if (mobileLogin) mobileLogin.style.display = '';
+        if (mobileRegister) mobileRegister.style.display = '';
     },
 
     showAuthenticatedUI(user) {
@@ -76,6 +82,12 @@ const App = {
             adminLink.style.display = 'block';
             console.log('✅ Admin link displayed');
         }
+
+        // Hide mobile links
+        const mobileLogin = document.getElementById('mobileLoginLink');
+        const mobileRegister = document.getElementById('mobileRegisterLink');
+        if (mobileLogin) mobileLogin.style.display = 'none';
+        if (mobileRegister) mobileRegister.style.display = 'none';
     },
 
     loadComponents() {
@@ -189,6 +201,49 @@ const App = {
 
         // Initialize Newsletter
         this.setupNewsletter();
+
+        // Setup Mobile Auth Links (Login/Register inside menu)
+        this.setupMobileAuthLinks();
+    },
+
+    setupMobileAuthLinks() {
+        const navLinks = document.getElementById('navLinks');
+        if (!navLinks) return;
+
+        // Check if already added
+        if (navLinks.querySelector('.mobile-only-auth')) return;
+
+        // Container for mobile auth
+        const container = document.createElement('div');
+        container.className = 'mobile-only-auth mobile-only-link'; // Uses CSS to hide on desktop
+        container.style.display = 'contents'; // Let children use flex/block from CSS
+
+        // Login Link
+        const loginLink = document.createElement('a');
+        loginLink.href = '#';
+        loginLink.className = 'nav-link mobile-only-link';
+        loginLink.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+        loginLink.onclick = (e) => {
+            e.preventDefault();
+            Modals.open('loginModal');
+            navLinks.classList.remove('active'); // Close menu
+        };
+        loginLink.id = 'mobileLoginLink';
+
+        // Register Link
+        const registerLink = document.createElement('a');
+        registerLink.href = '#';
+        registerLink.className = 'nav-link mobile-only-link';
+        registerLink.innerHTML = '<i class="fas fa-user-plus"></i> Register';
+        registerLink.onclick = (e) => {
+            e.preventDefault();
+            Modals.open('registerModal');
+            navLinks.classList.remove('active'); // Close menu
+        };
+        registerLink.id = 'mobileRegisterLink';
+
+        navLinks.appendChild(loginLink);
+        navLinks.appendChild(registerLink);
     },
 
     setupNewsletter() {
