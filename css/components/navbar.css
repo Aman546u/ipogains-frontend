@@ -245,24 +245,14 @@
         display: none !important;
     }
 
-    /* Ensure User Icon is visible */
+    /* Ensure User Icon is visible, but allow JS to hide it */
     .user-menu .btn-icon {
-        display: inline-flex !important;
+        display: inline-flex;
         margin-right: 15px;
-        /* Space between User Icon and Hamburger */
     }
 
-    /* Keep user menu container visible */
+    /* Keep user menu container visible in layout, but allow JS display:none */
     .nav-actions .user-menu {
-        display: block !important;
-    }
-
-    /* Keep user menu visible */
-    .nav-actions .user-menu {
-        display: block !important;
-    }
-
-    .user-menu .btn-icon {
-        display: flex;
+        display: block;
     }
 }
