@@ -62,10 +62,6 @@ const App = {
         const mobileRegister = document.getElementById('mobileRegisterLink');
         if (mobileLogin) mobileLogin.style.display = '';
         if (mobileRegister) mobileRegister.style.display = '';
-
-        // Remove authenticated mobile links
-        const mobileUserLinks = document.getElementById('mobileUserLinks');
-        if (mobileUserLinks) mobileUserLinks.remove();
     },
 
     showAuthenticatedUI(user) {
@@ -92,55 +88,6 @@ const App = {
         const mobileRegister = document.getElementById('mobileRegisterLink');
         if (mobileLogin) mobileLogin.style.display = 'none';
         if (mobileRegister) mobileRegister.style.display = 'none';
-
-        // Add authenticated mobile links
-        this.setupMobileUserLinks(user);
-    },
-
-    setupMobileUserLinks(user) {
-        const navLinks = document.getElementById('navLinks');
-        if (!navLinks) return;
-
-        // Check if already/still exists to avoid duplicates
-        let container = document.getElementById('mobileUserLinks');
-        if (container) container.remove(); // specific to this user session
-
-        container = document.createElement('div');
-        container.id = 'mobileUserLinks';
-        container.style.width = '100%';
-        container.style.marginTop = '20px';
-        container.style.borderTop = '1px solid rgba(255,255,255,0.1)';
-        container.style.paddingTop = '10px';
-
-        // Dashboard Link
-        const dashboardLink = document.createElement('a');
-        dashboardLink.href = 'dashboard.html';
-        dashboardLink.className = 'nav-link';
-        dashboardLink.innerHTML = '<i class="fas fa-th-large"></i> Dashboard';
-        container.appendChild(dashboardLink);
-
-        // Admin Link (if applicable)
-        if (user.role === 'admin') {
-            const adminLink = document.createElement('a');
-            adminLink.href = 'admin.html';
-            adminLink.className = 'nav-link';
-            adminLink.innerHTML = '<i class="fas fa-cog"></i> Admin Panel';
-            container.appendChild(adminLink);
-        }
-
-        // Logout Link
-        const logoutLink = document.createElement('a');
-        logoutLink.href = '#';
-        logoutLink.className = 'nav-link';
-        logoutLink.style.color = '#ef4444'; // Red color
-        logoutLink.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
-        logoutLink.onclick = (e) => {
-            e.preventDefault();
-            this.logout();
-        };
-        container.appendChild(logoutLink);
-
-        navLinks.appendChild(container);
     },
 
     loadComponents() {

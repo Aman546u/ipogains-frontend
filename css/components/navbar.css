@@ -240,12 +240,19 @@
         z-index: 1001;
     }
 
-    /* Hide desktop buttons FORCEFULLY */
-    .nav-actions .btn {
+    /* Hide desktop buttons FORCEFULLY, but KEEP icon buttons (User Icon) */
+    .nav-actions .btn:not(.btn-icon) {
         display: none !important;
     }
 
-    /* Keep user menu visible */
+    /* Ensure User Icon is visible */
+    .user-menu .btn-icon {
+        display: inline-flex !important;
+        margin-right: 15px;
+        /* Space between User Icon and Hamburger */
+    }
+
+    /* Keep user menu container visible */
     .nav-actions .user-menu {
         display: block !important;
     }
