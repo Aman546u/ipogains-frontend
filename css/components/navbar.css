@@ -142,9 +142,11 @@
         max-width: 320px;
         height: 100vh;
 
-        background: rgba(15, 23, 42, 0.98);
-        backdrop-filter: blur(15px);
+        background: var(--dark-card);
+        /* Match theme exactly */
+        /* backdrop-filter: blur(15px);  Remove blur if using solid theme color */
         box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+        border-left: 1px solid var(--dark-border);
 
         flex-direction: column;
         justify-content: flex-start;

@@ -57,6 +57,10 @@ const App = {
         if (registerBtn) registerBtn.style.display = 'inline-flex';
         if (userMenu) userMenu.style.display = 'none';
 
+        // Remove mobile logout link if present
+        const mobileLogout = document.getElementById('mobileLogoutLink');
+        if (mobileLogout) mobileLogout.remove();
+
         // Show mobile links (Clear inline style so CSS takes over)
         const mobileLogin = document.getElementById('mobileLoginLink');
         const mobileRegister = document.getElementById('mobileRegisterLink');
@@ -88,11 +92,36 @@ const App = {
         const mobileRegister = document.getElementById('mobileRegisterLink');
         if (mobileLogin) mobileLogin.style.display = 'none';
         if (mobileRegister) mobileRegister.style.display = 'none';
+
+        // Add Logout link to sidebar
+        this.addMobileLogoutLink();
+    },
+
+    addMobileLogoutLink() {
+        const navLinks = document.getElementById('navLinks');
+        if (!navLinks) return;
+
+        // Remove existing logout if any
+        const existing = document.getElementById('mobileLogoutLink');
+        if (existing) existing.remove();
+
+        const logoutLink = document.createElement('a');
+        logoutLink.href = '#';
+        logoutLink.className = 'nav-link mobile-only-link';
+        logoutLink.style.color = '#ef4444';
+        logoutLink.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+        logoutLink.id = 'mobileLogoutLink';
+        logoutLink.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+        logoutLink.onclick = (e) => {
+            e.preventDefault();
+            this.logout();
+        };
+
+        navLinks.appendChild(logoutLink);
     },
 
     loadComponents() {
         // Components will load their own HTML
-        // This is handled by individual component files
     },
 
     setupEventListeners() {
@@ -123,8 +152,24 @@ const App = {
         const navLinks = document.getElementById('navLinks');
 
         if (mobileMenuBtn && navLinks) {
-            mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent document click from closing immediately
                 navLinks.classList.toggle('active');
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (navLinks.classList.contains('active')) {
+                    // Check if click is outside the sidebar content
+                    // Note: navLinks covers 85% width. If click is on the left 15% (overlay area)
+                    // But standard 'contains' might return true if overlay is a pseudo-element. 
+                    // Let's rely on bounding box check for precision.
+                    const rect = navLinks.getBoundingClientRect();
+                    // If tap is to the left of the sidebar (rect.left), close it.
+                    if (e.clientX < rect.left) {
+                        navLinks.classList.remove('active');
+                    }
+                }
             });
         }
 
