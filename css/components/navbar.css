@@ -178,9 +178,30 @@
         z-index: 1001;
     }
 
-    /* Hide desktop buttons */
+    /* Hide desktop buttons FORCEFULLY */
     .nav-actions .btn {
+        display: none !important;
+    }
+
+    /* Hide less important table columns on mobile to prevent scrolling/cutting */
+    .modern-table th:nth-child(2),
+    .modern-table td:nth-child(2),
+    /* Type */
+    .modern-table th:nth-child(5),
+    .modern-table td:nth-child(5),
+    /* Min Invest */
+    .modern-table th:nth-child(6),
+    .modern-table td:nth-child(6),
+    /* Sub */
+    .modern-table th:nth-child(7),
+    .modern-table td:nth-child(7) {
+        /* Issue Size */
         display: none;
+    }
+
+    /* Keep user menu visible */
+    .nav-actions .user-menu {
+        display: block !important;
     }
 
     /* Keep user menu visible */
