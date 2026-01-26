@@ -324,17 +324,17 @@ async function handleIPOSubmit(e) {
         },
         lotSize: lotSize,
         minInvestment: minInv,
-        openDate: document.getElementById('openDate').value,
-        closeDate: document.getElementById('closeDate').value,
-        allotmentDate: document.getElementById('allotmentDate').value,
-        listingDate: document.getElementById('listingDate').value,
+        openDate: document.getElementById('openDate').value || null,
+        closeDate: document.getElementById('closeDate').value || null,
+        allotmentDate: document.getElementById('allotmentDate').value || null,
+        listingDate: document.getElementById('listingDate').value || null,
         registrar: document.getElementById('registrar').value,
         allotmentLink: document.getElementById('allotmentLink').value.trim(), // Add Registrar Link and trim whitespace
         faceValue: parseFloat(document.getElementById('faceValue').value) || 0
     };
 
     // Validation
-    const requiredFields = ['companyName', 'sector', 'openDate', 'closeDate', 'allotmentDate', 'listingDate', 'registrar'];
+    const requiredFields = ['companyName'];
     const missingField = requiredFields.find(field => !formData[field]);
 
     if (missingField) {
