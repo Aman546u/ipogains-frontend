@@ -1,0 +1,133 @@
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Login to IPOGains</h2>
+            <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <div class="text-center" style="margin-top: 1rem;">
+                <a href="#" onclick="switchModal('loginModal', 'forgotPasswordModal')"
+                    style="color: var(--primary-green); text-decoration: none;">Forgot Password?</a>
+            </div>
+        </div>
+        <div class="modal-footer">
+            Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register</a>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal" id="registerModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Create Account</h2>
+            <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="registerPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Login</a>
+        </div>
+    </div>
+</div>
+
+<!-- OTP Modal -->
+<div class="modal" id="otpModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Verify Email</h2>
+            <button class="modal-close" onclick="closeModal('otpModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="text-center text-muted mb-4">Enter the 6-digit OTP sent to your email</p>
+            <form id="otpForm">
+                <div class="form-group">
+                    <input type="text" class="form-control text-center" id="otpCode" maxlength="6" placeholder="000000"
+                        style="font-size: 1.5rem; letter-spacing: 0.5rem;" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Verify</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            Didn't receive OTP? <a href="#" id="resendOTP">Resend</a>
+        </div>
+    </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div class="modal" id="forgotPasswordModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Forgot Password</h2>
+            <button class="modal-close" onclick="closeModal('forgotPasswordModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="text-center text-muted mb-4">Enter your email to receive a password reset OTP</p>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="forgotEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Send OTP</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            Remember your password? <a href="#" onclick="switchModal('forgotPasswordModal', 'loginModal')">Login</a>
+        </div>
+    </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div class="modal" id="resetPasswordModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Reset Password</h2>
+            <button class="modal-close" onclick="closeModal('resetPasswordModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="text-center text-muted mb-4">Enter the OTP and your new password</p>
+            <form id="resetPasswordForm">
+                <input type="hidden" id="resetEmail">
+                <div class="form-group">
+                    <label>OTP</label>
+                    <input type="text" class="form-control" id="resetOTP" maxlength="6" placeholder="000000" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" class="form-control" id="newPassword" minlength="6" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" minlength="6" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
