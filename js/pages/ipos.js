@@ -108,16 +108,16 @@ function renderGrid(ipos) {
             const lotSize = ipo.lotSize ? `${ipo.lotSize} shares` : 'N/A';
 
             return `
-            <div class="ipo-card p-3" style="display: flex; flex-direction: column; gap: 15px; background: var(--card-bg, #1a1a1a); border-radius: 12px; border: 1px solid var(--border-color, #333);">
+            <div class="ipo-card">
                 <!-- Header -->
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div class="ipo-header" style="justify-content: space-between; margin-bottom: 0;">
                     <div style="display: flex; gap: 12px; align-items: center;">
-                        <div class="ipo-logo" style="width: 48px; height: 48px; border-radius: 8px; background: #fff; color: #333; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden;">
+                        <div class="ipo-logo">
                             ${ipo.companyLogo ? `<img src="${ipo.companyLogo}" alt="${companyName}" style="width: 100%; height: 100%; object-fit: contain;">` : initials}
                         </div>
                         <div>
-                            <h3 class="h5 mb-0" style="font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--text-primary, #fff); line-height: 1.3;">${companyName}</h3>
-                            <span style="font-size: 0.85rem; color: var(--text-secondary, #aaa);">${category}</span>
+                            <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--text-primary); line-height: 1.3;">${companyName}</h3>
+                            <span style="font-size: 0.85rem; color: var(--text-secondary);">${category}</span>
                         </div>
                     </div>
                     <span class="status-badge status-${status}" style="font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">${status}</span>
@@ -127,64 +127,64 @@ function renderGrid(ipos) {
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 10px; margin-top: 5px;">
                     <!-- Issue Price -->
                     <div style="display: flex; gap: 10px; align-items: flex-start;">
-                        <div style="color: var(--text-muted, #888); padding-top: 2px;"><i class="fas fa-rupee-sign"></i></div>
+                        <div style="color: var(--text-muted); padding-top: 2px;"><i class="fas fa-rupee-sign"></i></div>
                         <div>
-                            <small style="display: block; color: var(--text-muted, #888); font-size: 0.75rem;">Issue Price</small>
-                            <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary, #fff);">${priceText}</span>
+                            <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">Issue Price</small>
+                            <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">${priceText}</span>
                         </div>
                     </div>
 
                     <!-- Lot Size -->
                     <div style="display: flex; gap: 10px; align-items: flex-start;">
-                        <div style="color: var(--text-muted, #888); padding-top: 2px;"><i class="fas fa-users"></i></div>
+                        <div style="color: var(--text-muted); padding-top: 2px;"><i class="fas fa-users"></i></div>
                         <div>
-                            <small style="display: block; color: var(--text-muted, #888); font-size: 0.75rem;">Lot Size</small>
-                            <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary, #fff);">${lotSize}</span>
+                            <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">Lot Size</small>
+                            <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">${lotSize}</span>
                         </div>
                     </div>
 
                     <!-- Open Date -->
                     <div style="display: flex; gap: 10px; align-items: flex-start;">
-                        <div style="color: var(--text-muted, #888); padding-top: 2px;"><i class="far fa-calendar-alt"></i></div>
+                        <div style="color: var(--text-muted); padding-top: 2px;"><i class="far fa-calendar-alt"></i></div>
                         <div>
-                            <small style="display: block; color: var(--text-muted, #888); font-size: 0.75rem;">Open Date</small>
-                            <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary, #fff);">${openDate}</span>
+                            <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">Open Date</small>
+                            <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">${openDate}</span>
                         </div>
                     </div>
 
                     <!-- GMP -->
                     <div style="display: flex; gap: 10px; align-items: flex-start;">
-                        <div style="color: var(--text-muted, #888); padding-top: 2px;"><i class="fas fa-chart-line"></i></div>
+                        <div style="color: var(--text-muted); padding-top: 2px;"><i class="fas fa-chart-line"></i></div>
                         <div>
-                            <small style="display: block; color: var(--text-muted, #888); font-size: 0.75rem;">${gmpLabel}</small>
+                            <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">${gmpLabel}</small>
                             <span class="${gmpClass}" style="font-weight: 600; font-size: 0.95rem;">${gmpText}</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Stats Row with Divider -->
-                <div style="border-top: 1px solid var(--border-color, #333); border-bottom: 1px solid var(--border-color, #333); padding: 12px 0; display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                <div style="border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 12px 0; display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
                     <div>
-                        <small style="display: block; color: var(--text-muted, #888); font-size: 0.75rem;">Issue Size</small>
-                        <span style="font-weight: 700; font-size: 1rem; color: var(--text-primary, #fff);">${issueSize}</span>
+                        <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">Issue Size</small>
+                        <span style="font-weight: 700; font-size: 1rem; color: var(--text-primary);">${issueSize}</span>
                     </div>
                     <div style="text-align: right;">
-                        <small style="display: block; color: var(--text-muted, #888); font-size: 0.75rem;">Subscription</small>
-                        <span style="font-weight: 700; font-size: 1rem; color: var(--text-primary, #fff);">${subTotal}</span>
+                        <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">Subscription</small>
+                        <span style="font-weight: 700; font-size: 1rem; color: var(--text-primary);">${subTotal}</span>
                     </div>
                 </div>
 
                 <!-- Actions -->
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <div style="display: flex; gap: 10px;">
-                        <a href="gmp-detail.html?id=${id}" class="btn" style="flex: 1; display: flex; align-items: center; justify-content: center; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); padding: 10px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none;">
+                        <a href="gmp-detail.html?id=${id}" class="btn-action btn-gmp" style="flex: 1;">
                             <i class="fas fa-chart-line mr-2"></i> Check GMP
                         </a>
-                        <a href="subscription.html?id=${id}" class="btn" style="flex: 1; display: flex; align-items: center; justify-content: center; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; border: 1px solid rgba(139, 92, 246, 0.2); padding: 10px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none;">
+                        <a href="subscription.html?id=${id}" class="btn-action btn-sub" style="flex: 1;">
                             <i class="fas fa-chart-bar mr-2"></i> Subscription
                         </a>
                     </div>
-                    <a href="allotment-details.html?id=${id}" class="btn" style="width: 100%; display: flex; align-items: center; justify-content: center; background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); padding: 10px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none;">
+                    <a href="allotment-details.html?id=${id}" class="btn-action btn-allotment" style="width: 100%;">
                         <i class="fas fa-check-circle mr-2"></i> Allotment Status
                     </a>
                 </div>

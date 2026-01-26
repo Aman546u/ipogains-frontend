@@ -6,13 +6,73 @@
     border-radius: var(--radius-lg);
     padding: var(--spacing-md);
     transition: var(--transition-base);
-    cursor: pointer;
+    /* cursor: pointer; REMOVED: Card itself is not clickable */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.ipo-card:hover {
-    border-color: var(--primary-green);
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-xl);
+@media (hover: hover) {
+    .ipo-card:hover {
+        border-color: var(--primary-green);
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-xl);
+    }
+}
+
+.ipo-card:active {
+    /* No effect on card active to avoid "whole card click" feel */
+    transform: none;
+}
+
+/* Action Buttons */
+.btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.btn-action:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.btn-gmp {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.btn-gmp:hover {
+    background: rgba(59, 130, 246, 0.2);
+}
+
+.btn-sub {
+    background: rgba(139, 92, 246, 0.1);
+    color: #8b5cf6;
+    border-color: rgba(139, 92, 246, 0.2);
+}
+
+.btn-sub:hover {
+    background: rgba(139, 92, 246, 0.2);
+}
+
+.btn-allotment {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    border-color: rgba(34, 197, 94, 0.2);
+    width: 100%;
+}
+
+.btn-allotment:hover {
+    background: rgba(34, 197, 94, 0.2);
 }
 
 .ipo-header {
