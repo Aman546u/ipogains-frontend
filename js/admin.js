@@ -256,7 +256,7 @@ async function loadDashboardStats() {
 
 async function loadIPOs() {
     try {
-        const response = await fetch(`${API_URL}/ipos`);
+        const response = await fetch(`${API_URL}/ipos?limit=2000`);
         const data = await response.json();
 
         currentIPOs = data.ipos || [];
