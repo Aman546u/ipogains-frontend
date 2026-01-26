@@ -384,21 +384,21 @@ async function editIPO(ipoId) {
 
     document.getElementById('companyName').value = ipo.companyName;
     document.getElementById('companyLogo').value = ipo.companyLogo || '';
-    document.getElementById('category').value = ipo.category;
-    document.getElementById('sector').value = ipo.sector;
-    document.getElementById('issueSize').value = ipo.issueSize;
-    document.getElementById('priceMin').value = ipo.priceRange.min;
-    document.getElementById('priceMax').value = ipo.priceRange.max;
-    document.getElementById('lotSize').value = ipo.lotSize;
-    document.getElementById('minInvestment').value = ipo.minInvestment || (ipo.priceRange.max * ipo.lotSize);
+    document.getElementById('category').value = ipo.category || 'Mainboard';
+    document.getElementById('sector').value = ipo.sector || '';
+    document.getElementById('issueSize').value = ipo.issueSize || '';
+    document.getElementById('priceMin').value = ipo.priceRange?.min || '';
+    document.getElementById('priceMax').value = ipo.priceRange?.max || '';
+    document.getElementById('lotSize').value = ipo.lotSize || '';
+    document.getElementById('minInvestment').value = ipo.minInvestment || '';
 
-    document.getElementById('openDate').value = ipo.openDate.split('T')[0];
-    document.getElementById('closeDate').value = ipo.closeDate.split('T')[0];
-    document.getElementById('allotmentDate').value = ipo.allotmentDate.split('T')[0];
-    document.getElementById('listingDate').value = ipo.listingDate.split('T')[0];
-    document.getElementById('registrar').value = ipo.registrar;
+    document.getElementById('openDate').value = ipo.openDate ? ipo.openDate.split('T')[0] : '';
+    document.getElementById('closeDate').value = ipo.closeDate ? ipo.closeDate.split('T')[0] : '';
+    document.getElementById('allotmentDate').value = ipo.allotmentDate ? ipo.allotmentDate.split('T')[0] : '';
+    document.getElementById('listingDate').value = ipo.listingDate ? ipo.listingDate.split('T')[0] : '';
+    document.getElementById('registrar').value = ipo.registrar || '';
     document.getElementById('allotmentLink').value = ipo.allotmentLink || ''; // Populate Registrar Link
-    document.getElementById('faceValue').value = ipo.faceValue;
+    document.getElementById('faceValue').value = ipo.faceValue || '';
 
     openModal('ipoFormModal');
 }
