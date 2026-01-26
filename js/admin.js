@@ -493,12 +493,15 @@ function displayUsersTable(users) {
             <td>${user.isVerified ? '<i class="fas fa-check-circle" style="color: var(--success);"></i>' : '<i class="fas fa-times-circle" style="color: var(--danger);"></i>'}</td>
             <td>${formatDate(user.createdAt)}</td>
             <td>
-                <div class="action-buttons">
-                    ${user.role !== 'admin' ? `
-                    <button class="btn btn-sm btn-primary" onclick="toggleUserRole('${user._id}', '${user.role}')">
-                        <i class="fas fa-user-shield"></i> Make Admin
+                <div class="action-buttons" style="display: flex; gap: 8px;">
+                     <button class="btn btn-sm ${user.role === 'admin' ? 'btn-outline' : 'btn-primary'}" 
+                            onclick="toggleUserRole('${user._id}', '${user.role}')" 
+                            title="${user.role === 'admin' ? 'Remove Admin Access' : 'Make Admin'}">
+                        <i class="fas fa-user-shield"></i>
                     </button>
-                    ` : '<span class="text-muted">Admin</span>'}
+                    <button class="btn btn-sm btn-danger" onclick="deleteUser('${user._id}')" title="Delete User">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             </td>
         </tr>
@@ -507,8 +510,9 @@ function displayUsersTable(users) {
 
 async function toggleUserRole(userId, currentRole) {
     const newRole = currentRole === 'admin' ? 'user' : 'admin';
+    const action = newRole === 'admin' ? 'promote this user to Admin' : 'remove Admin access from this user';
 
-    if (!confirm(`Change user role to ${newRole}?`)) return;
+    if (!confirm(`Are you sure you want to ${action}?`)) return;
 
     try {
         const response = await fetch(`${API_URL}/admin/users/${userId}/role`, {
@@ -530,6 +534,32 @@ async function toggleUserRole(userId, currentRole) {
         }
     } catch (error) {
         console.error('Error updating role:', error);
+        showToast('An error occurred', 'error');
+    }
+}
+
+async function deleteUser(userId) {
+    if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
+
+    try {
+        const response = await fetch(`${API_URL}/admin/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showToast(data.message, 'success');
+            loadUsers();
+            loadDashboardStats();
+        } else {
+            showToast(data.error || 'Failed to delete user', 'error');
+        }
+    } catch (error) {
+        console.error('Error deleting user:', error);
         showToast('An error occurred', 'error');
     }
 }
