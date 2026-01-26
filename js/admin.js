@@ -307,47 +307,59 @@ function displayIPOsTable(ipos) {
 async function handleIPOSubmit(e) {
     e.preventDefault();
 
-    const priceMax = parseFloat(document.getElementById('priceMax').value) || 0;
-    const lotSize = parseInt(document.getElementById('lotSize').value) || 0;
-    const priceMin = parseFloat(document.getElementById('priceMin').value) || 0;
-    const minInv = parseFloat(document.getElementById('minInvestment').value) || (priceMax * lotSize);
-
-    const formData = {
-        companyName: document.getElementById('companyName').value,
-        companyLogo: document.getElementById('companyLogo').value.trim(),
-        category: document.getElementById('category').value,
-        sector: document.getElementById('sector').value,
-        issueSize: parseFloat(document.getElementById('issueSize').value) || 0,
-        priceRange: {
-            min: priceMin,
-            max: priceMax
-        },
-        lotSize: lotSize,
-        minInvestment: minInv,
-        openDate: document.getElementById('openDate').value || null,
-        closeDate: document.getElementById('closeDate').value || null,
-        allotmentDate: document.getElementById('allotmentDate').value || null,
-        listingDate: document.getElementById('listingDate').value || null,
-        registrar: document.getElementById('registrar').value,
-        allotmentLink: document.getElementById('allotmentLink').value.trim(), // Add Registrar Link and trim whitespace
-        faceValue: parseFloat(document.getElementById('faceValue').value) || 0
-    };
-
-    // Validation
-    const requiredFields = ['companyName'];
-    const missingField = requiredFields.find(field => !formData[field]);
-
-    if (missingField) {
-        showToast(`Please fill all required fields (${missingField})`, 'error');
-        return;
-    }
-
     try {
+        const getVal = (id) => {
+            const el = document.getElementById(id);
+            return el ? el.value : '';
+        };
+
+        const priceMax = parseFloat(getVal('priceMax')) || 0;
+        const lotSize = parseInt(getVal('lotSize')) || 0;
+        const priceMin = parseFloat(getVal('priceMin')) || 0;
+        const minInv = parseFloat(getVal('minInvestment')) || (priceMax * lotSize);
+
+        const formData = {
+            companyName: getVal('companyName'),
+            companyLogo: getVal('companyLogo').trim(),
+            category: getVal('category'),
+            sector: getVal('sector'),
+            issueSize: parseFloat(getVal('issueSize')) || 0,
+            priceRange: {
+                min: priceMin,
+                max: priceMax
+            },
+            lotSize: lotSize,
+            minInvestment: minInv,
+            openDate: getVal('openDate') || null,
+            closeDate: getVal('closeDate') || null,
+            allotmentDate: getVal('allotmentDate') || null,
+            listingDate: getVal('listingDate') || null,
+            registrar: getVal('registrar'),
+            allotmentLink: getVal('allotmentLink').trim(),
+            faceValue: parseFloat(getVal('faceValue')) || 0
+        };
+
+        // Validation
+        const requiredFields = ['companyName'];
+        const missingField = requiredFields.find(field => !formData[field]);
+
+        if (missingField) {
+            showToast(`Please fill all required fields (${missingField})`, 'error');
+            return;
+        }
+
         const url = editingIPOId
             ? `${API_URL}/admin/ipos/${editingIPOId}`
             : `${API_URL}/admin/ipos`;
 
         const method = editingIPOId ? 'PUT' : 'POST';
+
+        const btn = document.querySelector('button[form="ipoForm"]');
+        const originalText = btn ? btn.innerText : 'Save IPO';
+        if (btn) {
+            btn.innerText = 'Saving...';
+            btn.disabled = true;
+        }
 
         const response = await fetch(url, {
             method,
@@ -365,13 +377,24 @@ async function handleIPOSubmit(e) {
             closeModal('ipoFormModal');
             loadIPOs();
             loadDashboardStats();
-            loadSubDetailIPOs(); // Refresh subscription list too
+            loadSubDetailIPOs();
         } else {
             showToast(data.error || 'Failed to save IPO', 'error');
         }
+
+        if (btn) {
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
     } catch (error) {
         console.error('Error saving IPO:', error);
-        showToast('An error occurred', 'error');
+        showToast('An error occurred: ' + error.message, 'error');
+
+        const btn = document.querySelector('button[form="ipoForm"]');
+        if (btn) {
+            btn.innerText = 'Save IPO'; // Reset text
+            btn.disabled = false;
+        }
     }
 }
 
