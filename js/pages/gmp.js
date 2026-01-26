@@ -44,7 +44,7 @@ async function loadGMP() {
                         <div class="ipo-logo">${Helpers.getInitials(ipo.companyName)}</div>
                         <div class="ipo-info">
                             <h3>${ipo.companyName}</h3>
-                            <span class="ipo-category">${ipo.category}</span>
+                            <span class="ipo-category">${ipo.category || 'IPO'}</span>
                         </div>
                     </div>
                     <div class="ipo-details">
@@ -58,11 +58,11 @@ async function loadGMP() {
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Price Range</span>
-                            <span class="detail-value">₹${ipo.priceRange.min} - ₹${ipo.priceRange.max}</span>
+                            <span class="detail-value">${ipo.priceRange?.min ? '₹' + ipo.priceRange.min : 'N/A'} - ${ipo.priceRange?.max ? '₹' + ipo.priceRange.max : 'N/A'}</span>
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Status</span>
-                            <span class="status-badge status-${ipo.status}">${ipo.status.toUpperCase()}</span>
+                            <span class="status-badge status-${(ipo.status || 'upcoming').toLowerCase()}">${(ipo.status || 'UPCOMING').toUpperCase()}</span>
                         </div>
                     </div>
                     
