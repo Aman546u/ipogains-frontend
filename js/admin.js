@@ -279,9 +279,9 @@ function displayIPOsTable(ipos) {
     tbody.innerHTML = ipos.map(ipo => `
         <tr>
             <td><strong>${ipo.companyName}</strong></td>
-            <td><span class="ipo-category">${ipo.category}</span></td>
-            <td>₹${ipo.priceRange.min} - ₹${ipo.priceRange.max}</td>
-            <td><span class="status-badge status-${ipo.status}">${ipo.status}</span></td>
+            <td><span class="ipo-category">${ipo.category || '—'}</span></td>
+            <td>${ipo.priceRange?.min ? '₹' + ipo.priceRange.min : '—'} - ${ipo.priceRange?.max ? '₹' + ipo.priceRange.max : '—'}</td>
+            <td><span class="status-badge status-${(ipo.status || 'upcoming').toLowerCase()}">${ipo.status || 'Upcoming'}</span></td>
             <td>${formatDate(ipo.openDate)}</td>
             <td>${formatDate(ipo.closeDate)}</td>
             <td>
