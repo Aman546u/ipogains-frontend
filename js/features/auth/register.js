@@ -39,15 +39,15 @@ const Register = {
     },
 
     init() {
-        const registerForm = document.getElementById('registerForm');
-        if (registerForm) {
-            registerForm.addEventListener('submit', async (e) => {
+        // Use event delegation for dynamically loaded forms
+        document.addEventListener('submit', async (e) => {
+            if (e.target && e.target.id === 'registerForm') {
                 e.preventDefault();
                 const email = document.getElementById('registerEmail').value;
                 const password = document.getElementById('registerPassword').value;
                 await this.handleRegister(email, password);
-            });
-        }
+            }
+        });
     }
 };
 

@@ -48,19 +48,20 @@ const OTP = {
     },
 
     init() {
-        const otpForm = document.getElementById('otpForm');
-        if (otpForm) {
-            otpForm.addEventListener('submit', async (e) => {
+        document.addEventListener('submit', async (e) => {
+            if (e.target && e.target.id === 'otpForm') {
                 e.preventDefault();
                 const otp = document.getElementById('otpCode').value;
                 await this.verify(otp);
-            });
-        }
+            }
+        });
 
-        const resendBtn = document.getElementById('resendOTP');
-        if (resendBtn) {
-            resendBtn.addEventListener('click', () => this.resend());
-        }
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'resendOTP') {
+                e.preventDefault();
+                this.resend();
+            }
+        });
     }
 };
 

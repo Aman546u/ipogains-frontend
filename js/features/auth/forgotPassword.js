@@ -39,20 +39,16 @@ const ForgotPassword = {
     },
 
     init() {
-        // Forgot password form
-        const forgotForm = document.getElementById('forgotPasswordForm');
-        if (forgotForm) {
-            forgotForm.addEventListener('submit', async (e) => {
+        document.addEventListener('submit', async (e) => {
+            // Forgot password form
+            if (e.target && e.target.id === 'forgotPasswordForm') {
                 e.preventDefault();
                 const email = document.getElementById('forgotEmail').value;
                 await this.sendOTP(email);
-            });
-        }
+            }
 
-        // Reset password form
-        const resetForm = document.getElementById('resetPasswordForm');
-        if (resetForm) {
-            resetForm.addEventListener('submit', async (e) => {
+            // Reset password form
+            if (e.target && e.target.id === 'resetPasswordForm') {
                 e.preventDefault();
 
                 const email = document.getElementById('resetEmail').value;
@@ -73,8 +69,8 @@ const ForgotPassword = {
                 }
 
                 await this.resetPassword(email, otp, newPassword);
-            });
-        }
+            }
+        });
     }
 };
 

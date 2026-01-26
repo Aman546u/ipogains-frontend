@@ -30,15 +30,15 @@ const Login = {
     },
 
     init() {
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', async (e) => {
+        // Use event delegation for dynamically loaded forms
+        document.addEventListener('submit', async (e) => {
+            if (e.target && e.target.id === 'loginForm') {
                 e.preventDefault();
                 const email = document.getElementById('loginEmail').value;
                 const password = document.getElementById('loginPassword').value;
                 await this.handleLogin(email, password);
-            });
-        }
+            }
+        });
     }
 };
 
