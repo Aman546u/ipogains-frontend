@@ -124,31 +124,8 @@ const App = {
         navLinks.appendChild(logoutLink);
     },
 
-    async loadComponents() {
-        try {
-            // Check if modals already exist (e.g. index.html inline)
-            if (document.getElementById('loginModal')) return;
-
-            const response = await fetch('components/modals.html');
-            if (!response.ok) {
-                // Try fallback path if running from subdir (though currently all are in root)
-                const response2 = await fetch('../components/modals.html');
-                if (!response2.ok) throw new Error('Failed to load modals');
-                const html = await response2.text();
-                document.body.insertAdjacentHTML('beforeend', html);
-                return;
-            }
-            const html = await response.text();
-            document.body.insertAdjacentHTML('beforeend', html);
-
-            // Re-initialize Modals listeners for the newly added HTML
-            if (window.Modals && window.Modals.init) {
-                // Wait a tick for DOM update
-                setTimeout(() => window.Modals.init(), 0);
-            }
-        } catch (error) {
-            console.error('Error loading components:', error);
-        }
+    loadComponents() {
+        // Components are statically loaded in HTML to ensure consistency
     },
 
     setupEventListeners() {
