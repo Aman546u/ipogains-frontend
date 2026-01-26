@@ -373,11 +373,21 @@ async function handleIPOSubmit(e) {
         const data = await response.json();
 
         if (response.ok) {
-            showToast(data.message, 'success');
-            closeModal('ipoFormModal');
-            loadIPOs();
-            loadDashboardStats();
-            loadSubDetailIPOs();
+            closeModal('ipoFormModal'); // Close FIRST
+
+            showToast(data.message || 'Saved successfully', 'success');
+
+            if (btn) {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+
+            // Non-blocking UI updates
+            loadIPOs().catch(e => console.error('Load IPOs error:', e));
+            loadDashboardStats().catch(e => console.error('Load Stats error:', e));
+            loadSubDetailIPOs().catch(e => console.error('Load SubDetails error:', e));
+
+            return;
         } else {
             showToast(data.error || 'Failed to save IPO', 'error');
         }
@@ -594,6 +604,8 @@ async function loadSubDetailIPOs() {
         const ipos = data.ipos || [];
 
         const listContainer = document.getElementById('subDetailIPOsList');
+        if (!listContainer) return; // Guard clause
+
         if (!ipos || ipos.length === 0) {
             listContainer.innerHTML = '<div class="text-center text-muted p-4">No IPOs found</div>';
             return;
