@@ -50,6 +50,47 @@ const Helpers = {
     validateEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+    },
+
+    // Calculate generic status based on time
+    calculateDisplayStatus(ipo) {
+        if (!ipo) return 'upcoming';
+
+        const now = new Date();
+
+        // Helper to parse date string and set specific time
+        // Handling potentially ISO strings or YYYY-MM-DD
+        const getDateWithTime = (dateStr, hours, minutes) => {
+            if (!dateStr) return null;
+            const d = new Date(dateStr);
+            d.setHours(hours, minutes, 0, 0);
+            return d;
+        };
+
+        const listingDate = getDateWithTime(ipo.listingDate, 10, 0); // 10:00 AM
+        const closeDate = getDateWithTime(ipo.closeDate, 16, 30);    // 4:30 PM
+        const openDate = getDateWithTime(ipo.openDate, 10, 0);       // 10:00 AM
+
+        // If explicitly marked as something else by admin/backend? 
+        // We defer to the time-based logic requested by user.
+
+        // 1. Listed Check
+        if (listingDate && now >= listingDate) {
+            return 'listed';
+        }
+
+        // 2. Closed Check (After 4:30 PM on closing date)
+        // If it's NOT listed yet, but past close time
+        if (closeDate && now >= closeDate) {
+            return 'closed';
+        }
+
+        // 3. Open Check
+        if (openDate && now >= openDate) {
+            return 'open';
+        }
+
+        return 'upcoming';
     }
 };
 

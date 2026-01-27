@@ -12,7 +12,7 @@ async function loadIPOs() {
 
         grid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading IPO Data...</p></div>';
 
-        const data = await API.get('/ipos');
+        const data = await API.get('/ipos?limit=50&sort=-openDate');
 
         if (data && data.ipos && Array.isArray(data.ipos) && data.ipos.length > 0) {
             allIPOs = data.ipos;
@@ -49,7 +49,10 @@ function renderGrid(ipos) {
             // Safety checks
             const companyName = ipo.companyName || 'Unknown Company';
             const category = ipo.category || 'IPO';
-            const status = ipo.status || 'upcoming';
+
+            // Use calculated status
+            const status = Helpers.calculateDisplayStatus(ipo);
+
             const id = ipo._id;
 
             // Formatting Helpers

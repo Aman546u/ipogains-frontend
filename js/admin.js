@@ -256,7 +256,7 @@ async function loadDashboardStats() {
 
 async function loadIPOs() {
     try {
-        const response = await fetch(`${API_URL}/ipos?limit=2000`);
+        const response = await fetch(`${API_URL}/ipos?limit=100`);
         const data = await response.json();
 
         currentIPOs = data.ipos || [];
@@ -276,12 +276,14 @@ function displayIPOsTable(ipos) {
         return;
     }
 
-    tbody.innerHTML = ipos.map(ipo => `
+    tbody.innerHTML = ipos.map(ipo => {
+        const status = Helpers.calculateDisplayStatus(ipo);
+        return `
         <tr>
             <td><strong>${ipo.companyName}</strong></td>
             <td><span class="ipo-category">${ipo.category || '—'}</span></td>
             <td>${ipo.priceRange?.min ? '₹' + ipo.priceRange.min : '—'} - ${ipo.priceRange?.max ? '₹' + ipo.priceRange.max : '—'}</td>
-            <td><span class="status-badge status-${(ipo.status || 'upcoming').toLowerCase()}">${ipo.status || 'Upcoming'}</span></td>
+            <td><span class="status-badge status-${status.toLowerCase()}">${status.charAt(0).toUpperCase() + status.slice(1)}</span></td>
             <td>${formatDate(ipo.openDate)}</td>
             <td>${formatDate(ipo.closeDate)}</td>
             <td>
@@ -301,7 +303,7 @@ function displayIPOsTable(ipos) {
                 </div>
             </td>
         </tr>
-    `).join('');
+    `}).join('');
 }
 
 async function handleIPOSubmit(e) {

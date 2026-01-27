@@ -5,7 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
 async function loadHomeData() {
     try {
         const data = await API.get('/ipos');
-        const ipos = data.ipos || [];
+
+        // Pre-process IPOs with accurate time-based status
+        const ipos = (data.ipos || []).map(ipo => ({
+            ...ipo,
+            status: Helpers.calculateDisplayStatus(ipo)
+        }));
 
         renderLiveIPOs(ipos);
         renderCalendar(ipos);
@@ -94,7 +99,7 @@ function createIPORow(ipo) {
             </div>
         </td>
         <td>
-            <span class="badge-gray">${ipo.category === 'SME' ? 'NSE SME' : 'Mainboard'}</span>
+            <span class="badge-gray">${ipo.category === 'SME' ? 'SME' : 'Mainboard'}</span>
         </td>
         <td>
             <span class="price-text" style="color: var(--text-primary);">₹${ipo.priceRange.max}</span>
@@ -130,7 +135,7 @@ function renderCalendar(ipos) {
         const initials = Helpers.getInitials(ipo.companyName);
         const statusClass = `status-${ipo.status}`; // status-open, status-upcoming
         const eventType = ipo.status === 'open' ? 'Closing Soon' : 'Opening Soon'; // Simple logic
-        const typeBadge = ipo.category === 'SME' ? 'NSE SME' : 'Mainboard';
+        const typeBadge = ipo.category === 'SME' ? 'SME' : 'Mainboard';
 
         return `
             <tr>
@@ -230,7 +235,7 @@ function renderHomeSubscription(ipos) {
 
     tbody.innerHTML = subIPOs.map(ipo => {
         const initials = Helpers.getInitials(ipo.companyName);
-        const typeBadge = ipo.category === 'SME' ? 'NSE SME' : 'Mainboard';
+        const typeBadge = ipo.category === 'SME' ? 'SME' : 'Mainboard';
 
         return `
             <tr>

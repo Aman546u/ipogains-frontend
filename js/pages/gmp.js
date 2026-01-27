@@ -10,7 +10,12 @@ async function loadGMP() {
 
         if (data.ipos && data.ipos.length > 0) {
             // Filter IPOs that have GMP data or are active
-            const validIPOs = data.ipos.filter(ipo => ipo.gmp && ipo.gmp.length > 0);
+            let validIPOs = data.ipos.filter(ipo => ipo.gmp && ipo.gmp.length > 0);
+
+            // Limit to 50
+            if (validIPOs.length > 50) {
+                validIPOs = validIPOs.slice(0, 50);
+            }
 
             if (validIPOs.length === 0) {
                 grid.innerHTML = '<div class="text-center text-muted">No GMP data available currently.</div>';
@@ -24,6 +29,8 @@ async function loadGMP() {
 
                 const gmpValue = latestGmp ? latestGmp.value : 0;
                 const gmpDate = latestGmp ? Helpers.formatDate(latestGmp.date) : 'N/A';
+
+                const status = Helpers.calculateDisplayStatus(ipo);
 
                 let trendHtml = '';
                 if (latestGmp && previousGmp) {
@@ -62,7 +69,7 @@ async function loadGMP() {
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Status</span>
-                            <span class="status-badge status-${(ipo.status || 'upcoming').toLowerCase()}">${(ipo.status || 'UPCOMING').toUpperCase()}</span>
+                            <span class="status-badge status-${status.toLowerCase()}">${status.toUpperCase()}</span>
                         </div>
                     </div>
                     

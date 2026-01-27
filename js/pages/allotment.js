@@ -33,9 +33,21 @@ async function loadAllotmentIPOs() {
             const select = document.getElementById('allotmentIPO');
 
             // Filter IPOs that are closed or listed (where allotment is relevant)
-            const relevantIPOs = data.ipos.filter(ipo =>
-                ipo.status === 'closed' || ipo.status === 'listed'
-            );
+            // USER REQUEST: Only show closed IPOs (recently closed), not old ones or listed ones if link not provided?
+            // "only those ipo which is closed not listed" -> Status = closed
+            // "recently closed 15-20" -> limit 20
+
+            let relevantIPOs = data.ipos.filter(ipo => {
+                const status = Helpers.calculateDisplayStatus(ipo);
+                return status === 'closed';
+            });
+
+            // Sort by closeDate descending (most recent first)
+            relevantIPOs.sort((a, b) => new Date(b.closeDate) - new Date(a.closeDate));
+
+            // Limit to 20
+            relevantIPOs = relevantIPOs.slice(0, 20);
+
             console.log('Relevant IPOs for allotment:', relevantIPOs);
 
             if (relevantIPOs.length === 0) {
@@ -50,7 +62,7 @@ async function loadAllotmentIPOs() {
                 console.log(`IPO: ${ipo.companyName}, Link: "${ipo.allotmentLink}", Registrar: "${ipo.registrar}"`);
                 const option = document.createElement('option');
                 option.value = ipo._id;
-                option.text = `${ipo.companyName} (${ipo.status.toUpperCase()})`;
+                option.text = `${ipo.companyName} (${Helpers.calculateDisplayStatus(ipo).toUpperCase()})`;
                 option.dataset.link = ipo.allotmentLink || ''; // Store link
                 option.dataset.registrar = ipo.registrar || ''; // Store registrar name
                 select.appendChild(option);
@@ -104,7 +116,8 @@ function setupAllotmentForm() {
             return;
         }
 
-        // Case 2: External IPO (Listed) WITH Link
+        // Case 2: External IPO (Listed or Closed) WITH Link
+        // Prioritize: If there is a link, ALWAYS show external check button, regardless of status being 'listed' or 'closed'.
         if (link && link.trim() !== '') {
             submitBtn.innerHTML = `<i class="fas fa-shield-alt"></i> Check on ${registrar}`;
             submitBtn.classList.add('btn-success');
@@ -124,9 +137,8 @@ function setupAllotmentForm() {
                 panInput.required = false;
             }
         }
-        // Case 3: External IPO (Listed) WITHOUT Link
-        // Current requirement: "remove that one also i have not given the link of ragistrar then nothing should be happen"
-        // Interpreted as: Hide inputs, show 'Not Available' state.
+        // Case 3: External IPO (Listed/Closed) WITHOUT Link
+        // If status is 'listed' or 'closed' and NO link is provided, show "Link Not Available"
         else if (selectedOption.textContent.includes('(LISTED)') || selectedOption.textContent.includes('(CLOSED)')) {
             submitBtn.innerHTML = '<i class="fas fa-ban"></i> Link Not Available';
             submitBtn.classList.add('btn-secondary'); // Grey/Disabled look
