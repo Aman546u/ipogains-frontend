@@ -399,7 +399,7 @@ const App = {
                     }
                     form.reset();
                 } else {
-                    Helpers.showToast(data.message || 'Subscription failed', 'error');
+                    Helpers.showToast(data.error || data.message || 'Subscription failed', 'error');
                 }
             } catch (error) {
                 console.error('Subscription error:', error);

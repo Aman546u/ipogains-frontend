@@ -5,7 +5,8 @@ const CONFIG = {
     // If running locally, point to localhost:3000
     // If deployed, point to your production backend URL
     // You can hardcode your production URL here
-    API_URL: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    // Check for localhost, 127.0.0.1, or file protocol (opening html directly)
+    API_URL: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:')
         ? 'http://localhost:3000/api'
         : 'https://ipogains-backend.onrender.com/api', // REPLACE THIS with your actual production backend URL
 
