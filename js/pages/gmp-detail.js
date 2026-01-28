@@ -1,12 +1,23 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Get ID from URL
+    console.log('🔍 GMP Detail Page Loaded');
+    console.log('📍 Current URL:', window.location.href);
+    console.log('📍 Search params:', window.location.search);
+
     const urlParams = new URLSearchParams(window.location.search);
     const ipoId = urlParams.get('id');
 
+    console.log('🆔 Extracted IPO ID:', ipoId);
+    console.log('🆔 ID Type:', typeof ipoId);
+    console.log('🆔 ID Truthy?', !!ipoId);
+
     if (!ipoId) {
+        console.error('❌ NO ID - Redirecting to gmp.html');
         window.location.href = 'gmp.html';
         return;
     }
+
+    console.log('✅ ID valid, fetching data...');
 
     try {
         const loading = document.getElementById('loading');

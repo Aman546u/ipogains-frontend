@@ -391,7 +391,7 @@ const App = {
                 const data = await response.json();
 
                 if (data.success) {
-                    Helpers.showToast(data.message, 'success');
+                    Helpers.showToast('Successfully subscribed! If you don\'t receive an email, please check your spam folder.', 'success');
                     localStorage.setItem('newsletterInteracted', 'true');
                     if (popup) {
                         popup.classList.remove('visible');

@@ -53,7 +53,14 @@ function renderGrid(ipos) {
             // Use calculated status
             const status = Helpers.calculateDisplayStatus(ipo);
 
-            const id = ipo._id;
+            // ID Logic: Prefer _id (MongoDB) over id
+            const id = ipo._id || ipo.id;
+
+            // DEBUG: Log to verify ID is captured
+            if (!id) {
+                console.error('❌ NO ID FOUND FOR:', ipo.companyName, ipo);
+                return ''; // Skip invalid IPOs to avoid broken links
+            }
 
             // Formatting Helpers
             const gmpData = Array.isArray(ipo.gmp) ? ipo.gmp : [];
@@ -180,14 +187,14 @@ function renderGrid(ipos) {
                 <!-- Actions -->
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <div style="display: flex; gap: 10px;">
-                        <a href="gmp-detail.html?id=${id}" class="btn-action btn-gmp" style="flex: 1;">
+                        <a href="javascript:void(0)" onclick="window.location.href='gmp-detail?id=${id}'" class="btn-action btn-gmp" style="flex: 1;">
                             <i class="fas fa-chart-line mr-2"></i> Check GMP
                         </a>
-                        <a href="subscription.html?id=${id}" class="btn-action btn-sub" style="flex: 1;">
+                        <a href="javascript:void(0)" onclick="window.location.href='subscription?id=${id}'" class="btn-action btn-sub" style="flex: 1;">
                             <i class="fas fa-chart-bar mr-2"></i> Subscription
                         </a>
                     </div>
-                    <a href="allotment-details.html?id=${id}" class="btn-action btn-allotment" style="width: 100%;">
+                    <a href="javascript:void(0)" onclick="window.location.href='allotment-details?id=${id}'" class="btn-action btn-allotment" style="width: 100%;">
                         <i class="fas fa-check-circle mr-2"></i> Allotment Status
                     </a>
                 </div>

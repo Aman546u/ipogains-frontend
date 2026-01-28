@@ -8,7 +8,7 @@ const ForgotPassword = {
             const data = await API.post('/auth/forgot-password', { email });
 
             this.currentEmail = email;
-            Helpers.showToast(data.message, 'success');
+            Helpers.showToast('OTP sent! Please check your Inbox and SPAM folder.', 'success');
 
             // Store email for reset form
             document.getElementById('resetEmail').value = email;

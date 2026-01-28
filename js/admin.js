@@ -284,8 +284,8 @@ function displayIPOsTable(ipos) {
             <td><span class="ipo-category">${ipo.category || '—'}</span></td>
             <td>${ipo.priceRange?.min ? '₹' + ipo.priceRange.min : '—'} - ${ipo.priceRange?.max ? '₹' + ipo.priceRange.max : '—'}</td>
             <td><span class="status-badge status-${status.toLowerCase()}">${status.charAt(0).toUpperCase() + status.slice(1)}</span></td>
-            <td>${formatDate(ipo.openDate)}</td>
-            <td>${formatDate(ipo.closeDate)}</td>
+            <td>${Helpers.formatDate(ipo.openDate)}</td>
+            <td>${Helpers.formatDate(ipo.closeDate)}</td>
             <td>
                 <div class="action-buttons">
                     <button class="btn btn-sm btn-primary action-btn" data-action="edit" data-id="${ipo._id}" title="Edit">
@@ -377,7 +377,7 @@ async function handleIPOSubmit(e) {
         if (response.ok) {
             closeModal('ipoFormModal'); // Close FIRST
 
-            showToast(data.message || 'Saved successfully', 'success');
+            showToast(data.message || 'IPO created/updated successfully', 'success');
 
             if (btn) {
                 btn.innerText = originalText;
@@ -483,7 +483,7 @@ async function addGMP(ipoId) {
         const data = await response.json();
 
         if (response.ok) {
-            showToast(data.message, 'success');
+            showToast(data.message || 'GMP successfully updated! Notification sent.', 'success');
             loadIPOs();
         } else {
             showToast(data.error || 'Failed to add GMP', 'error');
@@ -526,7 +526,7 @@ function displayUsersTable(users) {
             <td>${user.email}</td>
             <td><span class="ipo-category">${user.role}</span></td>
             <td>${user.isVerified ? '<i class="fas fa-check-circle" style="color: var(--success);"></i>' : '<i class="fas fa-times-circle" style="color: var(--danger);"></i>'}</td>
-            <td>${formatDate(user.createdAt)}</td>
+            <td>${Helpers.formatDate(user.createdAt)}</td>
             <td>
                 <div class="action-buttons" style="display: flex; gap: 8px;">
                      <button class="btn btn-sm ${user.role === 'admin' ? 'btn-outline' : 'btn-primary'}" 
@@ -909,7 +909,7 @@ async function loadListingIPOs() {
                     <div class="small text-muted">${ipo.category}</div>
                 </td>
                 <td>₹${ipo.priceRange.max}</td>
-                <td>${formatDate(ipo.closeDate)}</td>
+                <td>${Helpers.formatDate(ipo.closeDate)}</td>
                 <td>
                     <button class="btn btn-sm btn-success" onclick="updateListingPrice('${ipo._id}')">
                         <i class="fas fa-check-circle"></i> Mark Listed

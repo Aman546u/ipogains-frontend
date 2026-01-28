@@ -23,6 +23,9 @@ async function loadGMP() {
             }
 
             grid.innerHTML = validIPOs.map(ipo => {
+                const id = ipo._id || ipo.id;
+                if (!id) return ''; // Skip invalid
+
                 const gmpData = ipo.gmp || [];
                 const latestGmp = gmpData.length > 0 ? gmpData[gmpData.length - 1] : null;
                 const previousGmp = gmpData.length > 1 ? gmpData[gmpData.length - 2] : null;
@@ -46,7 +49,7 @@ async function loadGMP() {
                 }
 
                 return `
-                <a href="gmp-detail.html?id=${ipo._id}" class="ipo-card" style="text-decoration: none; color: inherit; display: block;">
+                <div class="ipo-card">
                     <div class="ipo-header">
                         <div class="ipo-logo">${Helpers.getInitials(ipo.companyName)}</div>
                         <div class="ipo-info">
@@ -73,10 +76,12 @@ async function loadGMP() {
                         </div>
                     </div>
                     
-                    <div class="card-footer" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); text-align: center; color: var(--primary-green); font-weight: 600;">
-                        View GMP Details <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                    <div style="margin-top: auto;">
+                        <a href="javascript:void(0)" onclick="window.location.href='gmp-detail?id=${id}'" class="btn-action btn-gmp" style="width: 100%; justify-content: center;">
+                            View GMP Details <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                        </a>
                     </div>
-                </a>
+                </div>
             `}).join('');
         } else {
             grid.innerHTML = '<div class="text-center text-muted">No active IPOs found for GMP tracking.</div>';
