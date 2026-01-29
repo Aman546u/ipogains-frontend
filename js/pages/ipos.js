@@ -187,14 +187,14 @@ function renderGrid(ipos) {
                 <!-- Actions -->
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <div style="display: flex; gap: 10px;">
-                        <a href="javascript:void(0)" onclick="window.location.href='gmp-detail?id=${id}'" class="btn-action btn-gmp" style="flex: 1;">
+                        <a href="javascript:void(0)" onclick="window.location.href='gmp-detail.html?id=${id}'" class="btn-action btn-gmp" style="flex: 1;">
                             <i class="fas fa-chart-line mr-2"></i> Check GMP
                         </a>
-                        <a href="javascript:void(0)" onclick="window.location.href='subscription?id=${id}'" class="btn-action btn-sub" style="flex: 1;">
+                        <a href="javascript:void(0)" onclick="window.location.href='subscription.html?id=${id}'" class="btn-action btn-sub" style="flex: 1;">
                             <i class="fas fa-chart-bar mr-2"></i> Subscription
                         </a>
                     </div>
-                    <a href="javascript:void(0)" onclick="window.location.href='allotment-details?id=${id}'" class="btn-action btn-allotment" style="width: 100%;">
+                    <a href="javascript:void(0)" onclick="window.location.href='allotment-details.html?id=${id}'" class="btn-action btn-allotment" style="width: 100%;">
                         <i class="fas fa-check-circle mr-2"></i> Allotment Status
                     </a>
                 </div>

@@ -77,7 +77,7 @@ async function loadGMP() {
                     </div>
                     
                     <div style="margin-top: auto;">
-                        <a href="javascript:void(0)" onclick="window.location.href='gmp-detail?id=${id}'" class="btn-action btn-gmp" style="width: 100%; justify-content: center;">
+                        <a href="javascript:void(0)" onclick="window.location.href='gmp-detail.html?id=${id}'" class="btn-action btn-gmp" style="width: 100%; justify-content: center;">
                             View GMP Details <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
                         </a>
                     </div>
