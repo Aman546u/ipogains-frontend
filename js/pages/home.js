@@ -4,23 +4,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadHomeData() {
     try {
-        const data = await API.get('/ipos');
+        // CACHE LOGIC
+        const cachedIPOs = Storage.get('home_ipos_cache');
+        const cacheTime = Storage.get('home_ipos_time');
+        const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-        // Pre-process IPOs with accurate time-based status
-        const ipos = (data.ipos || []).map(ipo => ({
-            ...ipo,
-            status: Helpers.calculateDisplayStatus(ipo)
-        }));
-
-        renderLiveIPOs(ipos);
-        renderCalendar(ipos);
-        renderHomeGMP(ipos);
-        renderHomeSubscription(ipos);
-        renderClosedIPOs(ipos);
+        if (cachedIPOs && cacheTime && (Date.now() - cacheTime < CACHE_DURATION)) {
+            console.log('⚡ Using cached home data');
+            processAndRender(cachedIPOs);
+            fetchHomeData(true); // Background update
+        } else {
+            await fetchHomeData(false);
+        }
 
     } catch (error) {
         console.error('Error loading home data:', error);
     }
+}
+
+async function fetchHomeData(isBackground = false) {
+    try {
+        const data = await API.get('/ipos');
+        if (data.ipos) {
+            Storage.set('home_ipos_cache', data.ipos);
+            Storage.set('home_ipos_time', Date.now());
+            processAndRender(data.ipos);
+            if (!isBackground) console.log('✅ Home data loaded from server');
+        }
+    } catch (e) {
+        if (!isBackground) throw e;
+    }
+}
+
+function processAndRender(rawIPOs) {
+    // Pre-process IPOs with accurate time-based status
+    const ipos = (rawIPOs || []).map(ipo => ({
+        ...ipo,
+        status: Helpers.calculateDisplayStatus(ipo)
+    }));
+
+    renderLiveIPOs(ipos);
+    renderCalendar(ipos);
+    renderHomeGMP(ipos);
+    renderHomeSubscription(ipos);
+    renderClosedIPOs(ipos);
 }
 
 function renderLiveIPOs(ipos) {

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aman546u.github.io/sitemap.xml

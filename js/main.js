@@ -4,6 +4,9 @@ const App = {
     async init() {
         console.log('🚀 IPOGains Application Starting...');
 
+        // ⚡ Fast Wake-up: Ping backend immediately (non-blocking)
+        fetch(`${APP_CONFIG.API_URL}/health`).catch(() => { });
+
         // Load components
         this.loadComponents();
 
@@ -416,13 +419,35 @@ const App = {
 
     async loadInitialData() {
         try {
-            // Load stats
-            const stats = await API.get('/ipos/stats/overview');
-            if (stats.stats) {
-                this.updateStats(stats.stats);
+            // CACHE LOGIC: Check if we have valid cached stats
+            const cachedStats = Storage.get('home_stats_cache');
+            const cacheTime = Storage.get('home_stats_time');
+            const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+            if (cachedStats && cacheTime && (Date.now() - cacheTime < CACHE_DURATION)) {
+                console.log('⚡ Using cached stats');
+                this.updateStats(cachedStats);
+                // Optional: Update in background silently
+                this.fetchStats(true);
+            } else {
+                await this.fetchStats(false);
             }
         } catch (error) {
             console.error('Failed to load initial data:', error);
+        }
+    },
+
+    async fetchStats(isBackground = false) {
+        try {
+            const stats = await API.get('/ipos/stats/overview');
+            if (stats.stats) {
+                this.updateStats(stats.stats);
+                Storage.set('home_stats_cache', stats.stats);
+                Storage.set('home_stats_time', Date.now());
+                if (!isBackground) console.log('✅ Stats loaded from server');
+            }
+        } catch (e) {
+            if (!isBackground) throw e;
         }
     },
 
