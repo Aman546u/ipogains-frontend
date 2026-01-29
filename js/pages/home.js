@@ -78,6 +78,8 @@ function renderClosedIPOs(ipos) {
 }
 
 function createIPORow(ipo) {
+    // Ensure we have a valid ID for links (prefer _id if available)
+    const id = ipo._id || ipo.id;
     const initials = Helpers.getInitials(ipo.companyName);
     const issueSize = ipo.issueSize ? `₹${ipo.issueSize} Cr` : '-';
     // Min Invest
@@ -122,7 +124,7 @@ function createIPORow(ipo) {
                 <div class="company-logo-small">
                     ${ipo.companyLogo ? `<img src="${ipo.companyLogo}" style="width:100%; height:100%; object-fit:contain;">` : initials}
                 </div>
-                <a href="subscription.html?id=${ipo._id}" class="company-name-link" style="color: var(--text-primary);">${ipo.companyName}</a>
+                <a href="subscription.html?id=${id}" class="company-name-link" style="color: var(--text-primary);">${ipo.companyName}</a>
             </div>
         </td>
         <td>
@@ -158,6 +160,7 @@ function renderCalendar(ipos) {
     }
 
     tbody.innerHTML = calendarIPOs.map(ipo => {
+        const id = ipo._id || ipo.id;
         const date = Helpers.formatDate(ipo.openDate);
         const initials = Helpers.getInitials(ipo.companyName);
         const statusClass = `status-${ipo.status}`; // status-open, status-upcoming
@@ -172,7 +175,7 @@ function renderCalendar(ipos) {
                         <div class="company-logo-small">
                             ${ipo.companyLogo ? `<img src="${ipo.companyLogo}" style="width:100%; height:100%; object-fit:contain;">` : initials}
                         </div>
-                        <a href="subscription.html?id=${ipo._id}" class="company-name-link">${ipo.companyName}</a>
+                        <a href="subscription.html?id=${id}" class="company-name-link">${ipo.companyName}</a>
                     </div>
                 </td>
                 <td><span class="badge-gray">${typeBadge}</span></td>
@@ -200,6 +203,7 @@ function renderHomeGMP(ipos) {
     }
 
     tbody.innerHTML = gmpIPOs.map(ipo => {
+        const id = ipo._id || ipo.id;
         const latestInfo = ipo.gmp[ipo.gmp.length - 1];
         const initials = Helpers.getInitials(ipo.companyName);
 
@@ -219,7 +223,7 @@ function renderHomeGMP(ipos) {
         const pct = price ? ((latestInfo.value / price) * 100).toFixed(1) : 0;
 
         return `
-            <tr onclick="window.location.href='gmp-detail.html?id=${ipo._id}'" style="cursor: pointer;">
+            <tr onclick="window.location.href='gmp-detail.html?id=${id}'" style="cursor: pointer;">
                 <td>
                     <div class="company-cell">
                         <div class="company-logo-small">
@@ -261,6 +265,7 @@ function renderHomeSubscription(ipos) {
     }
 
     tbody.innerHTML = subIPOs.map(ipo => {
+        const id = ipo._id || ipo.id;
         const initials = Helpers.getInitials(ipo.companyName);
         const typeBadge = ipo.category === 'SME' ? 'SME' : 'Mainboard';
 
@@ -271,7 +276,7 @@ function renderHomeSubscription(ipos) {
                         <div class="company-logo-small">
                             ${ipo.companyLogo ? `<img src="${ipo.companyLogo}" style="width:100%; height:100%; object-fit:contain;">` : initials}
                         </div>
-                        <a href="subscription.html?id=${ipo._id}" class="company-name-link">${ipo.companyName}</a>
+                        <a href="subscription.html?id=${id}" class="company-name-link">${ipo.companyName}</a>
                     </div>
                 </td>
                 <td><span class="badge-gray">${typeBadge}</span></td>
