@@ -37,6 +37,9 @@
     text-decoration: none;
     transition: all 0.2s ease;
     border: 1px solid transparent;
+    cursor: pointer;
+    position: relative;
+    z-index: 5;
 }
 
 .btn-action:active {

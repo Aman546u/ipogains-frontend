@@ -1,7 +1,16 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Get ID from URL
+    // Get ID from URL
     const urlParams = new URLSearchParams(window.location.search);
-    const ipoId = urlParams.get('id');
+    let ipoId = urlParams.get('id');
+
+    // Fallback: Check hash for id (e.g. #id=123)
+    if (!ipoId && window.location.hash) {
+        // Remove # and parse
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        ipoId = hashParams.get('id');
+        console.log('🆔 Found ID in Hash:', ipoId);
+    }
 
     if (!ipoId) {
         window.location.href = 'ipos.html';
@@ -56,6 +65,9 @@ function renderSubscriptionDetails(ipo) {
     // Tables
     renderShareSubscriptionTable(ipo);
     renderAppSubscriptionTable(ipo);
+
+    // Auto-generate FAQ
+    Helpers.renderFAQ('subscription', ipo.companyName, 'ipoFaq');
 }
 
 function renderShareSubscriptionTable(ipo) {

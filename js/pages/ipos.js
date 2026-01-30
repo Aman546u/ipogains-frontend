@@ -53,12 +53,18 @@ function renderGrid(ipos) {
             // Use calculated status
             const status = Helpers.calculateDisplayStatus(ipo);
 
-            // ID Logic: Prefer _id (MongoDB) over id
-            const id = ipo._id || ipo.id;
+            // ID Logic: Prefer _id (MongoDB) over id, and ensure it's a string
+            const id = (ipo._id || ipo.id || '').toString();
 
             // DEBUG: Log to verify ID is captured
-            if (!id) {
-                console.error('❌ NO ID FOUND FOR:', ipo.companyName, ipo);
+            console.log(`🔍 Processing IPO: ${companyName}`);
+            console.log(`  - Raw _id:`, ipo._id);
+            console.log(`  - Raw id:`, ipo.id);
+            console.log(`  - Final ID:`, id);
+            console.log(`  - ID length:`, id.length);
+
+            if (!id || id === 'undefined' || id === 'null') {
+                console.error('❌ INVALID ID FOR:', ipo.companyName, ipo);
                 return ''; // Skip invalid IPOs to avoid broken links
             }
 
@@ -187,16 +193,16 @@ function renderGrid(ipos) {
                 <!-- Actions -->
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <div style="display: flex; gap: 10px;">
-                        <a href="javascript:void(0)" onclick="window.location.href='gmp-detail.html?id=${id}'" class="btn-action btn-gmp" style="flex: 1;">
+                        <button type="button" onclick="navigateCard('gmp-detail.html#id=${id}')" class="btn-action btn-gmp" style="flex: 1; border: none;">
                             <i class="fas fa-chart-line mr-2"></i> Check GMP
-                        </a>
-                        <a href="javascript:void(0)" onclick="window.location.href='subscription.html?id=${id}'" class="btn-action btn-sub" style="flex: 1;">
+                        </button>
+                        <button type="button" onclick="navigateCard('subscription.html#id=${id}')" class="btn-action btn-sub" style="flex: 1; border: none;">
                             <i class="fas fa-chart-bar mr-2"></i> Subscription
-                        </a>
+                        </button>
                     </div>
-                    <a href="javascript:void(0)" onclick="window.location.href='allotment-details.html?id=${id}'" class="btn-action btn-allotment" style="width: 100%;">
+                    <button type="button" onclick="navigateCard('allotment-details.html#id=${id}')" class="btn-action btn-allotment" style="width: 100%; border: none;">
                         <i class="fas fa-check-circle mr-2"></i> Allotment Status
-                    </a>
+                    </button>
                 </div>
             </div>
             `;
@@ -331,3 +337,12 @@ function setupFAQ() {
         }
     });
 }
+
+// Explicit navigation function attached to window
+window.navigateCard = function (url) {
+    // Sanitize URL to remove any accidental whitespace or newlines
+    url = url.trim().replace(/\s/g, '');
+    console.log('🚀 Navigating to:', url);
+    window.location.assign(url);
+};
+

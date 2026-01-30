@@ -23,7 +23,7 @@ async function loadGMP() {
             }
 
             grid.innerHTML = validIPOs.map(ipo => {
-                const id = ipo._id || ipo.id;
+                const id = (ipo._id || ipo.id || '').toString();
                 if (!id) return ''; // Skip invalid
 
                 const gmpData = ipo.gmp || [];
@@ -77,9 +77,9 @@ async function loadGMP() {
                     </div>
                     
                     <div style="margin-top: auto;">
-                        <a href="javascript:void(0)" onclick="window.location.href='gmp-detail.html?id=${id}'" class="btn-action btn-gmp" style="width: 100%; justify-content: center;">
+                        <button type="button" onclick="navigateCard('gmp-detail.html#id=${id}')" class="btn-action btn-gmp" style="width: 100%; justify-content: center; border: none;">
                             View GMP Details <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
             `}).join('');
@@ -117,3 +117,12 @@ function setupFAQ() {
         }
     });
 }
+
+// Explicit navigation function attached to window
+window.navigateCard = function (url) {
+    // Sanitize URL to remove any accidental whitespace or newlines
+    url = url.trim().replace(/\s/g, '');
+    console.log('🚀 Force navigating to:', url);
+    window.location.assign(url);
+};
+

@@ -5,7 +5,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('📍 Search params:', window.location.search);
 
     const urlParams = new URLSearchParams(window.location.search);
-    const ipoId = urlParams.get('id');
+    let ipoId = urlParams.get('id');
+
+    // Fallback: Check hash for id (e.g. #id=123)
+    if (!ipoId && window.location.hash) {
+        // Remove # and parse
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        ipoId = hashParams.get('id');
+        console.log('🆔 Found ID in Hash:', ipoId);
+    }
 
     console.log('🆔 Extracted IPO ID:', ipoId);
     console.log('🆔 ID Type:', typeof ipoId);
@@ -111,7 +119,7 @@ function renderDetails(ipo) {
 
             return `
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <td style="padding: 12px 0; color: #aaa;">
+                <td style="padding: 12px 0; color: #fff;">
                     ${dateStr} <span style="font-size: 0.8em; opacity: 0.7; margin-left: 5px;">${timeStr}</span>
                 </td>
                 <td style="text-align: right; padding: 12px 0;">
@@ -122,6 +130,9 @@ function renderDetails(ipo) {
         `;
         }).join('');
     }
+
+    // Auto-generate FAQ
+    Helpers.renderFAQ('gmp', ipo.companyName, 'ipoFaq');
 }
 
 function renderChart(ipo) {

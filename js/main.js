@@ -422,7 +422,7 @@ const App = {
             // CACHE LOGIC: Check if we have valid cached stats
             const cachedStats = Storage.get('home_stats_cache');
             const cacheTime = Storage.get('home_stats_time');
-            const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+            const CACHE_DURATION = 30 * 1000; // 30 seconds
 
             if (cachedStats && cacheTime && (Date.now() - cacheTime < CACHE_DURATION)) {
                 console.log('⚡ Using cached stats');

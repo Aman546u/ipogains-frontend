@@ -39,16 +39,14 @@ async function loadAllotmentIPOs() {
 
             let relevantIPOs = data.ipos.filter(ipo => {
                 const status = Helpers.calculateDisplayStatus(ipo);
-                return status === 'closed';
+                return status === 'closed' || status === 'listed';
             });
 
             // Sort by closeDate descending (most recent first)
             relevantIPOs.sort((a, b) => new Date(b.closeDate) - new Date(a.closeDate));
 
-            // Limit to 20
-            relevantIPOs = relevantIPOs.slice(0, 20);
-
-            console.log('Relevant IPOs for allotment:', relevantIPOs);
+            // REMOVED LIMIT: Show all relevant IPOs for allotment check
+            console.log('Relevant IPOs for allotment:', relevantIPOs.length);
 
             if (relevantIPOs.length === 0) {
                 const opt = document.createElement('option');
@@ -59,12 +57,15 @@ async function loadAllotmentIPOs() {
             }
 
             relevantIPOs.forEach(ipo => {
-                console.log(`IPO: ${ipo.companyName}, Link: "${ipo.allotmentLink}", Registrar: "${ipo.registrar}"`);
+                const status = Helpers.calculateDisplayStatus(ipo);
+                const info = status === 'listed' ? 'LISTED' : 'CLOSED';
+
                 const option = document.createElement('option');
                 option.value = ipo._id;
-                option.text = `${ipo.companyName} (${Helpers.calculateDisplayStatus(ipo).toUpperCase()})`;
+                option.text = `${ipo.companyName} (${info})`;
                 option.dataset.link = ipo.allotmentLink || ''; // Store link
-                option.dataset.registrar = ipo.registrar || ''; // Store registrar name
+                option.dataset.status = status; // Store status
+                option.dataset.registrar = ipo.registrar || 'Registrar'; // Store registrar name
                 select.appendChild(option);
             });
         }
@@ -91,33 +92,30 @@ function setupAllotmentForm() {
         if (!selectedOption) return;
 
         const link = selectedOption.dataset.link;
+        const status = selectedOption.dataset.status;
         const registrar = selectedOption.dataset.registrar || 'Registrar';
         const ipoId = select.value;
 
         const resultDiv = document.getElementById('allotmentResult');
-        // Only clear results if the IPO selection changed
         if (resultDiv && resultDiv.dataset.lastIpo !== ipoId) {
             resultDiv.classList.add('hidden');
             resultDiv.dataset.lastIpo = ipoId;
         }
 
         // Reset state
-        submitBtn.classList.remove('btn-success', 'btn-primary');
+        submitBtn.classList.remove('btn-success', 'btn-primary', 'btn-secondary');
         submitBtn.disabled = false;
 
-        // Case 1: No IPO Selected (Default)
         if (!ipoId) {
             submitBtn.innerHTML = '<i class="fas fa-search"></i> Check Status';
             submitBtn.classList.add('btn-primary');
             submitBtn.disabled = true;
-
             if (panInputGroup) panInputGroup.style.display = 'none';
             if (externalMsg) externalMsg.style.display = 'none';
             return;
         }
 
-        // Case 2: External IPO (Listed or Closed) WITH Link
-        // Prioritize: If there is a link, ALWAYS show external check button, regardless of status being 'listed' or 'closed'.
+        // USER REQUEST: When link provided, open it. Otherwise show "Link Not Available"
         if (link && link.trim() !== '') {
             submitBtn.innerHTML = `<i class="fas fa-shield-alt"></i> Check on ${registrar}`;
             submitBtn.classList.add('btn-success');
@@ -127,41 +125,18 @@ function setupAllotmentForm() {
             if (panInputGroup) panInputGroup.style.display = 'none';
             if (externalMsg) {
                 externalMsg.style.display = 'block';
-                // Update registrar name in message if element exists
                 const title = externalMsg.querySelector('h4');
                 if (title) title.textContent = `Secure Check via ${registrar}`;
             }
-
-            if (panInput) {
-                panInput.value = ''; // Clear PAN
-                panInput.required = false;
-            }
-        }
-        // Case 3: External IPO (Listed/Closed) WITHOUT Link
-        // If status is 'listed' or 'closed' and NO link is provided, show "Link Not Available"
-        else if (selectedOption.textContent.includes('(LISTED)') || selectedOption.textContent.includes('(CLOSED)')) {
+        } else {
+            // No link available
             submitBtn.innerHTML = '<i class="fas fa-ban"></i> Link Not Available';
-            submitBtn.classList.add('btn-secondary'); // Grey/Disabled look
+            submitBtn.classList.add('btn-secondary');
             submitBtn.disabled = true;
+            submitBtn.dataset.mode = 'none';
 
             if (panInputGroup) panInputGroup.style.display = 'none';
             if (externalMsg) externalMsg.style.display = 'none';
-
-            if (panInput) {
-                panInput.value = '';
-                panInput.required = false;
-            }
-        }
-        // Case 4: Internal IPO
-        else {
-            submitBtn.innerHTML = `<i class="fas fa-search"></i> Check Status`;
-            submitBtn.classList.add('btn-primary');
-            submitBtn.dataset.mode = 'internal';
-
-            if (panInputGroup) panInputGroup.style.display = 'block';
-            if (externalMsg) externalMsg.style.display = 'none';
-
-            if (panInput) panInput.required = true;
         }
     };
 

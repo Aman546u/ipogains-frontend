@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     loadHomeData();
+    setupFAQ();
 });
 
 async function loadHomeData() {
@@ -78,8 +79,8 @@ function renderClosedIPOs(ipos) {
 }
 
 function createIPORow(ipo) {
-    // Ensure we have a valid ID for links (prefer _id if available)
-    const id = ipo._id || ipo.id;
+    // Ensure we have a valid string ID (handle potential object IDs)
+    const id = (ipo._id || ipo.id || '').toString();
     const initials = Helpers.getInitials(ipo.companyName);
     const issueSize = ipo.issueSize ? `₹${ipo.issueSize} Cr` : '-';
     // Min Invest
@@ -160,7 +161,7 @@ function renderCalendar(ipos) {
     }
 
     tbody.innerHTML = calendarIPOs.map(ipo => {
-        const id = ipo._id || ipo.id;
+        const id = (ipo._id || ipo.id || '').toString();
         const date = Helpers.formatDate(ipo.openDate);
         const initials = Helpers.getInitials(ipo.companyName);
         const statusClass = `status-${ipo.status}`; // status-open, status-upcoming
@@ -203,7 +204,7 @@ function renderHomeGMP(ipos) {
     }
 
     tbody.innerHTML = gmpIPOs.map(ipo => {
-        const id = ipo._id || ipo.id;
+        const id = (ipo._id || ipo.id || '').toString();
         const latestInfo = ipo.gmp[ipo.gmp.length - 1];
         const initials = Helpers.getInitials(ipo.companyName);
 
@@ -239,7 +240,7 @@ function renderHomeGMP(ipos) {
                 </td>
                 <td class="text-right" style="font-weight: 700; color: ${latestInfo.value >= 0 ? 'var(--success)' : 'var(--danger)'};">₹${estProfit}</td>
                 <td class="text-right">
-                     <span class="badge-gray" style="font-size: 0.7rem;">Expected</span>
+                    <span class="badge-gray" style="font-size: 0.7rem;">Expected</span>
                 </td>
             </tr>
         `;
@@ -247,8 +248,7 @@ function renderHomeGMP(ipos) {
 }
 
 function renderHomeSubscription(ipos) {
-    const containerCard = document.getElementById('subscriptionCard');
-    const noDataDiv = document.getElementById('subNoData');
+    const section = document.getElementById('subscription-status-section');
     const tbody = document.getElementById('subscriptionTableBody');
 
     const subIPOs = ipos.filter(ipo => (ipo.status === 'open' || ipo.status === 'closed') && ipo.subscription && ipo.subscription.total)
@@ -256,16 +256,14 @@ function renderHomeSubscription(ipos) {
         .slice(0, 5);
 
     if (subIPOs.length === 0) {
-        if (containerCard) containerCard.style.display = 'none';
-        if (noDataDiv) noDataDiv.style.display = 'block';
+        if (section) section.style.display = 'none';
         return;
     } else {
-        if (containerCard) containerCard.style.display = 'block';
-        if (noDataDiv) noDataDiv.style.display = 'none';
+        if (section) section.style.display = 'block';
     }
 
     tbody.innerHTML = subIPOs.map(ipo => {
-        const id = ipo._id || ipo.id;
+        const id = (ipo._id || ipo.id || '').toString();
         const initials = Helpers.getInitials(ipo.companyName);
         const typeBadge = ipo.category === 'SME' ? 'SME' : 'Mainboard';
 
@@ -287,4 +285,24 @@ function renderHomeSubscription(ipos) {
             </tr>
         `;
     }).join('');
+}
+
+// FAQ Accordion
+function setupFAQ() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        if (question) {
+            question.addEventListener('click', () => {
+                // Close others (optional - for accordion style)
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                // Toggle current
+                item.classList.toggle('active');
+            });
+        }
+    });
 }
