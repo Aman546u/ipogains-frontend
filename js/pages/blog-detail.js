@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (slug) {
         loadNewsDetail(slug);
     } else {
-        window.location.href = 'news.html';
+        window.location.href = 'blogs.html';
     }
 });
 
@@ -33,7 +33,7 @@ async function loadNewsDetail(slug) {
         }
 
         // Populate Content
-        document.title = `${news.title} - IPOGains News`;
+        document.title = `${news.title} - IPOGains Blogs`;
         document.getElementById('newsCategory').textContent = news.category;
         document.getElementById('newsTitle').textContent = news.title;
         document.getElementById('newsDate').textContent = formatDate(news.createdAt);

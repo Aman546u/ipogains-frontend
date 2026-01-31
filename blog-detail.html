@@ -14,9 +14,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="IPOGains News - Stay updated with the latest IPO news, detailed analysis, allotment updates, and market trends.">
-    <title>IPO News & Analysis - IPOGains</title>
+    <meta name="description" content="Read the latest IPO news and analysis on IPOGains.">
+    <title>News - IPOGains</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
 
@@ -37,122 +36,118 @@
     <link rel="stylesheet" href="css/components/cards.css">
     <link rel="stylesheet" href="css/components/forms.css">
     <link rel="stylesheet" href="css/components/modals.css">
-    <link rel="stylesheet" href="css/sections/hero.css">
     <link rel="stylesheet" href="css/sections/footer.css">
     <link rel="stylesheet" href="css/utilities.css">
 
     <style>
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-            margin-top: 30px;
+        .news-header {
+            padding: 80px 0 40px;
+            background: var(--dark-bg);
+            border-bottom: 1px solid var(--dark-border);
         }
 
-        @media (max-width: 768px) {
-            .news-grid {
-                gap: 16px;
-                margin-top: 20px;
-            }
-
-            .hero-mini {
-                padding: 60px 0 30px;
-            }
+        .news-container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .news-card {
-            background: var(--dark-card);
-            border: 1px solid var(--dark-border);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            transition: var(--transition-base);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-xl);
-            border-color: var(--primary-green);
-        }
-
-        .news-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: #1e293b;
-        }
-
-        .news-content {
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .news-category {
-            font-size: 0.75rem;
+        .article-meta {
             color: var(--primary-green);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-
-        .news-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .news-summary {
             font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.6;
-            flex: 1;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
         }
 
-        .news-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-top: auto;
-            border-top: 1px solid var(--dark-border);
-            padding-top: 15px;
-        }
-
-        .read-more-btn {
+        .article-title {
+            font-size: 2.5rem;
             color: var(--text-primary);
-            font-weight: 500;
-            text-decoration: none;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .article-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            margin-bottom: 40px;
+            border: 1px solid var(--dark-border);
+        }
+
+        .article-content {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+        }
+
+        .article-content h2 {
+            color: var(--text-primary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .article-content h3 {
+            color: var(--text-primary);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .article-content li {
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-weight: 500;
             transition: color 0.2s;
         }
 
-        .read-more-btn:hover {
+        .back-btn:hover {
             color: var(--primary-green);
+            text-decoration: none;
         }
 
-        .hero-mini {
-            padding: 80px 0 40px;
-            background: var(--gradient-dark);
-            text-align: center;
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 1.8rem;
+            }
+
+            .article-image {
+                height: 250px;
+            }
+
+            /* Adjust main section padding for mobile */
+            .section-detail-mobile {
+                padding-top: 100px !important;
+            }
         }
     </style>
 </head>
@@ -171,7 +166,7 @@
                 <a href="ipos.html" class="nav-link">IPOs</a>
                 <a href="allotment.html" class="nav-link">Check Allotment</a>
                 <a href="gmp.html" class="nav-link">GMP</a>
-                <a href="news.html" class="nav-link active">News</a>
+                <a href="blogs.html" class="nav-link active">Blogs</a>
                 <a href="contact.html" class="nav-link">Contact</a>
             </div>
 
@@ -203,31 +198,42 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="hero-mini">
-        <div class="container">
-            <h1 class="hero-title">IPO <span class="gradient-text">News & Analysis</span></h1>
-            <p class="hero-subtitle">Latest updates, market trends, and expert insights on upcoming IPOs.</p>
-        </div>
-    </header>
+    <div class="section section-detail-mobile" style="padding-top: 120px;">
+        <div class="container news-container">
+            <a href="blogs.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Blogs
+            </a>
 
-    <!-- News Section -->
-    <section class="section">
-        <div class="container">
             <div id="loading" class="text-center py-5">
                 <div class="spinner"></div>
-                <p>Loading News...</p>
+                <p>Loading Article...</p>
             </div>
 
-            <div class="news-grid" id="newsGrid" style="display: none;">
-                <!-- News items populated by JS -->
-            </div>
+            <article id="articleContent" style="display: none;">
+                <span class="article-meta" id="newsCategory">IPO News</span>
+                <h1 class="article-title" id="newsTitle">Article Title</h1>
+                <div class="article-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span id="newsDate">Jan 01, 2024</span>
+                    <span style="margin: 0 10px;">•</span>
+                    <i class="far fa-user"></i>
+                    <span id="newsAuthor">Admin</span>
+                </div>
 
-            <div id="noNews" class="text-center py-5" style="display: none;">
-                <p class="text-muted">No news articles found.</p>
+                <img src="" alt="News Image" class="article-image" id="newsImage">
+
+                <div class="article-content" id="newsBody">
+                    <!-- Content injected here -->
+                </div>
+            </article>
+
+            <div id="notFound" class="text-center py-5" style="display: none;">
+                <h2>Article Not Found</h2>
+                <p class="text-muted">The article you are looking for does not exist or has been removed.</p>
+                <a href="blogs.html" class="btn btn-primary mt-3">Back to Blogs</a>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -236,12 +242,6 @@
                 <div class="footer-section">
                     <h4>IPOGains</h4>
                     <p>Your trusted platform for IPO tracking and analysis.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
                 </div>
 
                 <div class="footer-section">
@@ -250,7 +250,7 @@
                     <a href="ipos.html">IPO Listings</a>
                     <a href="allotment.html">Check Allotment</a>
                     <a href="gmp.html">GMP</a>
-                    <a href="news.html">News</a>
+                    <a href="blogs.html">Blogs</a>
                 </div>
 
                 <div class="footer-section">
@@ -260,15 +260,6 @@
                     <a href="privacy-policy.html">Privacy Policy</a>
                     <a href="terms-of-service.html">Terms & Conditions</a>
                     <a href="disclaimer.html">Disclaimer</a>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Newsletter</h4>
-                    <p>Subscribe for IPO updates</p>
-                    <form class="newsletter-form" id="newsletterForm">
-                        <input type="email" placeholder="Your email" required>
-                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
-                    </form>
                 </div>
             </div>
 
@@ -335,83 +326,7 @@
         </div>
     </div>
 
-    <!-- OTP Modal -->
-    <div class="modal" id="otpModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Verify Email</h2>
-                <button class="modal-close" onclick="closeModal('otpModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p class="text-center text-muted mb-4">Enter the 6-digit OTP sent to your email</p>
-                <form id="otpForm">
-                    <div class="form-group">
-                        <input type="text" class="form-control text-center" id="otpCode" maxlength="6"
-                            placeholder="000000" style="font-size: 1.5rem; letter-spacing: 0.5rem;" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Verify</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                Didn't receive OTP? <a href="#" id="resendOTP">Resend</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Forgot Password Modal -->
-    <div class="modal" id="forgotPasswordModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Forgot Password</h2>
-                <button class="modal-close" onclick="closeModal('forgotPasswordModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p class="text-center text-muted mb-4">Enter your email to receive a password reset OTP</p>
-                <form id="forgotPasswordForm">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" id="forgotEmail" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Send OTP</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                Remember your password? <a href="#" onclick="switchModal('forgotPasswordModal', 'loginModal')">Login</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Reset Password Modal -->
-    <div class="modal" id="resetPasswordModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Reset Password</h2>
-                <button class="modal-close" onclick="closeModal('resetPasswordModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p class="text-center text-muted mb-4">Enter the OTP and your new password</p>
-                <form id="resetPasswordForm">
-                    <input type="hidden" id="resetEmail">
-                    <div class="form-group">
-                        <label>OTP</label>
-                        <input type="text" class="form-control" id="resetOTP" maxlength="6" placeholder="000000"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <label>New Password</label>
-                        <input type="password" class="form-control" id="newPassword" minlength="6" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Confirm Password</label>
-                        <input type="password" class="form-control" id="confirmPassword" minlength="6" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
     <!-- Scripts -->
@@ -422,12 +337,9 @@
     <script src="js/components/modals.js"></script>
     <script src="js/features/auth/login.js"></script>
     <script src="js/features/auth/register.js"></script>
-    <script src="js/features/auth/otp.js"></script>
-    <script src="js/features/auth/forgotPassword.js"></script>
     <script src="js/main.js"></script>
 
-    <!-- News Logic -->
-    <script src="js/pages/news.js"></script>
+    <script src="js/pages/blog-detail.js"></script>
 </body>
 
 </html>
