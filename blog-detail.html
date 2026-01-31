@@ -15,7 +15,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Read the latest IPO news and analysis on IPOGains.">
-    <title>News - IPOGains</title>
+    <title>Blog - IPOGains</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
 
@@ -38,12 +38,14 @@
     <link rel="stylesheet" href="css/components/modals.css">
     <link rel="stylesheet" href="css/sections/footer.css">
     <link rel="stylesheet" href="css/utilities.css">
+    <link rel="stylesheet" href="css/components/faq.css">
 
     <style>
-        .news-header {
-            padding: 80px 0 40px;
-            background: var(--dark-bg);
+        .blog-header {
+            padding: 100px 0 60px;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(16, 185, 129, 0.05) 100%);
             border-bottom: 1px solid var(--dark-border);
+            text-align: center;
         }
 
         .news-container {
@@ -53,71 +55,95 @@
 
         .article-meta {
             color: var(--primary-green);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: block;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         .article-title {
             font-size: 2.5rem;
             color: var(--text-primary);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             line-height: 1.3;
+            font-weight: 800;
         }
 
         .article-date {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             margin-bottom: 30px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .article-date i {
+            color: var(--primary-green);
         }
 
         .article-image {
             width: 100%;
-            height: 400px;
+            height: auto;
+            max-height: 500px;
             object-fit: cover;
             border-radius: var(--radius-lg);
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             border: 1px solid var(--dark-border);
+            box-shadow: var(--shadow-xl);
         }
 
         .article-content {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             line-height: 1.8;
+            padding: 0 10px;
         }
 
         .article-content p {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .article-content h2 {
             color: var(--text-primary);
-            margin-top: 40px;
-            margin-bottom: 20px;
+            margin-top: 50px;
+            margin-bottom: 25px;
             font-size: 1.8rem;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--dark-border);
         }
 
         .article-content h3 {
             color: var(--text-primary);
-            margin-top: 30px;
-            margin-bottom: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
             font-size: 1.4rem;
         }
 
         .article-content ul,
         .article-content ol {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             padding-left: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 20px 40px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--dark-border);
         }
 
         .article-content li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .article-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
         }
 
         .back-btn {
@@ -125,14 +151,20 @@
             align-items: center;
             gap: 8px;
             color: var(--text-muted);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: all 0.2s;
+            background: var(--dark-card);
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--dark-border);
         }
 
         .back-btn:hover {
             color: var(--primary-green);
             text-decoration: none;
+            border-color: var(--primary-green);
+            transform: translateX(-5px);
         }
 
         @media (max-width: 768px) {
@@ -144,10 +176,22 @@
                 height: 250px;
             }
 
-            /* Adjust main section padding for mobile */
-            .section-detail-mobile {
-                padding-top: 100px !important;
+            .blog-header {
+                padding: 80px 0 40px;
             }
+        }
+
+        /* FAQ Section Specifics */
+        .blog-faq {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid var(--dark-border);
+        }
+
+        .blog-faq h3 {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
         }
     </style>
 </head>
@@ -167,6 +211,7 @@
                 <a href="allotment.html" class="nav-link">Check Allotment</a>
                 <a href="gmp.html" class="nav-link">GMP</a>
                 <a href="blogs.html" class="nav-link active">Blogs</a>
+                <a href="about.html" class="nav-link">About</a>
                 <a href="contact.html" class="nav-link">Contact</a>
             </div>
 
@@ -198,7 +243,7 @@
         </div>
     </nav>
 
-    <div class="section section-detail-mobile" style="padding-top: 120px;">
+    <div class="section" style="padding-top: 120px; padding-bottom: 80px;">
         <div class="container news-container">
             <a href="blogs.html" class="back-btn">
                 <i class="fas fa-arrow-left"></i> Back to Blogs
@@ -210,20 +255,77 @@
             </div>
 
             <article id="articleContent" style="display: none;">
-                <span class="article-meta" id="newsCategory">IPO News</span>
-                <h1 class="article-title" id="newsTitle">Article Title</h1>
-                <div class="article-date">
-                    <i class="far fa-calendar-alt"></i>
-                    <span id="newsDate">Jan 01, 2024</span>
-                    <span style="margin: 0 10px;">•</span>
-                    <i class="far fa-user"></i>
-                    <span id="newsAuthor">Admin</span>
+                <div class="text-center">
+                    <span class="article-meta" id="newsCategory">Category</span>
+                    <h1 class="article-title" id="newsTitle">Article Title</h1>
+                    <div class="article-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span id="newsDate">Jan 01, 2024</span>
+                        <span style="margin: 0 10px; color: var(--border-color);">|</span>
+                        <i class="far fa-user"></i>
+                        <span id="newsAuthor">Admin</span>
+                    </div>
                 </div>
 
-                <img src="" alt="News Image" class="article-image" id="newsImage">
+                <img src="" alt="Blog Image" class="article-image" id="newsImage">
 
                 <div class="article-content" id="newsBody">
                     <!-- Content injected here -->
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="blog-faq">
+                    <h3>Frequently Asked Questions</h3>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h4>What is an IPO?</h4>
+                                <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    An Initial Public Offering (IPO) is the process where a private company sells shares
+                                    to the public for the first time to raise capital.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h4>What is GMP (Grey Market Premium)?</h4>
+                                <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    Grey Market Premium (GMP) is the unofficial price at which IPO shares are traded
+                                    before they list on the stock exchange. It indicates market demand.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h4>How can I check IPO allotment status?</h4>
+                                <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    You can check allotment status on the registrar's website (like Link Intime,
+                                    KFintech) or on BSE/NSE websites using your PAN number.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h4>Is investing in IPOs risky?</h4>
+                                <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    Yes, all stock market investments carry risk. Listing gains are not guaranteed, and
+                                    shares can list below the issue price. Always do your research.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </article>
 
@@ -242,6 +344,12 @@
                 <div class="footer-section">
                     <h4>IPOGains</h4>
                     <p>Your trusted platform for IPO tracking and analysis.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
 
                 <div class="footer-section">
@@ -340,6 +448,28 @@
     <script src="js/main.js"></script>
 
     <script src="js/pages/blog-detail.js"></script>
+
+    <!-- Inline script for FAQ behavior since we want it specific here -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                if (question) {
+                    question.addEventListener('click', () => {
+                        // Close others
+                        faqItems.forEach(otherItem => {
+                            if (otherItem !== item) {
+                                otherItem.classList.remove('active');
+                            }
+                        });
+                        // Toggle current
+                        item.classList.toggle('active');
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

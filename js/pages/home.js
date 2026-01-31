@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadLatestNews() {
     try {
-        const response = await fetch(`${API_URL}/news`);
+        const url = window.APP_CONFIG ? `${window.APP_CONFIG.API_URL}/news` : 'http://localhost:3000/api/news';
+        const response = await fetch(url);
         const data = await response.json();
         const news = data.news || [];
 
@@ -14,7 +15,7 @@ async function loadLatestNews() {
         if (!container) return;
 
         if (news.length === 0) {
-            container.innerHTML = '<div class="text-center w-100 py-3 text-muted">No recent news available</div>';
+            container.innerHTML = '<div class="text-center w-100 py-3 text-muted">No recent blogs available</div>';
             return;
         }
 
@@ -23,7 +24,7 @@ async function loadLatestNews() {
 
         container.innerHTML = topNews.map(item => `
             <div class="home-news-card">
-                 <a href="news-detail.html?slug=${item.slug}" style="text-decoration: none;">
+                 <a href="blog-detail.html?slug=${item.slug}" style="text-decoration: none;">
                     <img src="${item.image || 'assets/images/defaults/news-default.jpg'}" class="home-news-img" onerror="this.src='/assets/images/defaults/news-default.jpg'">
                     <div class="home-news-content">
                         <div class="home-news-title">${item.title}</div>
