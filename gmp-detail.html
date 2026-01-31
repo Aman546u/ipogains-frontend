@@ -17,6 +17,8 @@
     <meta name="description"
         content="IPOGains - Your trusted platform for IPO listings, allotment status, GMP tracking, and live subscription data.">
     <title>IPOGains - IPO Listings & Allotment Tracker</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +50,57 @@
     <link rel="stylesheet" href="css/utilities.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: var(--dark-bg) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .card {
+            background-color: var(--dark-card) !important;
+            border-color: var(--dark-border) !important;
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        #loading {
+            background-color: var(--dark-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .section {
+                padding: 40px 0 !important;
+            }
+
+            .gmp-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+
+            .section-title {
+                font-size: 1.5rem !important;
+            }
+
+            .card-body {
+                padding: 1.25rem !important;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.75rem 0.5rem !important;
+                font-size: 0.85rem !important;
+            }
+        }
+    </style>
 </head>
 
 <body>

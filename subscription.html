@@ -17,6 +17,8 @@
     <meta name="description"
         content="IPOGains - Your trusted platform for IPO listings, allotment status, GMP tracking, and live subscription data.">
     <title>IPOGains - IPO Listings & Allotment Tracker</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,6 +86,39 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+
+        .understanding-card {
+            padding: 2.5rem;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .section {
+                padding: 40px 0 !important;
+            }
+
+            .card.header-card {
+                padding: 1.5rem !important;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.75rem 0.5rem !important;
+                font-size: 0.8rem !important;
+            }
+
+            .understanding-card {
+                padding: 1.5rem !important;
+            }
+
+            h1.h3 {
+                font-size: 1.25rem !important;
+            }
+
+            .row.mb-4 h4 {
+                font-size: 1.1rem !important;
+            }
         }
     </style>
 </head>
@@ -154,7 +189,7 @@
             <div id="detailContent" style="display:none;">
 
                 <!-- Header -->
-                <div class="card mb-4 p-4"
+                <div class="card mb-4 p-4 header-card"
                     style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
                     <div class="d-flex justify-content-between align-items-center flex-wrap">
                         <h1 class="h3 mb-0" style="color: var(--primary-green); font-weight: 800;"><span
@@ -220,25 +255,30 @@
                                         class="fas fa-chart-pie mr-2"></i> Live Subscription by Application</h4>
                             </div>
                             <div class="card-body p-0">
-                                <table class="table mb-0"
-                                    style="background: transparent; color: var(--text-primary); border-color: var(--dark-border);">
-                                    <thead style="background: rgba(15, 23, 42, 0.6);">
-                                        <tr>
-                                            <th
-                                                style="padding: 1.25rem 1.5rem; font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); border: none; text-transform: uppercase; letter-spacing: 0.5px;">
-                                                Category</th>
-                                            <th class="text-right"
-                                                style="padding: 1.25rem 1.5rem; font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); text-align: right; border: none; text-transform: uppercase; letter-spacing: 0.5px;">
-                                                Applications</th>
-                                            <th class="text-right"
-                                                style="padding: 1.25rem 1.5rem; font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); text-align: right; border: none; text-transform: uppercase; letter-spacing: 0.5px;">
-                                                Subscription</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="appSubscriptionBody">
-                                        <!-- Populated by JS -->
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table mb-0"
+                                        style="background: transparent; color: var(--text-primary); border-color: var(--dark-border);">
+                                        <thead style="background: rgba(15, 23, 42, 0.6);">
+                                            <tr>
+                                                <th
+                                                    style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); border: none; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                    Category</th>
+                                                <th class="text-right"
+                                                    style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); text-align: right; border: none; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                    Offered</th>
+                                                <th class="text-right"
+                                                    style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); text-align: right; border: none; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                    Received</th>
+                                                <th class="text-right"
+                                                    style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); text-align: right; border: none; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                    Subscription</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="appSubscriptionBody">
+                                            <!-- Populated by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -254,25 +294,27 @@
                                         class="fas fa-chart-bar mr-2"></i> Subscription by Shares</h4>
                             </div>
                             <div class="card-body p-0">
-                                <table class="table mb-0"
-                                    style="background: transparent; color: var(--text-primary); border-color: var(--dark-border);">
-                                    <thead style="background: rgba(15, 23, 42, 0.6);">
-                                        <tr>
-                                            <th
-                                                style="padding: 1.25rem 1.5rem; font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); border: none; text-transform: uppercase; letter-spacing: 0.5px;">
-                                                Category</th>
-                                            <th class="text-right"
-                                                style="padding: 1.25rem 1.5rem; font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); text-align: right; border: none; text-transform: uppercase; letter-spacing: 0.5px;">
-                                                Shares Offered</th>
-                                            <th class="text-right"
-                                                style="padding: 1.25rem 1.5rem; font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); text-align: right; border: none; text-transform: uppercase; letter-spacing: 0.5px;">
-                                                Subscribed</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="shareSubscriptionBody">
-                                        <!-- Populated by JS -->
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table mb-0"
+                                        style="background: transparent; color: var(--text-primary); border-color: var(--dark-border);">
+                                        <thead style="background: rgba(15, 23, 42, 0.6);">
+                                            <tr>
+                                                <th
+                                                    style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); border: none; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                    Category</th>
+                                                <th class="text-right"
+                                                    style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); text-align: right; border: none; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                    Shares Offered</th>
+                                                <th class="text-right"
+                                                    style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); text-align: right; border: none; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                    Subscribed</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="shareSubscriptionBody">
+                                            <!-- Populated by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -286,7 +328,7 @@
                         <h4 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: var(--primary-green);"><i
                                 class="fas fa-info-circle mr-2"></i> Understanding Subscription Categories</h4>
                     </div>
-                    <div class="card-body" style="padding: 2.5rem;">
+                    <div class="card-body understanding-card">
                         <div class="row">
                             <div class="col-md-3 mb-4">
                                 <div class="p-4 h-100"

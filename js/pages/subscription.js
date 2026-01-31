@@ -100,9 +100,9 @@ function renderShareSubscriptionTable(ipo) {
 
         return `
             <tr style="${style}">
-                <td style="padding: 1rem 1.5rem; ${textColor}">${cat.name}</td>
-                <td class="text-right" style="padding: 1rem 1.5rem; text-align: right; color: var(--text-secondary);">${offText}</td>
-                <td class="text-right" style="padding: 1rem 1.5rem; text-align: right; ${textColor} font-weight: 600;">${val}</td>
+                <td style="${textColor}">${cat.name}</td>
+                <td class="text-right" style="text-align: right; color: var(--text-secondary);">${offText}</td>
+                <td class="text-right" style="text-align: right; ${textColor} font-weight: 600;">${val}</td>
             </tr>
         `;
     }).join('');
@@ -157,10 +157,10 @@ function renderAppSubscriptionTable(ipo) {
 
         return `
             <tr style="${style}">
-                <td style="padding: 1rem 1.5rem; color: var(--text-primary); font-weight: 700;">${row.name}</td>
-                <td class="text-right" style="padding: 1rem 1.5rem; text-align: right; color: var(--text-secondary);">${offText}</td>
-                <td class="text-right" style="padding: 1rem 1.5rem; text-align: right; color: var(--text-secondary);">${recText}</td>
-                <td class="text-right" style="padding: 1rem 1.5rem; text-align: right; color: var(--primary-green); font-weight: 700;">${subVal}</td>
+                <td style="color: var(--text-primary); font-weight: 700;">${row.name}</td>
+                <td class="text-right" style="text-align: right; color: var(--text-secondary);">${offText}</td>
+                <td class="text-right" style="text-align: right; color: var(--text-secondary);">${recText}</td>
+                <td class="text-right" style="text-align: right; color: var(--primary-green); font-weight: 700;">${subVal}</td>
             </tr>
         `;
     }).join('');

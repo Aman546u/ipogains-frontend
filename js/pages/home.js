@@ -47,7 +47,7 @@ function processAndRender(rawIPOs) {
     renderLiveIPOs(ipos);
     renderCalendar(ipos);
     renderHomeGMP(ipos);
-    renderHomeSubscription(ipos);
+
     renderClosedIPOs(ipos);
 }
 
@@ -247,45 +247,7 @@ function renderHomeGMP(ipos) {
     }).join('');
 }
 
-function renderHomeSubscription(ipos) {
-    const section = document.getElementById('subscription-status-section');
-    const tbody = document.getElementById('subscriptionTableBody');
 
-    const subIPOs = ipos.filter(ipo => (ipo.status === 'open' || ipo.status === 'closed') && ipo.subscription && ipo.subscription.total)
-        .sort((a, b) => new Date(b.closeDate) - new Date(a.closeDate))
-        .slice(0, 5);
-
-    if (subIPOs.length === 0) {
-        if (section) section.style.display = 'none';
-        return;
-    } else {
-        if (section) section.style.display = 'block';
-    }
-
-    tbody.innerHTML = subIPOs.map(ipo => {
-        const id = (ipo._id || ipo.id || '').toString();
-        const initials = Helpers.getInitials(ipo.companyName);
-        const typeBadge = ipo.category === 'SME' ? 'SME' : 'Mainboard';
-
-        return `
-            <tr>
-                <td>
-                    <div class="company-cell">
-                        <div class="company-logo-small">
-                            ${ipo.companyLogo ? `<img src="${ipo.companyLogo}" style="width:100%; height:100%; object-fit:contain;">` : initials}
-                        </div>
-                        <a href="subscription.html?id=${id}" class="company-name-link">${ipo.companyName}</a>
-                    </div>
-                </td>
-                <td><span class="badge-gray">${typeBadge}</span></td>
-                <td>${ipo.subscription.retail || '-'}x</td>
-                <td>${ipo.subscription.nii || '-'}x</td>
-                <td>${ipo.subscription.qib || '-'}x</td>
-                <td class="text-right" style="font-weight: 700; color: var(--primary-green);">${ipo.subscription.total}x</td>
-            </tr>
-        `;
-    }).join('');
-}
 
 // FAQ Accordion
 function setupFAQ() {

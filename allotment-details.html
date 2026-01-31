@@ -17,6 +17,8 @@
     <meta name="description"
         content="IPOGains - Your trusted platform for IPO listings, allotment status, GMP tracking, and live subscription data.">
     <title>IPOGains - IPO Listings & Allotment Tracker</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,6 +86,43 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .section {
+                padding: 40px 0 !important;
+            }
+
+            .card.header-card {
+                padding: 1.5rem !important;
+            }
+
+            .card-body {
+                padding: 1.25rem !important;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.75rem 0.5rem !important;
+                font-size: 0.8rem !important;
+            }
+
+            h1.h3 {
+                font-size: 1.25rem !important;
+            }
+
+            .row.mb-4 h4 {
+                font-size: 1.1rem !important;
+            }
+
+            #allotment-detail .col-6 {
+                margin-bottom: 1rem !important;
+            }
+
+            #allotment-detail span {
+                font-size: 0.95rem !important;
+            }
         }
     </style>
 </head>
@@ -153,7 +192,7 @@
             <div id="detailContent" style="display:none;">
 
                 <!-- Header -->
-                <div class="card mb-4 p-4"
+                <div class="card mb-4 p-4 header-card"
                     style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
                     <div class="d-flex justify-content-between align-items-center flex-wrap">
                         <h1 class="h3 mb-0" style="color: var(--text-primary); font-weight: 800;"><span
@@ -215,7 +254,7 @@
                         <h4 class="mb-0" style="font-size: 1.25rem; font-weight: 800; color: var(--primary-green);"><i
                                 class="far fa-file-alt mr-2"></i> IPO Details</h4>
                     </div>
-                    <div class="card-body" style="padding: 2.5rem;">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 col-6 mb-4">
                                 <small
