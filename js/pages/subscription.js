@@ -64,7 +64,6 @@ function renderSubscriptionDetails(ipo) {
 
     // Tables
     renderShareSubscriptionTable(ipo);
-    renderAppSubscriptionTable(ipo);
 
     // Auto-generate FAQ
     Helpers.renderFAQ('subscription', ipo.companyName, 'ipoFaq');
@@ -108,60 +107,4 @@ function renderShareSubscriptionTable(ipo) {
     }).join('');
 }
 
-function renderAppSubscriptionTable(ipo) {
-    const tbody = document.getElementById('appSubscriptionBody');
-    const sd = ipo.subscriptionDetails || {};
 
-    const categories = [
-        { name: 'QIB', data: sd.qib },
-        { name: 'NII', data: sd.nii },
-        { name: 'Retail (IND)', data: sd.retail },
-        { name: 'Shareholder', data: sd.shareholder }
-    ];
-
-    // Better filtering: If it's open or closed, show the main categories even if they are 0
-    // This looks much more professional than "Data not available"
-    const activeCategories = categories.filter(cat => {
-        if (!cat.data) return false;
-        // Show if any data exists OR if it's one of the main categories for an active/recent IPO
-        return cat.data.offered > 0 || cat.data.received > 0 || ['QIB', 'NII', 'Retail (IND)', 'Shareholder'].includes(cat.name);
-    });
-
-    // Calculate Total
-    const totalOffered = activeCategories.reduce((sum, cat) => sum + (cat.data.offered || 0), 0);
-    const totalReceived = activeCategories.reduce((sum, cat) => sum + (cat.data.received || 0), 0);
-
-    const rows = activeCategories.map(cat => ({
-        name: cat.name,
-        offered: cat.data.offered,
-        received: cat.data.received,
-        bold: true
-    }));
-
-    if (activeCategories.length > 0) {
-        rows.push({ name: 'Total', offered: totalOffered, received: totalReceived, bold: true, isTotal: true });
-    }
-
-    if (rows.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="padding: 2rem; color: var(--text-muted);">Live participation data will appear here during the subscription period.</td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = rows.map(row => {
-        const subVal = (row.offered > 0) ? (row.received / row.offered).toFixed(2) + 'x' : '0.00x';
-        const style = row.isTotal ? 'background: rgba(34, 197, 94, 0.05); font-weight: 800; border-top: 2px solid var(--dark-border);' : 'border-bottom: 1px solid var(--dark-border);';
-
-        // Display numbers or '0' clearly
-        const offText = (row.offered !== undefined && row.offered !== null) ? Number(row.offered).toLocaleString('en-IN') : '0';
-        const recText = (row.received !== undefined && row.received !== null) ? Number(row.received).toLocaleString('en-IN') : '0';
-
-        return `
-            <tr style="${style}">
-                <td style="color: var(--text-primary); font-weight: 700;">${row.name}</td>
-                <td class="text-right" style="text-align: right; color: var(--text-secondary);">${offText}</td>
-                <td class="text-right" style="text-align: right; color: var(--text-secondary);">${recText}</td>
-                <td class="text-right" style="text-align: right; color: var(--primary-green); font-weight: 700;">${subVal}</td>
-            </tr>
-        `;
-    }).join('');
-}

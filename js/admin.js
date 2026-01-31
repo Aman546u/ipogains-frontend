@@ -153,10 +153,7 @@ function setupEventListeners() {
     document.getElementById('ipoForm')?.addEventListener('submit', handleIPOSubmit);
 
     // Separate Save Listeners
-    document.getElementById('saveAppSubBtn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        handleAppSubSubmit();
-    });
+
 
     document.getElementById('saveShareSubBtn')?.addEventListener('click', (e) => {
         e.preventDefault();
@@ -667,19 +664,6 @@ async function selectIPOSub(ipoId) {
     document.getElementById('subscribedRetail').value = sharesSub.retail || '';
     document.getElementById('subscribedShareholder').value = sharesSub.shareholder || '';
 
-    // Applications Data
-    document.getElementById('appOfferedQIB').value = (sd.qib && sd.qib.offered) || '';
-    document.getElementById('appReceivedQIB').value = (sd.qib && sd.qib.received) || '';
-
-    document.getElementById('appOfferedNII').value = (sd.nii && sd.nii.offered) || '';
-    document.getElementById('appReceivedNII').value = (sd.nii && sd.nii.received) || '';
-
-    document.getElementById('appOfferedRetail').value = (sd.retail && sd.retail.offered) || '';
-    document.getElementById('appReceivedRetail').value = (sd.retail && sd.retail.received) || '';
-
-    document.getElementById('appOfferedShareholder').value = (sd.shareholder && sd.shareholder.offered) || '';
-    document.getElementById('appReceivedShareholder').value = (sd.shareholder && sd.shareholder.received) || '';
-
     updateMultiplierPreviews();
 }
 
@@ -710,54 +694,7 @@ function resetEditor() {
     document.querySelectorAll('.sub-selection-row').forEach(r => r.classList.remove('active-sub-row'));
 }
 
-// Save Application Data Only
-async function handleAppSubSubmit() {
-    const ipoId = document.getElementById('activeSubIpoId').value;
-    if (!ipoId) return;
 
-    const btn = document.getElementById('saveAppSubBtn');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Saving...';
-    btn.disabled = true;
-
-    // Applications Data
-    const qib = {
-        offered: parseInt(document.getElementById('appOfferedQIB').value) || 0,
-        received: parseInt(document.getElementById('appReceivedQIB').value) || 0
-    };
-    const nii = {
-        offered: parseInt(document.getElementById('appOfferedNII').value) || 0,
-        received: parseInt(document.getElementById('appReceivedNII').value) || 0
-    };
-    const retail = {
-        offered: parseInt(document.getElementById('appOfferedRetail').value) || 0,
-        received: parseInt(document.getElementById('appReceivedRetail').value) || 0
-    };
-    const shareholder = {
-        offered: parseInt(document.getElementById('appOfferedShareholder').value) || 0,
-        received: parseInt(document.getElementById('appReceivedShareholder').value) || 0
-    };
-
-    const formData = {
-        subscriptionDetails: {
-            qib: qib,
-            nii: nii,
-            retail: retail,
-            shareholder: shareholder
-        }
-    };
-
-    try {
-        await sendSubscriptionUpdate(ipoId, formData);
-        showToast('Application data saved successfully!', 'success');
-    } catch (error) {
-        console.error('App submit error:', error);
-        showToast('Failed to save application data', 'error');
-    } finally {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-    }
-}
 
 // Save Share Data Only
 async function handleShareSubSubmit() {
