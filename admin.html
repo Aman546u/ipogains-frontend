@@ -62,6 +62,10 @@
                     <i class="fas fa-users"></i>
                     <span>Users</span>
                 </a>
+                <a href="#news" class="nav-item" data-section="news">
+                    <i class="fas fa-newspaper"></i>
+                    <span>News Manager</span>
+                </a>
                 <a href="#listing" class="nav-item" data-section="listing">
                     <i class="fas fa-check-double"></i>
                     <span>Listing Updates</span>
@@ -441,8 +445,96 @@
                         </div>
                     </div>
                 </section>
+                <!-- News Section -->
+                <section id="section-news" class="admin-section">
+                    <div class="section-actions">
+                        <button class="btn btn-primary" id="addNewsBtn">
+                            <i class="fas fa-plus"></i> Add News Article
+                        </button>
+                    </div>
+
+                    <div class="admin-card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="newsTableBody">
+                                    <tr>
+                                        <td colspan="4" class="text-center">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
             </div>
         </main>
+    </div>
+
+    <!-- News Form Modal -->
+    <div class="modal" id="newsFormModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="newsFormTitle">Add News Article</h2>
+                <button class="modal-close" onclick="closeModal('newsFormModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="newsForm">
+                    <input type="hidden" id="newsId">
+
+                    <div class="form-group">
+                        <label for="newsTitle">Title *</label>
+                        <input type="text" id="newsTitleInput" class="form-control" placeholder="Article Headline"
+                            required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newsCategory">Category</label>
+                            <select id="newsCategoryInput" class="form-control">
+                                <option value="IPO News">IPO News</option>
+                                <option value="Market Analysis">Market Analysis</option>
+                                <option value="Guide">Guide</option>
+                                <option value="Alert">Alert</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="newsImage">Image URL</label>
+                            <input type="url" id="newsImageInput" class="form-control" placeholder="https://...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newsSummary">Summary *</label>
+                        <textarea id="newsSummaryInput" class="form-control" rows="2"
+                            placeholder="Short description for the card" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newsContent">Content (HTML Supported) *</label>
+                        <textarea id="newsContentInput" class="form-control" rows="10"
+                            placeholder="<p>Write your article here...</p>" required></textarea>
+                        <small class="text-muted">Use HTML tags for formatting (e.g., &lt;p&gt;, &lt;b&gt;,
+                            &lt;ul&gt;)</small>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('newsFormModal')">Cancel</button>
+                <button type="submit" form="newsForm" class="btn btn-primary">Save Article</button>
+            </div>
+        </div>
     </div>
 
     <!-- IPO Form Modal -->

@@ -1,7 +1,48 @@
 document.addEventListener('DOMContentLoaded', () => {
     loadHomeData();
     setupFAQ();
+    loadLatestNews();
 });
+
+async function loadLatestNews() {
+    try {
+        const response = await fetch(`${API_URL}/news`);
+        const data = await response.json();
+        const news = data.news || [];
+
+        const container = document.getElementById('homeNewsGrid');
+        if (!container) return;
+
+        if (news.length === 0) {
+            container.innerHTML = '<div class="text-center w-100 py-3 text-muted">No recent news available</div>';
+            return;
+        }
+
+        // Show top 3 news
+        const topNews = news.slice(0, 3);
+
+        container.innerHTML = topNews.map(item => `
+            <div class="home-news-card">
+                 <a href="news-detail.html?slug=${item.slug}" style="text-decoration: none;">
+                    <img src="${item.image || 'assets/images/defaults/news-default.jpg'}" class="home-news-img" onerror="this.src='/assets/images/defaults/news-default.jpg'">
+                    <div class="home-news-content">
+                        <div class="home-news-title">${item.title}</div>
+                        <div class="home-news-date">${formatDate(item.createdAt)}</div>
+                    </div>
+                </a>
+            </div>
+        `).join('');
+
+    } catch (error) {
+        console.error('Error loading home news:', error);
+    }
+}
+
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+}
+
 
 async function loadHomeData() {
     try {

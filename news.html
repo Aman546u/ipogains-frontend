@@ -14,8 +14,9 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="About IPOGains - Your trusted platform for IPO tracking and analysis.">
-    <title>About Us - IPOGains</title>
+    <meta name="description"
+        content="IPOGains News - Stay updated with the latest IPO news, detailed analysis, allotment updates, and market trends.">
+    <title>IPO News & Analysis - IPOGains</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
 
@@ -36,32 +37,122 @@
     <link rel="stylesheet" href="css/components/cards.css">
     <link rel="stylesheet" href="css/components/forms.css">
     <link rel="stylesheet" href="css/components/modals.css">
+    <link rel="stylesheet" href="css/sections/hero.css">
     <link rel="stylesheet" href="css/sections/footer.css">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/utilities.css">
 
     <style>
-        .page-header {
-            padding: 120px 0 60px;
-            background: var(--gradient-dark);
-            text-align: center;
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
         }
 
-        .content-section {
-            padding: 60px 0;
+        @media (max-width: 768px) {
+            .news-grid {
+                gap: 16px;
+                margin-top: 20px;
+            }
+
+            .hero-mini {
+                padding: 60px 0 30px;
+            }
         }
 
-        .content-card {
+        .news-card {
             background: var(--dark-card);
             border: 1px solid var(--dark-border);
-            padding: var(--spacing-xl);
             border-radius: var(--radius-lg);
-            margin-bottom: var(--spacing-lg);
+            overflow: hidden;
+            transition: var(--transition-base);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
-        .content-card h2 {
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-green);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #1e293b;
+        }
+
+        .news-content {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-category {
+            font-size: 0.75rem;
             color: var(--primary-green);
-            margin-bottom: var(--spacing-md);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .news-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-summary {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: auto;
+            border-top: 1px solid var(--dark-border);
+            padding-top: 15px;
+        }
+
+        .read-more-btn {
+            color: var(--text-primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.2s;
+        }
+
+        .read-more-btn:hover {
+            color: var(--primary-green);
+        }
+
+        .hero-mini {
+            padding: 80px 0 40px;
+            background: var(--gradient-dark);
+            text-align: center;
         }
     </style>
 </head>
@@ -80,8 +171,7 @@
                 <a href="ipos.html" class="nav-link">IPOs</a>
                 <a href="allotment.html" class="nav-link">Check Allotment</a>
                 <a href="gmp.html" class="nav-link">GMP</a>
-                <a href="news.html" class="nav-link">News</a>
-                <a href="about.html" class="nav-link active">About</a>
+                <a href="news.html" class="nav-link active">News</a>
                 <a href="contact.html" class="nav-link">Contact</a>
             </div>
 
@@ -113,50 +203,28 @@
         </div>
     </nav>
 
-    <header class="page-header">
+    <!-- Hero Section -->
+    <header class="hero-mini">
         <div class="container">
-            <h1 class="hero-title">About <span class="gradient-text">IPOGains</span></h1>
-            <p class="hero-subtitle">Empowering investors with real-time IPO data and analysis.</p>
+            <h1 class="hero-title">IPO <span class="gradient-text">News & Analysis</span></h1>
+            <p class="hero-subtitle">Latest updates, market trends, and expert insights on upcoming IPOs.</p>
         </div>
     </header>
 
-    <section class="content-section">
+    <!-- News Section -->
+    <section class="section">
         <div class="container">
-            <div class="content-card">
-                <h2>About IPO Gains</h2>
-                <p>IPO Gains is an informational platform dedicated to providing the latest updates related to Initial
-                    Public Offerings (IPOs) in India. Our goal is to help investors stay informed about upcoming IPOs,
-                    subscription status, grey market premium (GMP), allotment details, and listing information — all in
-                    one place.</p>
-                <p>We aim to simplify IPO-related data so that users can easily understand market trends and make
-                    informed financial decisions. The information published on this website is collected from publicly
-                    available sources and market observations.</p>
-                <div
-                    style="margin-top: 20px; padding: 15px; background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; border-radius: 4px;">
-                    <p style="margin: 0; color: #e5e7eb; font-size: 0.9rem;">
-                        <strong>Disclaimer:</strong> IPO Gains does not provide investment advice. Users are encouraged
-                        to conduct their own research or consult a certified financial advisor before investing in the
-                        stock market. By using IPO Gains, users agree that all information is for educational purposes
-                        only.
-                    </p>
-                </div>
+            <div id="loading" class="text-center py-5">
+                <div class="spinner"></div>
+                <p>Loading News...</p>
             </div>
 
-            <div class="content-card">
-                <h2>What We Offer</h2>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li style="margin-bottom: 15px;"><i class="fas fa-check-circle text-success mr-2"></i> <strong>Live
-                            GMP Tracking:</strong> Get the latest Grey Market Premium updates for all active IPOs.</li>
-                    <li style="margin-bottom: 15px;"><i class="fas fa-check-circle text-success mr-2"></i>
-                        <strong>Subscription Status:</strong> Real-time subscription data across Retail, QIB, and NII
-                        categories.
-                    </li>
-                    <li style="margin-bottom: 15px;"><i class="fas fa-check-circle text-success mr-2"></i>
-                        <strong>Allotment Status:</strong> Fast and direct links to check your IPO allotment status.
-                    </li>
-                    <li style="margin-bottom: 15px;"><i class="fas fa-check-circle text-success mr-2"></i> <strong>SME &
-                            Mainboard:</strong> Comprehensive coverage of both Mainboard and SME IPOs.</li>
-                </ul>
+            <div class="news-grid" id="newsGrid" style="display: none;">
+                <!-- News items populated by JS -->
+            </div>
+
+            <div id="noNews" class="text-center py-5" style="display: none;">
+                <p class="text-muted">No news articles found.</p>
             </div>
         </div>
     </section>
@@ -166,10 +234,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <a href="index.html" class="logo" style="margin-bottom: 20px; display: inline-flex;">
-                        <i class="fas fa-chart-line"></i>
-                        <span>IPO<strong>Gains</strong></span>
-                    </a>
+                    <h4>IPOGains</h4>
                     <p>Your trusted platform for IPO tracking and analysis.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook"></i></a>
@@ -208,15 +273,6 @@
             </div>
 
             <div class="footer-bottom">
-                <div
-                    style="margin-bottom: 20px; font-size: 0.85rem; color: #888; border-top: 1px solid #333; padding-top: 20px;">
-                    <strong>Disclaimer:</strong> IPOGains is an informational platform only. We do not provide
-                    investment
-                    advice, stock tips, or guaranteed returns. All data, including GMP and subscription info, is shared
-                    for informational purposes and should not be treated as a recommendation. Users are advised to
-                    verify all details from official SEBI sources and consult a certified financial advisor before
-                    investing.
-                </div>
                 <p>&copy; 2026 IPOGains. All rights reserved.</p>
             </div>
         </div>
@@ -364,7 +420,14 @@
     <script src="js/utils/helpers.js"></script>
     <script src="js/utils/storage.js"></script>
     <script src="js/components/modals.js"></script>
+    <script src="js/features/auth/login.js"></script>
+    <script src="js/features/auth/register.js"></script>
+    <script src="js/features/auth/otp.js"></script>
+    <script src="js/features/auth/forgotPassword.js"></script>
     <script src="js/main.js"></script>
+
+    <!-- News Logic -->
+    <script src="js/pages/news.js"></script>
 </body>
 
 </html>

@@ -963,3 +963,166 @@ async function updateListingPrice(ipoId) {
         showToast('An error occurred', 'error');
     }
 }
+
+// --- NEWS MANAGER LOGIC ---
+
+async function loadNewsList() {
+    try {
+        const response = await fetch(`${API_URL}/news`);
+        const data = await response.json();
+
+        displayNewsTable(data.news || []);
+    } catch (error) {
+        console.error('Error loading news:', error);
+        document.getElementById('newsTableBody').innerHTML = '<tr><td colspan="4" class="text-center text-danger">Failed to load news</td></tr>';
+    }
+}
+
+function displayNewsTable(newsItems) {
+    const tbody = document.getElementById('newsTableBody');
+
+    if (newsItems.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">No news articles found.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = newsItems.map(item => `
+        <tr>
+            <td>
+                <div class="font-weight-bold">${item.title}</div>
+                <div class="small text-muted">${item.slug}</div>
+            </td>
+            <td><span class="badge badge-info">${item.category}</span></td>
+            <td>${Helpers.formatDate(item.createdAt)}</td>
+            <td>
+                <button class="btn btn-sm btn-primary" onclick="editNews('${item._id}')" title="Edit">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="deleteNews('${item._id}')" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+let editingNewsId = null;
+let currentNewsList = [];
+
+async function handleNewsSubmit(e) {
+    e.preventDefault();
+
+    const title = document.getElementById('newsTitleInput').value;
+    const category = document.getElementById('newsCategoryInput').value;
+    const image = document.getElementById('newsImageInput').value;
+    const summary = document.getElementById('newsSummaryInput').value;
+    const content = document.getElementById('newsContentInput').value;
+
+    if (!title || !summary || !content) {
+        showToast('Please fill all required fields', 'error');
+        return;
+    }
+
+    const formData = { title, category, image, summary, content };
+    const apiEndpoint = editingNewsId ? `${API_URL}/news/${editingNewsId}` : `${API_URL}/news`;
+    const method = editingNewsId ? 'PUT' : 'POST';
+
+    try {
+        const response = await fetch(apiEndpoint, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showToast('News article saved successfully', 'success');
+            closeModal('newsFormModal');
+            loadNewsListRe();
+        } else {
+            showToast(data.error || 'Failed to save news', 'error');
+        }
+    } catch (error) {
+        console.error('Error saving news:', error);
+        showToast('Server error', 'error');
+    }
+}
+
+async function loadNewsListRe() {
+    try {
+        const response = await fetch(`${API_URL}/news`);
+        const data = await response.json();
+        currentNewsList = data.news || [];
+        displayNewsTable(currentNewsList);
+    } catch (error) {
+        console.error('Error loading news:', error);
+    }
+}
+
+window.editNews = function (id) {
+    const item = currentNewsList.find(n => n._id === id);
+    if (!item) return;
+
+    editingNewsId = id;
+    document.getElementById('newsFormTitle').textContent = 'Edit News Article';
+    document.getElementById('newsTitleInput').value = item.title;
+    document.getElementById('newsCategoryInput').value = item.category;
+    document.getElementById('newsImageInput').value = item.image;
+    document.getElementById('newsSummaryInput').value = item.summary;
+    document.getElementById('newsContentInput').value = item.content;
+
+    openModal('newsFormModal');
+};
+
+window.deleteNews = async function (id) {
+    if (!confirm('Are you sure you want to delete this news article?')) return;
+
+    try {
+        const response = await fetch(`${API_URL}/news/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            }
+        });
+
+        if (response.ok) {
+            showToast('News deleted successfully', 'success');
+            loadNewsListRe();
+        } else {
+            showToast('Failed to delete news', 'error');
+        }
+    } catch (error) {
+        showToast('Server error', 'error');
+    }
+};
+
+// Initialize listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // Add logic to existing navigation handler
+    const newsLink = document.querySelector('a[data-section="news"]');
+    if (newsLink) {
+        newsLink.addEventListener('click', () => {
+            loadNewsListRe();
+        });
+    }
+
+    // Add button listeners
+    const addNewsBtn = document.getElementById('addNewsBtn');
+    if (addNewsBtn) {
+        addNewsBtn.addEventListener('click', () => {
+            editingNewsId = null;
+            document.getElementById('newsFormTitle').textContent = 'Add News Article';
+            document.getElementById('newsForm').reset();
+            openModal('newsFormModal');
+        });
+    }
+
+    const newsForm = document.getElementById('newsForm');
+    if (newsForm) {
+        newsForm.addEventListener('submit', handleNewsSubmit);
+    }
+});
