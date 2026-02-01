@@ -700,6 +700,11 @@ function toggleShareholderInputVisibility() {
 
 function updateMultiplierPreviews() {
     const categories = ['QIB', 'NII', 'Retail', 'Shareholder'];
+    const showShareholder = document.getElementById('includeShareholder').checked;
+
+    let totalOffered = 0;
+    let totalSubscribed = 0;
+
     categories.forEach(cat => {
         // Calculate Share Multiplier (Shares Subscribed / Shares Offered)
         const offered = parseFloat(document.getElementById(`offered${cat}`).value) || 0;
@@ -708,7 +713,29 @@ function updateMultiplierPreviews() {
         if (disp) {
             disp.value = (offered > 0) ? (subscribed / offered).toFixed(2) + 'x' : '0.00x';
         }
+
+        // Accumulate Totals
+        // Include Shareholder only if enabled
+        if (cat === 'Shareholder' && !showShareholder) {
+            return;
+        }
+
+        totalOffered += offered;
+        totalSubscribed += subscribed;
     });
+
+    // Update Total Display
+    const totalDisp = document.getElementById('subTotal_disp');
+    const totalOfferedDisplay = document.getElementById('totalOffered_disp');
+    const totalSubscribedDisplay = document.getElementById('totalSubscribed_disp');
+
+    if (totalDisp) {
+        const totalVal = (totalOffered > 0) ? (totalSubscribed / totalOffered).toFixed(2) + 'x' : '0.00x';
+        totalDisp.value = totalVal;
+    }
+
+    if (totalOfferedDisplay) totalOfferedDisplay.textContent = totalOffered > 0 ? totalOffered.toLocaleString('en-IN') : '-';
+    if (totalSubscribedDisplay) totalSubscribedDisplay.textContent = totalSubscribed > 0 ? totalSubscribed.toLocaleString('en-IN') : '-';
 }
 
 function resetEditor() {
