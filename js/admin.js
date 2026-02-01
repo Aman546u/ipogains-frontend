@@ -664,15 +664,38 @@ async function selectIPOSub(ipoId) {
     document.getElementById('subscribedRetail').value = sharesSub.retail || '';
     document.getElementById('subscribedShareholder').value = sharesSub.shareholder || '';
 
+    // Populate Preferences
+    document.getElementById('sharesUnitSelect').value = sd.sharesUnit || 'Lakhs';
+    document.getElementById('includeShareholder').checked = sd.showShareholderCategory || false;
+
+    // Toggle Shareholder visibility in form for better UX (optional but good)
+    toggleShareholderInputVisibility();
+
     updateMultiplierPreviews();
 }
 
 function setupSubTriggerListeners() {
+    // Input changes
     document.addEventListener('input', (e) => {
         if (e.target.classList.contains('sub-trigger')) {
             updateMultiplierPreviews();
         }
     });
+
+    // Toggle options changes
+    document.getElementById('includeShareholder')?.addEventListener('change', () => {
+        toggleShareholderInputVisibility();
+        updateMultiplierPreviews();
+    });
+}
+
+function toggleShareholderInputVisibility() {
+    const isChecked = document.getElementById('includeShareholder').checked;
+    const row = document.getElementById('offeredShareholder').closest('.row');
+    if (row) {
+        row.style.opacity = isChecked ? '1' : '0.5';
+        // We do not hide it completely so admin can still see/edit if needed, but visually dimmed
+    }
 }
 
 function updateMultiplierPreviews() {
@@ -694,8 +717,6 @@ function resetEditor() {
     document.querySelectorAll('.sub-selection-row').forEach(r => r.classList.remove('active-sub-row'));
 }
 
-
-
 // Save Share Data Only
 async function handleShareSubSubmit() {
     const ipoId = document.getElementById('activeSubIpoId').value;
@@ -705,6 +726,10 @@ async function handleShareSubSubmit() {
     const originalText = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Saving...';
     btn.disabled = true;
+
+    // Get Preferences
+    const sharesUnit = document.getElementById('sharesUnitSelect').value;
+    const showShareholder = document.getElementById('includeShareholder').checked;
 
     // Calculate Multipliers based on SHARES
     const sharesQIB = {
@@ -724,17 +749,17 @@ async function handleShareSubSubmit() {
         subscribed: parseFloat(document.getElementById('subscribedShareholder').value) || 0
     };
 
-    // Calculate dynamic average for SHARES
-    let totalMultiplier = 0;
-    let activeCategoriesCount = 0;
+    // Calculate Correct Total: (Total Subscribed / Total Offered)
+    let totalOffered = sharesQIB.offered + sharesNII.offered + sharesRetail.offered;
+    let totalSubscribed = sharesQIB.subscribed + sharesNII.subscribed + sharesRetail.subscribed;
 
-    [sharesQIB, sharesNII, sharesRetail, sharesShareholder].forEach(cat => {
-        if (cat.offered > 0) {
-            totalMultiplier += (cat.subscribed / cat.offered);
-            activeCategoriesCount++;
-        }
-    });
-    const finalTotal = activeCategoriesCount > 0 ? (totalMultiplier / activeCategoriesCount) : 0;
+    // Only include Shareholder if enabled
+    if (showShareholder) {
+        totalOffered += sharesShareholder.offered;
+        totalSubscribed += sharesShareholder.subscribed;
+    }
+
+    const finalTotal = totalOffered > 0 ? (totalSubscribed / totalOffered) : 0;
 
     const formData = {
         subscription: {
@@ -745,6 +770,8 @@ async function handleShareSubSubmit() {
             total: parseFloat(finalTotal.toFixed(2))
         },
         subscriptionDetails: {
+            sharesUnit: sharesUnit,
+            showShareholderCategory: showShareholder,
             sharesOffered: {
                 qib: sharesQIB.offered,
                 nii: sharesNII.offered,
@@ -789,10 +816,11 @@ async function sendSubscriptionUpdate(ipoId, formData) {
         await loadSubDetailIPOs();
 
         // Re-identify active row
-        const rows = document.querySelectorAll('#subDetailTableBody tr');
-        rows.forEach(r => {
-            if (r.dataset.id === ipoId) r.classList.add('active-sub-row');
-        });
+        // Wait for DOM update
+        setTimeout(() => {
+            const selectedRow = document.querySelector(`.sub-selection-row[data-id="${ipoId}"]`);
+            if (selectedRow) selectedRow.classList.add('active-sub-row');
+        }, 100);
     } else {
         throw new Error(result.error || 'Update failed');
     }

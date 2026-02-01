@@ -74,22 +74,39 @@ function renderShareSubscriptionTable(ipo) {
     const sub = ipo.subscription || {};
     const sd = ipo.subscriptionDetails || {};
     const sharesOffered = sd.sharesOffered || {};
+    const sharesUnit = sd.sharesUnit || 'Lakhs';
+    const showShareholder = sd.showShareholderCategory || false;
+
+    // Update Header with Unit
+    const offeredHeader = document.querySelector('th:nth-child(2)'); // Selector for "Shares Offered"
+    if (offeredHeader) {
+        offeredHeader.textContent = `Shares Offered (in ${sharesUnit})`;
+    }
 
     const categories = [
         { name: 'QIB', offered: sharesOffered.qib, value: sub.qib },
         { name: 'NII', offered: sharesOffered.nii, value: sub.nii },
-        { name: 'Retail (RII)', offered: sharesOffered.retail, value: sub.retail },
-        { name: 'Shareholder', offered: sharesOffered.shareholder, value: sub.shareholder },
-        { name: 'Total', value: sub.total, bold: true }
+        { name: 'Retail (RII)', offered: sharesOffered.retail, value: sub.retail }
     ];
+
+    if (showShareholder) {
+        categories.push({ name: 'Shareholder', offered: sharesOffered.shareholder, value: sub.shareholder });
+    }
+
+    categories.push({ name: 'Total', value: sub.total, bold: true, isTotal: true });
 
     tbody.innerHTML = categories.map(cat => {
         const val = (cat.value !== undefined && cat.value !== null) ? `${Number(cat.value).toFixed(2)}x` : '0.00x';
 
         // Fix: Show '0' instead of '-' if the value is explicitly provided as 0
         let offText = '-';
-        if (cat.offered !== undefined && cat.offered !== null) {
+        if (cat.offered !== undefined && cat.offered !== null && !cat.isTotal) {
             offText = Number(cat.offered).toLocaleString('en-IN');
+        } else if (cat.isTotal) {
+            // Calculate total offered if needed or leave blank as it's not always summed up in basic views
+            // But let's sum it for completeness since we have the data
+            const totalOffered = categories.reduce((sum, c) => (c.offered ? sum + c.offered : sum), 0);
+            offText = totalOffered > 0 ? Number(totalOffered).toLocaleString('en-IN') : '-';
         }
 
         const style = cat.bold
@@ -99,9 +116,9 @@ function renderShareSubscriptionTable(ipo) {
 
         return `
             <tr style="${style}">
-                <td style="${textColor}">${cat.name}</td>
+                <td style="color: ${textColor}">${cat.name}</td>
                 <td class="text-right" style="text-align: right; color: var(--text-secondary);">${offText}</td>
-                <td class="text-right" style="text-align: right; ${textColor} font-weight: 600;">${val}</td>
+                <td class="text-right" style="text-align: right; color: ${textColor}; font-weight: 600;">${val}</td>
             </tr>
         `;
     }).join('');
