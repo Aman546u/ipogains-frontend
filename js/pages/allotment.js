@@ -123,6 +123,8 @@ function setupAllotmentForm() {
             submitBtn.dataset.url = link;
 
             if (panInputGroup) panInputGroup.style.display = 'none';
+            if (panInput) panInput.removeAttribute('required'); // FIX: Remove required to allow submit without PAN
+
             if (externalMsg) {
                 externalMsg.style.display = 'block';
                 const title = externalMsg.querySelector('h4');
@@ -136,8 +138,35 @@ function setupAllotmentForm() {
             submitBtn.dataset.mode = 'none';
 
             if (panInputGroup) panInputGroup.style.display = 'none';
+            if (panInput) panInput.removeAttribute('required'); // Ensure required is removed if hidden here too
+
             if (externalMsg) externalMsg.style.display = 'none';
         }
+
+        // Only for internal checks (future expansion) would we need PAN validation again
+        // But currently if no link, we disable button. 
+        // If we implement 'internal' check again later, we re-enable required.
+        // For now, if ipoId is selected but no link, we disable. 
+
+        // Wait, did the original code support internal check if no link?
+        // No, verify logic:
+        // If (!link) -> "Link Not Available", disabled=true.
+        // So PAN is never needed unless we fallback to internal scraping which is not implemented here fully 
+        // for 'no link' case. 
+
+        // Actually, looking at the code, there IS an "Internal Mode Logic" block (lines 194+).
+        // But the entry condition at line 131 sets disabled=true if no link.
+        // So internal logic is unreachable unless we allow it?
+
+        // Wait, 'selectIPOSub' in admin panel suggests we are scraping data?
+        // But this page 'allotment.js' seems to rely solely on external link OR internal `allotment/check` API.
+
+        // If the IPO is internal, does it have a link?
+        // Most IPOs use external registrar.
+
+        // If we want to support internal check, we need a condition where `!link` but internal check is possible.
+        // But for now, the 'Check Status' button is DISABLED if no link.
+        // So the fix is just to remove required in all cases where PAN is hidden.
     };
 
     // Attach listener
