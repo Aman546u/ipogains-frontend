@@ -126,12 +126,14 @@ function setupNavigation() {
                 'users': 'Users',
                 'settings': 'Settings',
                 'subscriptions': 'Subscription Details',
-                'listing': 'Listing Manager'
+                'listing': 'Listing Manager',
+                'news': 'Blog Manager'
             };
             document.getElementById('pageTitle').textContent = titles[section] || 'Admin Panel';
 
-            // Lazy load listing data
+            // Lazy load listing/news data
             if (section === 'listing') loadListingIPOs();
+            if (section === 'news') loadNewsList();
         });
     });
 }
@@ -214,6 +216,24 @@ function setupEventListeners() {
                 }
             }
         });
+    }
+
+    // News Form Listeners
+    const addNewsBtn = document.getElementById('addNewsBtn');
+    if (addNewsBtn) {
+        addNewsBtn.addEventListener('click', () => {
+            editingNewsId = null;
+            document.getElementById('newsFormTitle').textContent = 'Add Blog Article';
+            document.getElementById('newsForm').reset();
+            openModal('newsFormModal');
+        });
+    }
+
+    const newsForm = document.getElementById('newsForm');
+    if (newsForm) {
+        // Remove existing listener to avoid duplicates
+        newsForm.removeEventListener('submit', handleNewsSubmit);
+        newsForm.addEventListener('submit', handleNewsSubmit);
     }
 }
 
@@ -869,7 +889,6 @@ window.deleteIPO = deleteIPO;
 window.selectIPOSub = selectIPOSub;
 window.resetEditor = resetEditor;
 window.handleSubDetailSubmit = null; // Removed old handler
-window.handleAppSubSubmit = handleAppSubSubmit;
 window.handleShareSubSubmit = handleShareSubSubmit;
 window.closeModal = closeModal;
 window.openModal = openModal;
@@ -958,17 +977,7 @@ async function updateListingPrice(ipoId) {
 
 // --- NEWS MANAGER LOGIC ---
 
-async function loadNewsList() {
-    try {
-        const response = await fetch(`${API_URL}/news`);
-        const data = await response.json();
-
-        displayNewsTable(data.news || []);
-    } catch (error) {
-        console.error('Error loading news:', error);
-        document.getElementById('newsTableBody').innerHTML = '<tr><td colspan="4" class="text-center text-danger">Failed to load news</td></tr>';
-    }
-}
+// Removed redundant loadNewsList loadNewsListRe is used instead
 
 function displayNewsTable(newsItems) {
     const tbody = document.getElementById('newsTableBody');
@@ -1034,7 +1043,7 @@ async function handleNewsSubmit(e) {
         if (response.ok) {
             showToast('News article saved successfully', 'success');
             closeModal('newsFormModal');
-            loadNewsListRe();
+            loadNewsList();
         } else {
             showToast(data.error || 'Failed to save news', 'error');
         }
@@ -1044,7 +1053,7 @@ async function handleNewsSubmit(e) {
     }
 }
 
-async function loadNewsListRe() {
+async function loadNewsList() {
     try {
         const response = await fetch(`${API_URL}/news`);
         const data = await response.json();
@@ -1083,7 +1092,7 @@ window.deleteNews = async function (id) {
 
         if (response.ok) {
             showToast('News deleted successfully', 'success');
-            loadNewsListRe();
+            loadNewsList();
         } else {
             showToast('Failed to delete news', 'error');
         }
@@ -1092,29 +1101,10 @@ window.deleteNews = async function (id) {
     }
 };
 
-// Initialize listeners
+// Initialize News-specific listeners (already covered in main setup where possible, but form needs special care)
 document.addEventListener('DOMContentLoaded', () => {
-    // Add logic to existing navigation handler
-    const newsLink = document.querySelector('a[data-section="news"]');
-    if (newsLink) {
-        newsLink.addEventListener('click', () => {
-            loadNewsListRe();
-        });
-    }
+    // Note: Most section navigation is handled in setupNavigation()
 
-    // Add button listeners
-    const addNewsBtn = document.getElementById('addNewsBtn');
-    if (addNewsBtn) {
-        addNewsBtn.addEventListener('click', () => {
-            editingNewsId = null;
-            document.getElementById('newsFormTitle').textContent = 'Add News Article';
-            document.getElementById('newsForm').reset();
-            openModal('newsFormModal');
-        });
-    }
-
-    const newsForm = document.getElementById('newsForm');
-    if (newsForm) {
-        newsForm.addEventListener('submit', handleNewsSubmit);
-    }
+    // Note: Most section navigation is handled in setupNavigation()
+    // News listeners moved to setupEventListeners()
 });
