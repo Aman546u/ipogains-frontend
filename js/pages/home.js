@@ -107,6 +107,8 @@ function renderLiveIPOs(ipos) {
 
 function renderClosedIPOs(ipos) {
     const tbody = document.getElementById('closedIposTableBody');
+    if (!tbody) return;
+
     // Filter closed (or listed) but show as "Recently Closed"
     const closedIPOs = ipos.filter(ipo => ipo.status === 'closed' || ipo.status === 'listed')
         .sort((a, b) => new Date(b.closeDate) - new Date(a.closeDate))
@@ -259,11 +261,12 @@ function renderHomeGMP(ipos) {
         }
 
         const gmpColor = latestInfo.value >= 0 ? 'var(--primary-green)' : 'var(--danger)';
-        const estProfit = (latestInfo.value * ipo.lotSize).toLocaleString('en-IN');
+        const lotSize = ipo.lotSize || 0;
+        const estProfit = (latestInfo.value * lotSize).toLocaleString('en-IN');
 
         // GMP %
-        const price = ipo.priceRange.max;
-        const pct = price ? ((latestInfo.value / price) * 100).toFixed(1) : 0;
+        const price = (ipo.priceRange && ipo.priceRange.max) ? ipo.priceRange.max : 0;
+        const pct = price ? ((latestInfo.value / price) * 100).toFixed(1) : '0.0';
 
         return `
             <tr onclick="window.location.href='gmp-detail.html?id=${id}'" style="cursor: pointer;">
